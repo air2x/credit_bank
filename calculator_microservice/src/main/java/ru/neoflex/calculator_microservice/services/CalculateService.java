@@ -3,12 +3,14 @@ package ru.neoflex.calculator_microservice.services;
 import org.springframework.stereotype.Service;
 import ru.neoflex.calculator_microservice.dto.CreditDto;
 import ru.neoflex.calculator_microservice.dto.EmploymentDto;
+import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 /*
 1. По API приходит ScoringDataDto.
@@ -31,6 +33,8 @@ import java.time.Period;
 @Service
 public class CalculateService {
 
+
+
     public static final int MIN_AGE = 20;
     public static final int MAX_AGE = 65;
     public static final int MIN_WORK_EXPERIENCE_TOTAL = 18;
@@ -38,14 +42,39 @@ public class CalculateService {
 
     public CreditDto getCreditDto(ScoringDataDto scoringDataDto) {
         if (isLoanRefusal(scoringDataDto)) {
-            calculateCredit(scoringDataDto);
+            return calculateCredit(scoringDataDto);
         }
+        return null;
+    }
+
+    private CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
         CreditDto creditDto = new CreditDto();
+        BigDecimal psk = calculatePsk(scoringDataDto);
+        creditDto.setAmount(scoringDataDto.getAmount());
+        creditDto.setTerm(scoringDataDto.getTerm());
+        creditDto.setIsSalaryClient(scoringDataDto.getIsSalaryClient());
+        creditDto.setIsInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled());
+        creditDto.setRate(calculateRate(scoringDataDto));
+        creditDto.setMonthlyPayment(calculateMonthlyPayment(scoringDataDto));
+        creditDto.setPsk(psk);
+        creditDto.setPaymentSchedule(calculatePaymentSchedule(psk));
         return creditDto;
     }
 
-    private void calculateCredit(ScoringDataDto scoringDataDto) {
+    private List<PaymentScheduleElementDto> calculatePaymentSchedule(BigDecimal psk) {
+        return null;
+    }
 
+    private BigDecimal calculatePsk(ScoringDataDto scoringDataDto) {
+        return null;
+    }
+
+    private BigDecimal calculateMonthlyPayment(ScoringDataDto scoringDataDto) {
+        return null;
+    }
+
+    private BigDecimal calculateRate(ScoringDataDto scoringDataDto) {
+        return null;
     }
 
     private boolean isLoanRefusal(ScoringDataDto scoringDataDto) {
