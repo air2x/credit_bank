@@ -54,32 +54,36 @@ public class CalculateService {
 
     private CreditDto calculateCredit(ScoringDataDto scoringDataDto) {
         CreditDto creditDto = new CreditDto();
-        BigDecimal psk = calculatePsk(scoringDataDto);
+        BigDecimal psk;
         creditDto.setAmount(scoringDataDto.getAmount());
         creditDto.setTerm(scoringDataDto.getTerm());
         creditDto.setIsSalaryClient(scoringDataDto.getIsSalaryClient());
         creditDto.setIsInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled());
         creditDto.setRate(calculateRate(scoringDataDto));
         creditDto.setMonthlyPayment(calculateMonthlyPayment(creditDto.getRate(), creditDto.getTerm(), creditDto.getAmount()));
+        psk = calculatePsk(scoringDataDto.getTerm(), creditDto.getMonthlyPayment());
         creditDto.setPsk(psk);
         creditDto.setPaymentSchedule(calculatePaymentSchedule(psk));
         return creditDto;
     }
 
-    private List<PaymentScheduleElementDto> calculatePaymentSchedule(BigDecimal psk) {
+    public List<PaymentScheduleElementDto> calculatePaymentSchedule(BigDecimal psk) {
         return null;
     }
 
-    private BigDecimal calculatePsk(ScoringDataDto scoringDataDto) {
-        return null;
+    public BigDecimal calculatePsk(int term, BigDecimal monthlyPayment) {
+        return BigDecimal.valueOf(term).multiply(monthlyPayment);
     }
 
     public BigDecimal calculateMonthlyPayment(BigDecimal rate, int term, BigDecimal amount) {
         BigDecimal monthlyPayment;
-        BigDecimal monthlyRate = (rate.divide(BigDecimal.valueOf(MONTHS))).divide(BigDecimal.valueOf(100));
+        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(MONTHS), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP);
+        monthlyRate = monthlyRate.divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP);
         BigDecimal temp = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
         monthlyPayment = amount.multiply((monthlyRate.multiply(temp)).
-                divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_UP));
+                divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
         return monthlyPayment.setScale(2, RoundingMode.HALF_UP);
     }
 

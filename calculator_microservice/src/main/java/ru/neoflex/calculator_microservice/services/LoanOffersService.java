@@ -34,7 +34,6 @@ public class LoanOffersService {
         this.calculateService = calculateService;
     }
 
-
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
         List<BigDecimal> rates = Arrays.asList(RATE_35, BASE_RATE_25, RATE_23, RATE_20);
         List<LoanOfferDto> loanOffersDto = new ArrayList<>();
@@ -42,18 +41,16 @@ public class LoanOffersService {
             LoanOfferDto loanOfferDto = new LoanOfferDto();
             loanOfferDto.setStatementId(UUID.randomUUID());
             loanOfferDto.setRequestAmount(loanStatementRequestDto.getAmount());
-            loanOfferDto.setMonthlyPayment(calculateService.calculateMonthlyPayment(rate, loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));
-            loanOfferDto.setTotalAmount(totalAmountCalc(loanStatementRequestDto, loanOfferDto));
+            loanOfferDto.setMonthlyPayment(calculateService.calculateMonthlyPayment(rate,
+                    loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));
+            loanOfferDto.setTotalAmount(calculateService.calculatePsk(loanStatementRequestDto.getTerm(),
+                    loanOfferDto.getMonthlyPayment()));
             loanOfferDto.setTerm(loanStatementRequestDto.getTerm());
             loanOfferDto.setRate(rate);
             setRateWithStatus(rate, loanOfferDto);
             loanOffersDto.add(loanOfferDto);
         }
         return loanOffersDto;
-    }
-
-    public BigDecimal totalAmountCalc(LoanStatementRequestDto loanStatementRequestDto, LoanOfferDto loanOfferDto) {
-        return BigDecimal.valueOf(loanStatementRequestDto.getTerm()).multiply(loanOfferDto.getMonthlyPayment());
     }
 
     private void setRateWithStatus(BigDecimal rate, LoanOfferDto loanOfferDto) {
