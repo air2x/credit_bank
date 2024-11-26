@@ -6,11 +6,16 @@ import ru.neoflex.calculator_microservice.dto.EmploymentDto;
 import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
+import ru.neoflex.calculator_microservice.enums.Gender;
+import ru.neoflex.calculator_microservice.enums.MaritalStatus;
+import ru.neoflex.calculator_microservice.enums.PositionAtWork;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+
+import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 
 /*
 1. По API приходит ScoringDataDto.
@@ -32,8 +37,6 @@ import java.util.List;
  */
 @Service
 public class CalculateService {
-
-
 
     public static final int MIN_AGE = 20;
     public static final int MAX_AGE = 65;
@@ -74,20 +77,43 @@ public class CalculateService {
     }
 
     private BigDecimal calculateRate(ScoringDataDto scoringDataDto) {
-        return null;
+        BigDecimal tempRate = BigDecimal.valueOf(BASE_RATE_25);
+        EmploymentDto employmentDto = scoringDataDto.getEmployment();
+        if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.SELF_EMPLOYED)) {
+            tempRate = tempRate.add(BigDecimal.valueOf(2));
+        } else if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.BUSINESS_OWNER)) {
+            tempRate = tempRate.add(BigDecimal.valueOf(1));
+        }
+        if (employmentDto.getPosition().equals(PositionAtWork.MIDDLE_MANAGER)) {
+            tempRate = tempRate.subtract(BigDecimal.valueOf(2));
+        } else if (employmentDto.getPosition().equals(PositionAtWork.TOP_MANAGER)) {
+            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+        }
+        if (scoringDataDto.getMaritalStatus().equals(MaritalStatus.MARRIED)) {
+            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+        } else if (scoringDataDto.getMaritalStatus().equals(MaritalStatus.DIVORCED)) {
+            tempRate = tempRate.add(BigDecimal.valueOf(1));
+        }
+        if (scoringDataDto.getGender().equals(Gender.FEMALE) &&
+                calculateAge(scoringDataDto) >= 32 &&
+                calculateAge(scoringDataDto) <= 60) {
+            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+        } else if (scoringDataDto.getGender().equals(Gender.MALE) &&
+                calculateAge(scoringDataDto) >= 30 &&
+                calculateAge(scoringDataDto) <= 55) {
+            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+        }
+        return tempRate;
     }
 
     private boolean isLoanRefusal(ScoringDataDto scoringDataDto) {
         EmploymentDto employmentDto = scoringDataDto.getEmployment();
-        if ((employmentDto.getWorkExperienceTotal() < MIN_WORK_EXPERIENCE_TOTAL) ||
-                employmentDto.getWorkExperienceCurrent() < MIN_WORK_EXPERIENCE_CURRENT ||
-                employmentDto.getEmploymentStatus().equals(EmploymentStatus.UNEMPLOYED) ||
-                scoringDataDto.getAmount().compareTo(employmentDto.getSalary().multiply(BigDecimal.valueOf(24))) < 0 ||
-                calculateAge(scoringDataDto) > MAX_AGE ||
-                calculateAge(scoringDataDto) < MIN_AGE) {
-            return false;
-        }
-        return true;
+        return (employmentDto.getWorkExperienceTotal() >= MIN_WORK_EXPERIENCE_TOTAL) &&
+                employmentDto.getWorkExperienceCurrent() >= MIN_WORK_EXPERIENCE_CURRENT &&
+                !employmentDto.getEmploymentStatus().equals(EmploymentStatus.UNEMPLOYED) &&
+                scoringDataDto.getAmount().compareTo(employmentDto.getSalary().multiply(BigDecimal.valueOf(24))) >= 0 &&
+                calculateAge(scoringDataDto) <= MAX_AGE &&
+                calculateAge(scoringDataDto) >= MIN_AGE;
     }
 
     private int calculateAge(ScoringDataDto scoringDataDto) {

@@ -23,12 +23,12 @@ public class LoanOffersService {
 
     public static final Double RATE_20 = 20.0;
     public static final Double RATE_23 = 23.0;
-    public static final Double RATE_25 = 25.0;
+    public static final Double BASE_RATE_25 = 25.0;
     public static final Double RATE_35 = 35.0;
     public static final int MONTHS = 12;
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
-        List<Double> rates = Arrays.asList(RATE_35, RATE_25, RATE_23, RATE_20);
+        List<Double> rates = Arrays.asList(RATE_35, BASE_RATE_25, RATE_23, RATE_20);
         List<LoanOfferDto> loanOffersDto = new ArrayList<>();
         for (Double rate : rates) {
             LoanOfferDto loanOfferDto = new LoanOfferDto();
@@ -61,7 +61,7 @@ public class LoanOffersService {
         if (Objects.equals(rate, RATE_35)) {
             loanOfferDto.setIsInsuranceEnabled(false);
             loanOfferDto.setIsSalaryClient(false);
-        } else if (Objects.equals(rate, RATE_25)) {
+        } else if (Objects.equals(rate, BASE_RATE_25)) {
             loanOfferDto.setIsInsuranceEnabled(true);
             loanOfferDto.setIsSalaryClient(false);
         } else if (Objects.equals(rate, RATE_23)) {

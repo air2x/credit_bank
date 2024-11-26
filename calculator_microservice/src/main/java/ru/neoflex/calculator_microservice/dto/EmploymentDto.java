@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
-import ru.neoflex.calculator_microservice.enums.PositionArWork;
+import ru.neoflex.calculator_microservice.enums.PositionAtWork;
 
 import java.math.BigDecimal;
 
@@ -21,7 +21,7 @@ public class EmploymentDto {
 
     private BigDecimal salary;
 
-    private PositionArWork position;
+    private PositionAtWork position;
 
     private Integer workExperienceTotal;
 
