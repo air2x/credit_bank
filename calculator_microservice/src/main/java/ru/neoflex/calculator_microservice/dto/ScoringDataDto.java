@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Setter
 public class ScoringDataDto {
 
-    @NotEmpty
+
     @DecimalMin(value = "20000", message = "Сумма должна быть меньше или равно 20000")
     private BigDecimal amount;
 
@@ -38,41 +38,38 @@ public class ScoringDataDto {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Фамилия должна содержать только латинские буквы")
     private String middleName;
 
-    @NotEmpty
+
     private Gender gender;
 
-    @NotEmpty
+
     private LocalDate birthday;
 
-    @NotEmpty
     @Pattern(regexp = "^\\d{4}$", message = "Номер паспорта состоит из 4 цифр")
     private String passportSeries;
 
-    @NotEmpty
     @Pattern(regexp = "^\\d{6}$", message = "Серия паспорта состоит из 6 цифр")
     private String passportNumber;
 
-    @NotEmpty
     private LocalDate passportIssueDate;
 
-    @NotEmpty
+
     private String passportIssueBranch;
 
-    @NotEmpty
+
     private MaritalStatus maritalStatus;
 
-    @NotEmpty
+
     private Integer dependentAmount;
 
-    @NotEmpty
+
     private EmploymentDto employment;
 
-    @NotEmpty
+
     private String accountNumber;
 
-    @NotEmpty
+
     private Boolean isInsuranceEnabled;
 
-    @NotEmpty
+
     private Boolean isSalaryClient;
 }

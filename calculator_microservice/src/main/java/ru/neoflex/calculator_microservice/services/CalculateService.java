@@ -46,7 +46,7 @@ public class CalculateService {
     public static final int MIN_WORK_EXPERIENCE_CURRENT = 3;
 
     public CreditDto getCreditDto(ScoringDataDto scoringDataDto) {
-        if (isLoanRefusal(scoringDataDto)) {
+        if (!isLoanRefusal(scoringDataDto)) {
             return calculateCredit(scoringDataDto);
         }
         return null;
