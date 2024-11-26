@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
@@ -63,12 +64,29 @@ public class CalculateService {
         creditDto.setMonthlyPayment(calculateMonthlyPayment(creditDto.getRate(), creditDto.getTerm(), creditDto.getAmount()));
         psk = calculatePsk(scoringDataDto.getTerm(), creditDto.getMonthlyPayment());
         creditDto.setPsk(psk);
-        creditDto.setPaymentSchedule(calculatePaymentSchedule(psk));
+        creditDto.setPaymentSchedule(calculatePaymentSchedule(creditDto));
         return creditDto;
     }
 
-    public List<PaymentScheduleElementDto> calculatePaymentSchedule(BigDecimal psk) {
-        return null;
+    public List<PaymentScheduleElementDto> calculatePaymentSchedule(CreditDto creditDto) {
+        List<PaymentScheduleElementDto> paymentScheduleElementDtos = new ArrayList<>();
+        BigDecimal balanceOfTheDebt = creditDto.getAmount();
+        BigDecimal monthlyRate = calculateMonthlyRate(creditDto.getRate());
+        LocalDate dateNow = LocalDate.now();
+        for (int i = 1; i <= creditDto.getTerm(); i++) {
+            PaymentScheduleElementDto paymentScheduleElementDto = new PaymentScheduleElementDto();
+            BigDecimal percent = balanceOfTheDebt.multiply(monthlyRate).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal repaymentMainDebt = creditDto.getMonthlyPayment().subtract(percent).setScale(2, RoundingMode.HALF_UP);
+            balanceOfTheDebt = balanceOfTheDebt.subtract(repaymentMainDebt).setScale(2, RoundingMode.HALF_UP);
+            paymentScheduleElementDto.setNumber(i);
+            paymentScheduleElementDto.setTotalPayment(percent.add(repaymentMainDebt));
+            paymentScheduleElementDto.setDebtPayment(creditDto.getMonthlyPayment().subtract(percent));
+            paymentScheduleElementDto.setInterestPayment(percent);
+            paymentScheduleElementDto.setRemainingDebt(balanceOfTheDebt);
+            paymentScheduleElementDto.setDate(dateNow.plusMonths(i));
+            paymentScheduleElementDtos.add(paymentScheduleElementDto);
+        }
+        return paymentScheduleElementDtos;
     }
 
     public BigDecimal calculatePsk(int term, BigDecimal monthlyPayment) {
@@ -77,14 +95,19 @@ public class CalculateService {
 
     public BigDecimal calculateMonthlyPayment(BigDecimal rate, int term, BigDecimal amount) {
         BigDecimal monthlyPayment;
-        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(MONTHS), RoundingMode.HALF_DOWN)
-                .setScale(3, RoundingMode.HALF_UP);
-        monthlyRate = monthlyRate.divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN)
-                .setScale(3, RoundingMode.HALF_UP);
+        BigDecimal monthlyRate = calculateMonthlyRate(rate);
         BigDecimal temp = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
         monthlyPayment = amount.multiply((monthlyRate.multiply(temp)).
                 divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
         return monthlyPayment.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal calculateMonthlyRate(BigDecimal rate) {
+        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(MONTHS), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP);
+        monthlyRate = monthlyRate.divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP);
+        return monthlyRate.setScale(3, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateRate(ScoringDataDto scoringDataDto) {
