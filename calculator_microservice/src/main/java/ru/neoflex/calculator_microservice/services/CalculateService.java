@@ -11,11 +11,13 @@ import ru.neoflex.calculator_microservice.enums.MaritalStatus;
 import ru.neoflex.calculator_microservice.enums.PositionAtWork;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
+import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
 /*
 1. По API приходит ScoringDataDto.
@@ -58,7 +60,7 @@ public class CalculateService {
         creditDto.setIsSalaryClient(scoringDataDto.getIsSalaryClient());
         creditDto.setIsInsuranceEnabled(scoringDataDto.getIsInsuranceEnabled());
         creditDto.setRate(calculateRate(scoringDataDto));
-        creditDto.setMonthlyPayment(calculateMonthlyPayment(scoringDataDto));
+        creditDto.setMonthlyPayment(calculateMonthlyPayment(creditDto.getRate(), creditDto.getTerm(), creditDto.getAmount()));
         creditDto.setPsk(psk);
         creditDto.setPaymentSchedule(calculatePaymentSchedule(psk));
         return creditDto;
@@ -72,12 +74,17 @@ public class CalculateService {
         return null;
     }
 
-    private BigDecimal calculateMonthlyPayment(ScoringDataDto scoringDataDto) {
-        return null;
+    public BigDecimal calculateMonthlyPayment(BigDecimal rate, int term, BigDecimal amount) {
+        BigDecimal monthlyPayment;
+        BigDecimal monthlyRate = (rate.divide(BigDecimal.valueOf(MONTHS))).divide(BigDecimal.valueOf(100));
+        BigDecimal temp = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
+        monthlyPayment = amount.multiply((monthlyRate.multiply(temp)).
+                divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_UP));
+        return monthlyPayment.setScale(2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateRate(ScoringDataDto scoringDataDto) {
-        BigDecimal tempRate = BigDecimal.valueOf(BASE_RATE_25);
+        BigDecimal tempRate = BASE_RATE_25;
         EmploymentDto employmentDto = scoringDataDto.getEmployment();
         if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.SELF_EMPLOYED)) {
             tempRate = tempRate.add(BigDecimal.valueOf(2));
