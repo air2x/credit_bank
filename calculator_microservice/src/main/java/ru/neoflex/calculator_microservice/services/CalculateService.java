@@ -17,6 +17,10 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
@@ -41,6 +45,7 @@ import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONT
 @Service
 public class CalculateService {
 
+    private static final Logger logger = LogManager.getLogger(CalculateService.class);
     public static final int MIN_AGE = 20;
     public static final int MAX_AGE = 65;
     public static final int MIN_WORK_EXPERIENCE_TOTAL = 18;
@@ -65,6 +70,7 @@ public class CalculateService {
         psk = calculatePsk(scoringDataDto.getTerm(), creditDto.getMonthlyPayment());
         creditDto.setPsk(psk);
         creditDto.setPaymentSchedule(calculatePaymentSchedule(creditDto));
+        logger.info("The creation of the loan offer was successful");
         return creditDto;
     }
 
@@ -86,6 +92,7 @@ public class CalculateService {
             paymentScheduleElementDto.setDate(dateNow.plusMonths(i));
             paymentScheduleElementDtos.add(paymentScheduleElementDto);
         }
+        logger.info("The payment schedule was created successfully");
         return paymentScheduleElementDtos;
     }
 
@@ -99,6 +106,7 @@ public class CalculateService {
         BigDecimal temp = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
         monthlyPayment = amount.multiply((monthlyRate.multiply(temp)).
                 divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
+        logger.info("The monthly payment has been calculated successfully");
         return monthlyPayment.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -137,6 +145,7 @@ public class CalculateService {
                 calculateAge(scoringDataDto) <= 55) {
             tempRate = tempRate.subtract(BigDecimal.valueOf(3));
         }
+        logger.info("The rate has been calculated successfully");
         return tempRate;
     }
 

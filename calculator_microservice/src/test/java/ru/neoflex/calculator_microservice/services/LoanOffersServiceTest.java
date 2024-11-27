@@ -9,12 +9,4 @@ class LoanOffersServiceTest {
     @Test
     void getLoanOffersDto() {
     }
-
-    @Test
-    void monthlyPaymentCalc() {
-    }
-
-    @Test
-    void totalAmountCalc() {
-    }
 }
