@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,8 @@ import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.services.CalculateService;
 import ru.neoflex.calculator_microservice.services.LoanOffersService;
+import ru.neoflex.calculator_microservice.util.exceptions.GenderException;
+import ru.neoflex.calculator_microservice.util.exceptions.LoanIsNotApprovedException;
 
 import java.util.List;
 
@@ -25,13 +28,13 @@ public class CalculatorController {
     private final LoanOffersService loanOffersService;
 
     @PostMapping("/offers")
-    public List<LoanOfferDto> offers(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto) {
+    public ResponseEntity<List<LoanOfferDto>> offers(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto) {
         log.info("Loan statement request has been received");
-        return loanOffersService.getLoanOffersDto(loanStatementRequestDto);
+        return ResponseEntity.ok(loanOffersService.getLoanOffersDto(loanStatementRequestDto));
     }
 
     @PostMapping("/calc")
-    public CreditDto offers(@RequestBody @Valid ScoringDataDto scoringDataDto) {
+    public CreditDto offers(@RequestBody @Valid ScoringDataDto scoringDataDto) throws LoanIsNotApprovedException, GenderException {
         log.info("The data for the scoring has been received");
         return calculateService.getCreditDto(scoringDataDto);
     }
