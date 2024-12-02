@@ -7,8 +7,6 @@ import ru.neoflex.calculator_microservice.dto.EmploymentDto;
 import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
-import ru.neoflex.calculator_microservice.enums.MaritalStatus;
-import ru.neoflex.calculator_microservice.enums.PositionAtWork;
 import ru.neoflex.calculator_microservice.util.exceptions.*;
 
 import java.math.BigDecimal;
