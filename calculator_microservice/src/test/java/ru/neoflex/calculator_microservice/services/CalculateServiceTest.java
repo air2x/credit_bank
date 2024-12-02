@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CalculateServiceTest {
 
     @Test
-    void performAction() {
-    }
-
-    @Test
     void getCreditDto() {
     }
 
