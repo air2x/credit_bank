@@ -1,5 +1,6 @@
 package ru.neoflex.calculator_microservice.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.neoflex.calculator_microservice.dto.CreditDto;
 import ru.neoflex.calculator_microservice.dto.EmploymentDto;
@@ -17,35 +18,13 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
-/*
-1. По API приходит ScoringDataDto.
-2. Происходит скоринг данных, высчитывание итоговой ставки(rate), полной стоимости кредита(psk),
-размер ежемесячного платежа(monthlyPayment), график ежемесячных платежей (List<PaymentScheduleElementDto>).
-3. Логику расчета параметров кредита можно найти в интернете, полученный результат сверять с имеющимися в
-    интернете калькуляторами графиков платежей и ПСК.
-Ответ на API - CreditDto, насыщенный всеми рассчитанными параметрами.
-
-Правила скоринга (можно придумать новые правила или изменить существующие):
-1. Рабочий статус: Безработный → отказ; Самозанятый → ставка увеличивается на 2; Владелец бизнеса → ставка увеличивается на 1
-2. Позиция на работе: Менеджер среднего звена → ставка уменьшается на 2; Топ-менеджер → ставка уменьшается на 3
-3. Сумма займа больше, чем 24 зарплат → отказ
-4. Семейное положение: Замужем/женат → ставка уменьшается на 3; Разведен → ставка увеличивается на 1
-5. Возраст менее 20 или более 65 лет → отказ
-6. Пол: Женщина, возраст от 32 до 60 лет → ставка уменьшается на 3; Мужчина, возраст от 30 до 55 лет → ставка
-    уменьшается на 3; Не бинарный → ставка увеличивается на 7
-7. Стаж работы: Общий стаж менее 18 месяцев → отказ; Текущий стаж менее 3 месяцев → отказ
- */
+@Slf4j
 @Service
 public class CalculateService {
 
-    private static final Logger logger = LogManager.getLogger(CalculateService.class);
     public static final int MIN_AGE = 20;
     public static final int MAX_AGE = 65;
     public static final int MIN_WORK_EXPERIENCE_TOTAL = 18;
@@ -70,7 +49,7 @@ public class CalculateService {
         psk = calculatePsk(scoringDataDto.getTerm(), creditDto.getMonthlyPayment());
         creditDto.setPsk(psk);
         creditDto.setPaymentSchedule(calculatePaymentSchedule(creditDto));
-        logger.info("The creation of the loan offer was successful");
+        log.info("The creation of the loan offer was successful");
         return creditDto;
     }
 
@@ -92,7 +71,7 @@ public class CalculateService {
             paymentScheduleElementDto.setDate(dateNow.plusMonths(i));
             paymentScheduleElementDtos.add(paymentScheduleElementDto);
         }
-        logger.info("The payment schedule was created successfully");
+        log.info("The payment schedule was created successfully");
         return paymentScheduleElementDtos;
     }
 
@@ -106,7 +85,7 @@ public class CalculateService {
         BigDecimal temp = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
         monthlyPayment = amount.multiply((monthlyRate.multiply(temp)).
                 divide(temp.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
-        logger.info("The monthly payment has been calculated successfully");
+        log.info("The monthly payment has been calculated successfully");
         return monthlyPayment.setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -145,7 +124,7 @@ public class CalculateService {
                 calculateAge(scoringDataDto) <= 55) {
             tempRate = tempRate.subtract(BigDecimal.valueOf(3));
         }
-        logger.info("The rate has been calculated successfully");
+        log.info("The rate has been calculated successfully");
         return tempRate;
     }
 
