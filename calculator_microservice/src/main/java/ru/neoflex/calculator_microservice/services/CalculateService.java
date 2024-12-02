@@ -18,7 +18,13 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.SELF_EMPLOYED;
+import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.UNEMPLOYED;
 import static ru.neoflex.calculator_microservice.enums.Gender.*;
+import static ru.neoflex.calculator_microservice.enums.MaritalStatus.DIVORCED;
+import static ru.neoflex.calculator_microservice.enums.MaritalStatus.MARRIED;
+import static ru.neoflex.calculator_microservice.enums.PositionAtWork.MIDDLE_MANAGER;
+import static ru.neoflex.calculator_microservice.enums.PositionAtWork.TOP_MANAGER;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
@@ -120,23 +126,22 @@ public class CalculateService {
     private BigDecimal calculateRate(ScoringDataDto scoringDataDto) {
         BigDecimal tempRate = BASE_RATE_25;
         EmploymentDto employmentDto = scoringDataDto.getEmployment();
-        if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.SELF_EMPLOYED)) {
+        if (employmentDto.getEmploymentStatus() == SELF_EMPLOYED) {
             tempRate = tempRate.add(BigDecimal.valueOf(2));
         } else if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.BUSINESS_OWNER)) {
             tempRate = tempRate.add(BigDecimal.valueOf(1));
         }
-        if (employmentDto.getPosition().equals(PositionAtWork.MIDDLE_MANAGER)) {
+        if (employmentDto.getPosition() == MIDDLE_MANAGER) {
             tempRate = tempRate.subtract(BigDecimal.valueOf(2));
-        } else if (employmentDto.getPosition().equals(PositionAtWork.TOP_MANAGER)) {
+        } else if (employmentDto.getPosition() == TOP_MANAGER) {
             tempRate = tempRate.subtract(BigDecimal.valueOf(3));
         }
-        if (scoringDataDto.getMaritalStatus().equals(MaritalStatus.MARRIED)) {
+        if (scoringDataDto.getMaritalStatus() == MARRIED) {
             tempRate = tempRate.subtract(BigDecimal.valueOf(3));
-        } else if (scoringDataDto.getMaritalStatus().equals(MaritalStatus.DIVORCED)) {
+        } else if (scoringDataDto.getMaritalStatus() == DIVORCED) {
             tempRate = tempRate.add(BigDecimal.valueOf(1));
         }
         tempRate = tempRate.subtract(getRateWithGenderAndAge(scoringDataDto));
-
         log.info(scoringDataDto.getAccountNumber() + " The rate has been calculated successfully");
         return tempRate;
     }
@@ -165,7 +170,7 @@ public class CalculateService {
         if (scoringDataDto.getEmployment() != null) {
             EmploymentDto employmentDto = scoringDataDto.getEmployment();
             return isWorkExperienceOk(scoringDataDto) &&
-                    employmentDto.getEmploymentStatus() != EmploymentStatus.UNEMPLOYED &&
+                    employmentDto.getEmploymentStatus() != UNEMPLOYED &&
                     isSalaryRelativeRequestedAmountOk(scoringDataDto) &&
                     isAgeOk(scoringDataDto);
         } else {

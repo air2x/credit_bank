@@ -11,15 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.neoflex.calculator_microservice.dto.CreditDto;
-import ru.neoflex.calculator_microservice.dto.LoanOfferDto;
 import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.services.CalculateService;
 import ru.neoflex.calculator_microservice.services.LoanOffersService;
 import ru.neoflex.calculator_microservice.util.exceptions.*;
 
-import java.util.List;
 
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
