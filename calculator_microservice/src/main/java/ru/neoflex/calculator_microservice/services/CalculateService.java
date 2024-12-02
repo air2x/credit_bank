@@ -30,6 +30,10 @@ public class CalculateService {
     public static final int MAX_AGE = 65;
     public static final int MIN_WORK_EXPERIENCE_TOTAL = 18;
     public static final int MIN_WORK_EXPERIENCE_CURRENT = 3;
+    public static final int MIN_MALE_AGE = 30;
+    public static final int MAX_MALE_AGE = 55;
+    public static final int MIN_FEMALE_AGE = 32;
+    public static final int MAX_FEMALE_AGE = 60;
     public static final int MONTHS_24 = 24;
 
     public CreditDto getCreditDto(ScoringDataDto scoringDataDto) throws LoanIsNotApprovedException, GenderException {
@@ -131,16 +135,16 @@ public class CalculateService {
         } else if (scoringDataDto.getMaritalStatus().equals(MaritalStatus.DIVORCED)) {
             tempRate = tempRate.add(BigDecimal.valueOf(1));
         }
-        tempRate = tempRate.subtract(getRateWithGender(scoringDataDto));
+        tempRate = tempRate.subtract(getRateWithGenderAndAge(scoringDataDto));
 
         log.info(scoringDataDto.getAccountNumber() + " The rate has been calculated successfully");
         return tempRate;
     }
 
-    private BigDecimal getRateWithGender(ScoringDataDto scoringDataDto) {
+    private BigDecimal getRateWithGenderAndAge(ScoringDataDto scoringDataDto) {
         int age = calculateAge(scoringDataDto);
-        if ((scoringDataDto.getGender() == Gender.FEMALE && age >= 32 && age <= 60) ||
-                (scoringDataDto.getGender() == Gender.MALE && age >= 30 && age <= 55)) {
+        if ((scoringDataDto.getGender() == Gender.FEMALE && age >= MIN_FEMALE_AGE && age <= MAX_FEMALE_AGE) ||
+                (scoringDataDto.getGender() == Gender.MALE && age >= MIN_MALE_AGE && age <= MAX_MALE_AGE)) {
             return BigDecimal.valueOf(3);
         } else if (scoringDataDto.getGender() == Gender.NON_BINARY) {
             return BigDecimal.valueOf(7);
@@ -189,6 +193,10 @@ public class CalculateService {
     }
 
     private int calculateAge(ScoringDataDto scoringDataDto) {
-        return Period.between(scoringDataDto.getBirthday(), LocalDate.now()).getYears();
+        if (scoringDataDto.getBirthday() != null) {
+            return Period.between(scoringDataDto.getBirthday(), LocalDate.now()).getYears();
+        } else {
+            throw new NullBirthDayException(scoringDataDto.getAccountNumber() + "Birthday is not be null");
+        }
     }
 }
