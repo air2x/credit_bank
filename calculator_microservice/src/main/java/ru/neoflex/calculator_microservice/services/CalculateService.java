@@ -7,7 +7,6 @@ import ru.neoflex.calculator_microservice.dto.EmploymentDto;
 import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
-import ru.neoflex.calculator_microservice.enums.Gender;
 import ru.neoflex.calculator_microservice.enums.MaritalStatus;
 import ru.neoflex.calculator_microservice.enums.PositionAtWork;
 import ru.neoflex.calculator_microservice.util.exceptions.*;
@@ -19,6 +18,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.neoflex.calculator_microservice.enums.Gender.*;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
@@ -142,15 +142,23 @@ public class CalculateService {
     }
 
     private BigDecimal getRateWithGenderAndAge(ScoringDataDto scoringDataDto) {
-        int age = calculateAge(scoringDataDto);
-        if ((scoringDataDto.getGender() == Gender.FEMALE && age >= MIN_FEMALE_AGE && age <= MAX_FEMALE_AGE) ||
-                (scoringDataDto.getGender() == Gender.MALE && age >= MIN_MALE_AGE && age <= MAX_MALE_AGE)) {
-            return BigDecimal.valueOf(3);
-        } else if (scoringDataDto.getGender() == Gender.NON_BINARY) {
-            return BigDecimal.valueOf(7);
+        int age;
+        if (scoringDataDto.getBirthday() != null) {
+            age = calculateAge(scoringDataDto);
         } else {
-            throw new GenderException();
+            throw new NullBirthDayException("Birthday is not be null");
         }
+        if (age != 0 && scoringDataDto.getGender() != null) {
+            if ((scoringDataDto.getGender() == FEMALE && age >= MIN_FEMALE_AGE && age <= MAX_FEMALE_AGE) ||
+                    (scoringDataDto.getGender() == MALE && age >= MIN_MALE_AGE && age <= MAX_MALE_AGE)) {
+                return BigDecimal.valueOf(3);
+            } else if (scoringDataDto.getGender() == NON_BINARY) {
+                return BigDecimal.valueOf(7);
+            }
+        } else {
+            throw new GenderException("Gender error");
+        }
+        return BigDecimal.valueOf(1);
     }
 
     private boolean isLoanOk(ScoringDataDto scoringDataDto) {
