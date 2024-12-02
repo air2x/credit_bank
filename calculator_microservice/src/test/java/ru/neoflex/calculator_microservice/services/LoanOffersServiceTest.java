@@ -23,6 +23,7 @@ class LoanOffersServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
+
     @Test
     void getLoanOffersDto() {
         LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
@@ -31,6 +32,11 @@ class LoanOffersServiceTest {
         loanStatementRequestDto.setEmail("test@mail.com");
 
         List<LoanOfferDto> loanOffersDto = loanOffersService.getLoanOffersDto(loanStatementRequestDto);
+        Assertions.assertNotNull(loanOffersDto);
         Assertions.assertEquals(4, loanOffersDto.size());
+        for (LoanOfferDto l : loanOffersDto) {
+            Assertions.assertEquals(24, l.getTerm());
+        }
+
     }
 }
