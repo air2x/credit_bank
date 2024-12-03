@@ -30,20 +30,20 @@ public class LoanOffersService {
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
         List<LoanOfferDto> loanOffersDto = new ArrayList<>();
-        for (BigDecimal rate : RATES) {
-            LoanOfferDto loanOfferDto = new LoanOfferDto();
-            loanOfferDto.setStatementId(UUID.randomUUID());
-            loanOfferDto.setRequestAmount(loanStatementRequestDto.getAmount());
-            loanOfferDto.setMonthlyPayment(calculateMonthlyPayment(rate,
-                    loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));
-            loanOfferDto.setTotalAmount(calculatePsk(loanStatementRequestDto.getTerm(),
-                    loanOfferDto.getMonthlyPayment()));
-            loanOfferDto.setTerm(loanStatementRequestDto.getTerm());
-            loanOfferDto.setRate(rate);
-            setClientStatus(rate, loanOfferDto);
-            loanOffersDto.add(loanOfferDto);
-        }
         if (loanStatementRequestDto.getEmail() != null) {
+            for (BigDecimal rate : RATES) {
+                LoanOfferDto loanOfferDto = new LoanOfferDto();
+                loanOfferDto.setStatementId(UUID.randomUUID());
+                loanOfferDto.setRequestAmount(loanStatementRequestDto.getAmount());
+                loanOfferDto.setMonthlyPayment(calculateMonthlyPayment(rate,
+                        loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));
+                loanOfferDto.setTotalAmount(calculatePsk(loanStatementRequestDto.getTerm(),
+                        loanOfferDto.getMonthlyPayment()));
+                loanOfferDto.setTerm(loanStatementRequestDto.getTerm());
+                loanOfferDto.setRate(rate);
+                setClientStatus(rate, loanOfferDto);
+                loanOffersDto.add(loanOfferDto);
+            }
             log.info(loanStatementRequestDto.getEmail() + " The created of offers is successful");
         } else {
             throw new NullEmailException("Email is not be null");
