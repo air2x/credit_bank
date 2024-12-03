@@ -26,7 +26,7 @@ class LoanOffersServiceTest {
     }
 
     @Test
-    void testGetLoanOffersDto() {
+    void testGetLoanOffersDtoTest() {
         LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
         loanStatementRequestDto.setAmount(BigDecimal.valueOf(20000));
         loanStatementRequestDto.setTerm(24);
@@ -62,15 +62,13 @@ class LoanOffersServiceTest {
     }
 
     @Test
-    void testGetLoanOffersDtoIfEmailNull() {
+    void getLoanOffersDtoIfEmailNullTest() {
         LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
         loanStatementRequestDto.setAmount(BigDecimal.valueOf(20000));
         loanStatementRequestDto.setTerm(24);
         loanStatementRequestDto.setEmail(null);
 
-        Exception ex = Assertions.assertThrows(NullEmailException.class, () -> {
-            loanOffersService.getLoanOffersDto(loanStatementRequestDto);
-        });
+        Exception ex = Assertions.assertThrows(NullEmailException.class, () -> loanOffersService.getLoanOffersDto(loanStatementRequestDto));
         Assertions.assertEquals("Email is not be null", ex.getMessage());
     }
 }

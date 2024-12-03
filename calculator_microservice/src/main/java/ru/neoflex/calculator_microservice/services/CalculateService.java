@@ -40,7 +40,7 @@ public class CalculateService {
     public static final int MAX_FEMALE_AGE = 60;
     public static final int MONTHS_24 = 24;
 
-    public CreditDto getCreditDto(ScoringDataDto scoringDataDto) throws LoanIsNotApprovedException, GenderException {
+    public CreditDto getCreditDto(ScoringDataDto scoringDataDto) {
         if (isLoanOk(scoringDataDto)) {
             return calculateCredit(scoringDataDto);
         } else {
@@ -71,10 +71,12 @@ public class CalculateService {
     }
 
     public static BigDecimal calculatePsk(int term, BigDecimal monthlyPayment) {
-        if (monthlyPayment != null) {
+        if (monthlyPayment != null && term != 0) {
             return BigDecimal.valueOf(term).multiply(monthlyPayment);
-        } else {
+        } else if (monthlyPayment == null){
             throw new NullMonthlyPaymentException("The monthly payment should not be null");
+        } else {
+            throw new NullTermException("The term should not be null");
         }
     }
 
