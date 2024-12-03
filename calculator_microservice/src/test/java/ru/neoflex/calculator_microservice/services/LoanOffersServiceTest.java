@@ -26,7 +26,7 @@ class LoanOffersServiceTest {
     }
 
     @Test
-    void testGetLoanOffersDtoTest() {
+    void getLoanOffersDtoTest() {
         LoanStatementRequestDto loanStatementRequestDto = new LoanStatementRequestDto();
         loanStatementRequestDto.setAmount(BigDecimal.valueOf(20000));
         loanStatementRequestDto.setTerm(24);
