@@ -17,7 +17,6 @@ import ru.neoflex.calculator_microservice.util.exceptions.NullTermException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.EMPLOYED;
@@ -101,7 +100,6 @@ class CalculateServiceTest {
             Assertions.assertNotNull(paymentScheduleElementDto.getNumber());
             Assertions.assertNotNull(paymentScheduleElementDto.getRemainingDebt());
         }
-
     }
 
     @Test
