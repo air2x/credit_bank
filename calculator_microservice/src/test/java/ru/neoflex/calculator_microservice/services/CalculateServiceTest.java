@@ -73,6 +73,9 @@ class CalculateServiceTest {
         Assertions.assertNotNull(creditDto.getPaymentSchedule());
         Assertions.assertNotNull(creditDto.getIsInsuranceEnabled());
         Assertions.assertNotNull(creditDto.getIsSalaryClient());
+
+        Assertions.assertEquals(scoringDataDto.getAmount(), creditDto.getAmount());
+        Assertions.assertEquals(scoringDataDto.getTerm(), creditDto.getPaymentSchedule().size());
     }
 
     @Test
