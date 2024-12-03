@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import ru.neoflex.calculator_microservice.dto.CreditDto;
 import ru.neoflex.calculator_microservice.dto.EmploymentDto;
+import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
 import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.util.exceptions.NullAmountException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullMonthlyPaymentException;
@@ -16,13 +17,15 @@ import ru.neoflex.calculator_microservice.util.exceptions.NullTermException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.EMPLOYED;
 import static ru.neoflex.calculator_microservice.enums.Gender.MALE;
 import static ru.neoflex.calculator_microservice.enums.MaritalStatus.MARRIED;
 import static ru.neoflex.calculator_microservice.enums.PositionAtWork.JUNIOR_MANAGER;
-import static ru.neoflex.calculator_microservice.services.CalculateService.calculateMonthlyPayment;
-import static ru.neoflex.calculator_microservice.services.CalculateService.calculatePsk;
+import static ru.neoflex.calculator_microservice.services.CalculateService.*;
+import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
 
 class CalculateServiceTest {
@@ -75,6 +78,30 @@ class CalculateServiceTest {
 
     @Test
     void calculatePaymentScheduleTest() {
+        BigDecimal rate = BigDecimal.valueOf(25);
+        int term = 12;
+        BigDecimal amount = BigDecimal.valueOf(50000);
+
+        CreditDto creditDto = new CreditDto();
+        creditDto.setRate(BASE_RATE_25);
+        creditDto.setTerm(term);
+        creditDto.setAmount(BigDecimal.valueOf(50000));
+        creditDto.setMonthlyPayment(calculateMonthlyPaymentExpected(rate, term, amount));
+
+        List<PaymentScheduleElementDto> paymentScheduleElementDtos = calculatePaymentSchedule(creditDto);
+
+        Assertions.assertNotNull(paymentScheduleElementDtos);
+        Assertions.assertEquals(term, paymentScheduleElementDtos.size());
+
+        for (PaymentScheduleElementDto paymentScheduleElementDto : paymentScheduleElementDtos) {
+            Assertions.assertNotNull(paymentScheduleElementDto.getDebtPayment());
+            Assertions.assertNotNull(paymentScheduleElementDto.getInterestPayment());
+            Assertions.assertNotNull(paymentScheduleElementDto.getTotalPayment());
+            Assertions.assertNotNull(paymentScheduleElementDto.getDate());
+            Assertions.assertNotNull(paymentScheduleElementDto.getNumber());
+            Assertions.assertNotNull(paymentScheduleElementDto.getRemainingDebt());
+        }
+
     }
 
     @Test
@@ -97,14 +124,7 @@ class CalculateServiceTest {
         int term = 12;
         BigDecimal amount = BigDecimal.valueOf(50000);
 
-        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(MONTHS), RoundingMode.HALF_DOWN)
-                .setScale(3, RoundingMode.HALF_UP);
-        monthlyRate = (monthlyRate.divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN)
-                .setScale(3, RoundingMode.HALF_UP)).setScale(3, RoundingMode.HALF_UP);
-        BigDecimal partAnnuityRatio = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
-        BigDecimal monthlyPaymentExpected = amount.multiply((monthlyRate.multiply(partAnnuityRatio)).
-                divide(partAnnuityRatio.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
-        monthlyPaymentExpected = monthlyPaymentExpected.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal monthlyPaymentExpected = calculateMonthlyPaymentExpected(rate, term, amount);
 
         BigDecimal monthlyPayment = calculateMonthlyPayment(rate, term, amount);
 
@@ -118,6 +138,17 @@ class CalculateServiceTest {
 
         ex = Assertions.assertThrows(NullAmountException.class, () -> calculateMonthlyPayment(rate, term, null));
         Assertions.assertEquals("Amount is not be null", ex.getMessage());
+    }
 
+    private BigDecimal calculateMonthlyPaymentExpected(BigDecimal rate, int term, BigDecimal amount) {
+        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(MONTHS), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP);
+        monthlyRate = (monthlyRate.divide(BigDecimal.valueOf(100), RoundingMode.HALF_DOWN)
+                .setScale(3, RoundingMode.HALF_UP)).setScale(3, RoundingMode.HALF_UP);
+        BigDecimal partAnnuityRatio = (monthlyRate.add(BigDecimal.valueOf(1))).pow(term);
+        BigDecimal monthlyPayment = amount.multiply((monthlyRate.multiply(partAnnuityRatio)).
+                divide(partAnnuityRatio.subtract(BigDecimal.valueOf(1)), RoundingMode.HALF_DOWN));
+        monthlyPayment = monthlyPayment.setScale(2, RoundingMode.HALF_UP);
+        return monthlyPayment;
     }
 }

@@ -48,7 +48,7 @@ public class CalculateService {
         }
     }
 
-    public List<PaymentScheduleElementDto> calculatePaymentSchedule(CreditDto creditDto) {
+    public static List<PaymentScheduleElementDto> calculatePaymentSchedule(CreditDto creditDto) {
         List<PaymentScheduleElementDto> paymentScheduleElementDtos = new ArrayList<>();
         BigDecimal balanceOfTheDebt = creditDto.getAmount();
         BigDecimal monthlyRate = calculateMonthlyRate(creditDto.getRate());
