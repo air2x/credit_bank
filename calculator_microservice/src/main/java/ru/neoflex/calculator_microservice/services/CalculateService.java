@@ -39,6 +39,11 @@ public class CalculateService {
     public static final int MIN_FEMALE_AGE = 32;
     public static final int MAX_FEMALE_AGE = 60;
     public static final int MONTHS_24 = 24;
+    public static final BigDecimal RATE_1 = BigDecimal.valueOf(1.0);
+    public static final BigDecimal RATE_2 = BigDecimal.valueOf(2.0);
+    public static final BigDecimal RATE_3 = BigDecimal.valueOf(3.0);
+    public static final BigDecimal RATE_7 = BigDecimal.valueOf(7.0);
+    public static final BigDecimal RATE_0 = BigDecimal.valueOf(0.0);
 
     public CreditDto getCreditDto(ScoringDataDto scoringDataDto) {
         if (isLoanOk(scoringDataDto)) {
@@ -127,19 +132,19 @@ public class CalculateService {
         BigDecimal tempRate = BASE_RATE_25;
         EmploymentDto employmentDto = scoringDataDto.getEmployment();
         if (employmentDto.getEmploymentStatus() == SELF_EMPLOYED) {
-            tempRate = tempRate.add(BigDecimal.valueOf(2));
+            tempRate = tempRate.add(RATE_2);
         } else if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.BUSINESS_OWNER)) {
-            tempRate = tempRate.add(BigDecimal.valueOf(1));
+            tempRate = tempRate.add(RATE_1);
         }
         if (employmentDto.getPosition() == MIDDLE_MANAGER) {
-            tempRate = tempRate.subtract(BigDecimal.valueOf(2));
+            tempRate = tempRate.subtract(RATE_2);
         } else if (employmentDto.getPosition() == TOP_MANAGER) {
-            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+            tempRate = tempRate.subtract(RATE_3);
         }
         if (scoringDataDto.getMaritalStatus() == MARRIED) {
-            tempRate = tempRate.subtract(BigDecimal.valueOf(3));
+            tempRate = tempRate.subtract(RATE_3);
         } else if (scoringDataDto.getMaritalStatus() == DIVORCED) {
-            tempRate = tempRate.add(BigDecimal.valueOf(1));
+            tempRate = tempRate.add(RATE_1);
         }
         tempRate = tempRate.subtract(getRateWithGenderAndAge(scoringDataDto));
         log.info(scoringDataDto.getAccountNumber() + " The rate has been calculated successfully");
@@ -153,17 +158,17 @@ public class CalculateService {
         } else {
             throw new NullBirthDayException("Birthday is not be null");
         }
-        if (age != 0 && scoringDataDto.getGender() != null) {
+        if (age != 0 && scoringDataDto.getGender() != null && isAgeOk(scoringDataDto)) {
             if ((scoringDataDto.getGender() == FEMALE && age >= MIN_FEMALE_AGE && age <= MAX_FEMALE_AGE) ||
                     (scoringDataDto.getGender() == MALE && age >= MIN_MALE_AGE && age <= MAX_MALE_AGE)) {
-                return BigDecimal.valueOf(3);
+                return RATE_3;
             } else if (scoringDataDto.getGender() == NON_BINARY) {
-                return BigDecimal.valueOf(7);
+                return RATE_7;
             }
         } else {
             throw new GenderException("Gender error");
         }
-        return BigDecimal.valueOf(1);
+        return RATE_1;
     }
 
     private boolean isLoanOk(ScoringDataDto scoringDataDto) {
