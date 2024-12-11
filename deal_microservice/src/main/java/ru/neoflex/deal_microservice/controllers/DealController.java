@@ -9,6 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.neoflex.dto.FinishRegistrationRequestDto;
+import ru.neoflex.dto.LoanOfferDto;
+import ru.neoflex.dto.LoanStatementRequestDto;
+
 
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -34,7 +38,7 @@ public class DealController {
     }
 
     @PostMapping("/deal/calculate/{statementId}")
-    public void finishCalculate(@RequestBody FinishRegistrationRequestDto  finishRegistrationRequestDto) {
+    public void finishCalculate(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto) {
 
     }
 }

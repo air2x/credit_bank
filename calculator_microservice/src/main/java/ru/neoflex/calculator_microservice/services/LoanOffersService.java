@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.neoflex.calculator_microservice.dto.LoanOfferDto;
-import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator_microservice.util.exceptions.NullEmailException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullRateException;
+import ru.neoflex.dto.LoanOfferDto;
+import ru.neoflex.dto.LoanStatementRequestDto;
 
 import java.math.BigDecimal;
 import java.util.*;

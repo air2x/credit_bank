@@ -5,27 +5,29 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import ru.neoflex.calculator_microservice.dto.CreditDto;
-import ru.neoflex.calculator_microservice.dto.EmploymentDto;
-import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
-import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
 import ru.neoflex.calculator_microservice.util.exceptions.NullAmountException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullMonthlyPaymentException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullRateException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullTermException;
+import ru.neoflex.dto.CreditDto;
+import ru.neoflex.dto.EmploymentDto;
+import ru.neoflex.dto.PaymentScheduleElementDto;
+import ru.neoflex.dto.ScoringDataDto;
+import ru.neoflex.enums.EmploymentPosition;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.EMPLOYED;
-import static ru.neoflex.calculator_microservice.enums.Gender.MALE;
-import static ru.neoflex.calculator_microservice.enums.MaritalStatus.MARRIED;
-import static ru.neoflex.calculator_microservice.enums.PositionAtWork.JUNIOR_MANAGER;
 import static ru.neoflex.calculator_microservice.services.CalculateService.*;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
+import static ru.neoflex.enums.EmploymentPosition.WORKER;
+import static ru.neoflex.enums.EmploymentStatus.EMPLOYED;
+import static ru.neoflex.enums.Gender.MALE;
+import static ru.neoflex.enums.MaritalStatus.MARRIED;
+
 
 class CalculateServiceTest {
 
@@ -56,7 +58,7 @@ class CalculateServiceTest {
 
         employmentDto.setSalary(BigDecimal.valueOf(20000));
         employmentDto.setEmploymentStatus(EMPLOYED);
-        employmentDto.setPosition(JUNIOR_MANAGER);
+        employmentDto.setPosition(WORKER);
         employmentDto.setWorkExperienceTotal(60);
         employmentDto.setWorkExperienceCurrent(12);
 

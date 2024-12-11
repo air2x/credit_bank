@@ -2,12 +2,12 @@ package ru.neoflex.calculator_microservice.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.neoflex.calculator_microservice.dto.CreditDto;
-import ru.neoflex.calculator_microservice.dto.EmploymentDto;
-import ru.neoflex.calculator_microservice.dto.PaymentScheduleElementDto;
-import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
-import ru.neoflex.calculator_microservice.enums.EmploymentStatus;
 import ru.neoflex.calculator_microservice.util.exceptions.*;
+import ru.neoflex.dto.CreditDto;
+import ru.neoflex.dto.EmploymentDto;
+import ru.neoflex.dto.PaymentScheduleElementDto;
+import ru.neoflex.dto.ScoringDataDto;
+import ru.neoflex.enums.EmploymentStatus;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,15 +16,15 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.SELF_EMPLOYED;
-import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.UNEMPLOYED;
-import static ru.neoflex.calculator_microservice.enums.Gender.*;
-import static ru.neoflex.calculator_microservice.enums.MaritalStatus.DIVORCED;
-import static ru.neoflex.calculator_microservice.enums.MaritalStatus.MARRIED;
-import static ru.neoflex.calculator_microservice.enums.PositionAtWork.MIDDLE_MANAGER;
-import static ru.neoflex.calculator_microservice.enums.PositionAtWork.TOP_MANAGER;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.BASE_RATE_25;
 import static ru.neoflex.calculator_microservice.services.LoanOffersService.MONTHS;
+import static ru.neoflex.enums.EmploymentPosition.MID_MANAGER;
+import static ru.neoflex.enums.EmploymentPosition.TOP_MANAGER;
+import static ru.neoflex.enums.EmploymentStatus.SELF_EMPLOYED;
+import static ru.neoflex.enums.EmploymentStatus.UNEMPLOYED;
+import static ru.neoflex.enums.Gender.*;
+import static ru.neoflex.enums.MaritalStatus.DIVORCED;
+import static ru.neoflex.enums.MaritalStatus.MARRIED;
 
 @Slf4j
 @Service
@@ -136,7 +136,7 @@ public class CalculateService {
         } else if (employmentDto.getEmploymentStatus().equals(EmploymentStatus.BUSINESS_OWNER)) {
             tempRate = tempRate.add(RATE_1);
         }
-        if (employmentDto.getPosition() == MIDDLE_MANAGER) {
+        if (employmentDto.getPosition() == MID_MANAGER) {
             tempRate = tempRate.subtract(RATE_2);
         } else if (employmentDto.getPosition() == TOP_MANAGER) {
             tempRate = tempRate.subtract(RATE_3);
