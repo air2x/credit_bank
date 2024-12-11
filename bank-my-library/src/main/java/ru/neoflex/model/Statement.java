@@ -1,10 +1,18 @@
 package ru.neoflex.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.neoflex.enums.CreditStatus;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Statement {
     private UUID statementId;
     private UUID clientId;

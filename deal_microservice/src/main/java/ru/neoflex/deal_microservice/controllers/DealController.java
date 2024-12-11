@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.neoflex.deal_microservice.services.StatementService;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
@@ -18,6 +19,9 @@ import ru.neoflex.dto.LoanStatementRequestDto;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @RestController("/deal")
 public class DealController {
+
+    private final StatementService statementService;
+
     @PostMapping("/statement")
     public ResponseEntity<?> getLoanOffersDto(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto,
                                               BindingResult bindingResult) {
@@ -28,8 +32,7 @@ public class DealController {
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
         log.info("Loan statement request has been received");
-//        return ResponseEntity.ok(loanOffersService.getLoanOffersDto(loanStatementRequestDto));
-        return null;
+        return ResponseEntity.ok(statementService.getLoanOffersDto(loanStatementRequestDto));
     }
 
     @PostMapping("/offer/select")
