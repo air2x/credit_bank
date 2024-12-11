@@ -1,8 +1,6 @@
 package ru.neoflex.calculator_microservice.services;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.calculator_microservice.util.exceptions.NullEmailException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullRateException;
@@ -16,7 +14,6 @@ import static ru.neoflex.calculator_microservice.services.CalculateService.calcu
 import static ru.neoflex.calculator_microservice.services.CalculateService.calculatePsk;
 
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class LoanOffersService {
 

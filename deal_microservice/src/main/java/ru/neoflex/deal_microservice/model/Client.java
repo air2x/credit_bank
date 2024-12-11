@@ -1,5 +1,6 @@
-package ru.neoflex.model;
+package ru.neoflex.deal_microservice.model;
 
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "client")
 public class Client {
     private UUID clientId;
     private String lastName;

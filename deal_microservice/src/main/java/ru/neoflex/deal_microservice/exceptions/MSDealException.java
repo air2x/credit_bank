@@ -1,4 +1,4 @@
-package ru.neoflex.deal_microservice.Exceptions;
+package ru.neoflex.deal_microservice.exceptions;
 
 public class MSDealException extends RuntimeException {
 

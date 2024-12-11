@@ -1,4 +1,4 @@
-package ru.neoflex.model;
+package ru.neoflex.deal_microservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
