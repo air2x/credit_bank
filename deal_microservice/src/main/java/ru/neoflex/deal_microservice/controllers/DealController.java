@@ -1,6 +1,7 @@
 package ru.neoflex.deal_microservice.controllers;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,10 @@ import ru.neoflex.dto.LoanStatementRequestDto;
 
 @Slf4j
 @RestController("/deal")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class DealController {
 
-
     private final StatementService statementService;
-
-    @Autowired
-    public DealController(StatementService statementService) {
-        this.statementService = statementService;
-    }
-
 
     @PostMapping("/statement")
     public ResponseEntity<?> getLoanOffersDto(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto,
@@ -37,7 +32,7 @@ public class DealController {
                     errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; "));
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
-//        log.info("Loan statement request has been received");
+        log.info("Loan statement request has been received");
         return ResponseEntity.ok(statementService.getLoanOffersDto(loanStatementRequestDto));
     }
 

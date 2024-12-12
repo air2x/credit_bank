@@ -14,11 +14,11 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .servers(
                         List.of(
-                                new Server().url("http://localhost:8081")
+                                new Server().url("http://localhost:8082")
                         )
                 )
                 .info(
-                        new Info().title("Сalculator in a credit bank microservice")
+                        new Info().title("Deal in a credit bank microservice")
                 );
     }
 }
