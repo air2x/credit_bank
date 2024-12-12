@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Passport;
@@ -16,6 +18,8 @@ import ru.neoflex.dto.LoanStatementRequestDto;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /*
 POST: /deal/statement
@@ -57,8 +61,15 @@ public class StatementService {
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
         String url = "http://calculator_microservice/calculator/offers";
+        LoanStatementRequestDto l = loanStatementRequestDto;
         createClient(loanStatementRequestDto);
-        return null;
+        List<LoanOfferDto> offers;
+        RestClient restClient = RestClient.create();
+        ResponseEntity<List<LoanOfferDto>> = restClient.post()
+                .uri(url)
+                .body(loanStatementRequestDto)
+                .retrieve();
+        return offers;
     }
 
     public void createClient(LoanStatementRequestDto loanStatementRequestDto) {
