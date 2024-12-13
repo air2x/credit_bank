@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
@@ -60,15 +59,17 @@ public class StatementService {
     private final StatementRepository statementRepository;
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
-        String url = "http://calculator_microservice/calculator/offers";
+        String url = "http://localhost:8080/calculator/offers";
         LoanStatementRequestDto l = loanStatementRequestDto;
         createClient(loanStatementRequestDto);
         List<LoanOfferDto> offers;
         RestClient restClient = RestClient.create();
-        ResponseEntity<List<LoanOfferDto>> = restClient.post()
+        offers = (List<LoanOfferDto>) restClient.post()
                 .uri(url)
+                .contentType(APPLICATION_JSON)
                 .body(loanStatementRequestDto)
-                .retrieve();
+                .retrieve()
+                .body(List.class);
         return offers;
     }
 
