@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
@@ -20,35 +21,6 @@ import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-/*
-POST: /deal/statement
-
-По API приходит LoanStatementRequestDto
-На основе LoanStatementRequestDto создаётся сущность Client и сохраняется в БД.
-Создаётся Statement со связью на только что созданный Client и сохраняется в БД.
-Отправляется POST запрос на /calculator/offers МС Калькулятор через RestClient
-Каждому элементу из списка List<LoanOfferDto> присваивается id созданной заявки (Statement)
-Ответ на API - список из 4х LoanOfferDto от "худшего" к "лучшему".
-
-POST: /deal/offer/select
-
-По API приходит LoanOfferDto
-Достаётся из БД заявка(Statement) по statementId из LoanOfferDto.
-В заявке обновляется статус, история статусов(List<StatementStatusHistoryDto>), принятое предложение LoanOfferDto
-устанавливается в поле appliedOffer.
-Заявка сохраняется.
-
-POST: /deal/calculate/{statementId}
-
-По API приходит объект FinishRegistrationRequestDto и параметр statementId (String).
-Достаётся из БД заявка(Statement) по statementId.
-ScoringDataDto насыщается информацией из FinishRegistrationRequestDto и Client, который хранится в Statement
-Отправляется POST запрос на /calculator/calc МС Калькулятор с телом ScoringDataDto через RestClient.
-На основе полученного из кредитного конвейера CreditDto создаётся сущность Credit и сохраняется в базу со статусом CALCULATED.
-В заявке обновляется статус, история статусов.
-Заявка сохраняется.
- */
-
 @Service
 @Transactional
 @Slf4j
@@ -60,20 +32,28 @@ public class StatementService {
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
         String url = "http://localhost:8080/calculator/offers";
-        LoanStatementRequestDto l = loanStatementRequestDto;
         createClient(loanStatementRequestDto);
         List<LoanOfferDto> offers;
         RestClient restClient = RestClient.create();
-        offers = (List<LoanOfferDto>) restClient.post()
+        offers = restClient.post()
                 .uri(url)
                 .contentType(APPLICATION_JSON)
                 .body(loanStatementRequestDto)
                 .retrieve()
-                .body(List.class);
+                .body(new ParameterizedTypeReference<>() {});
+        Client client = createClient(loanStatementRequestDto);
+        Statement statement = new Statement();
+        statement.setStatementId(UUID.randomUUID());
+        statement.setClientId(client.getClientId());
+        for (LoanOfferDto l:offers) {
+            l.setStatementId(statement.getStatementId());
+        }
+        saveClient(client);
+        saveStatement(statement);
         return offers;
     }
 
-    public void createClient(LoanStatementRequestDto loanStatementRequestDto) {
+    public Client createClient(LoanStatementRequestDto loanStatementRequestDto) {
         Client client = new Client();
         Passport passport = new Passport();
         Statement statement = new Statement();
@@ -91,10 +71,8 @@ public class StatementService {
         statement.setStatementId(UUID.randomUUID());
         statement.setClientId(client.getClientId());
 
-        client.setPassportId(passport.getPassport_uuid());
-
-        saveStatement(statement);
-        saveClient(client);
+        client.setPassportId(passport);
+        return client;
     }
 
     @Transactional

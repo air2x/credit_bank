@@ -30,7 +30,6 @@ public class LoanOffersService {
         if (loanStatementRequestDto.getEmail() != null) {
             for (BigDecimal rate : RATES) {
                 LoanOfferDto loanOfferDto = new LoanOfferDto();
-                loanOfferDto.setStatementId(UUID.randomUUID());
                 loanOfferDto.setRequestAmount(loanStatementRequestDto.getAmount());
                 loanOfferDto.setMonthlyPayment(calculateMonthlyPayment(rate,
                         loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));

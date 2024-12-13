@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import ru.neoflex.enums.Gender;
 import ru.neoflex.enums.MaritalStatus;
 
@@ -47,11 +49,13 @@ public class Client {
     @Column(name = "dependent_amount")
     private int dependentAmount;
 
-    @Column(name = "passport_id")
-    private UUID passportId;
+    @Column(name = "passport_id", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Passport passportId;
 
     @Column(name = "employment_id")
-    private UUID employmentId;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Employment employmentId;
 
     @Column(name = "account_number")
     private String accountNumber;
