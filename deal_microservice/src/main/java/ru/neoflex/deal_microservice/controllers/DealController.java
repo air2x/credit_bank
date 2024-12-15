@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.neoflex.deal_microservice.exceptions.MSDealException;
+import ru.neoflex.deal_microservice.services.SelectService;
 import ru.neoflex.deal_microservice.services.StatementService;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanOfferDto;
@@ -20,6 +22,7 @@ import ru.neoflex.dto.LoanStatementRequestDto;
 public class DealController {
 
     private final StatementService statementService;
+    private final SelectService selectService;
 
     @PostMapping("/statement")
     public ResponseEntity<?> getLoanOffersDto(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto,
@@ -34,11 +37,33 @@ public class DealController {
         return ResponseEntity.ok(statementService.getLoanOffersDto(loanStatementRequestDto));
     }
 
+
+    /*
+    По API приходит LoanOfferDto
+Достаётся из БД заявка(Statement) по statementId из LoanOfferDto.
+В заявке обновляется статус, история статусов(List<StatementStatusHistoryDto>), принятое предложение LoanOfferDto
+устанавливается в поле appliedOffer.
+Заявка сохраняется.
+     */
     @PostMapping("/offer/select")
     public void choosingOffer(@RequestBody LoanOfferDto loanOfferDto) {
-
+        if (loanOfferDto == null) {
+            throw new MSDealException("Loan offer is not be null");
+        } else {
+            selectService.saveStatement(loanOfferDto);
+            log.info("Loan statement request has been saved");
+        }
     }
 
+    /*
+    По API приходит объект FinishRegistrationRequestDto и параметр statementId (String).
+Достаётся из БД заявка(Statement) по statementId.
+ScoringDataDto насыщается информацией из FinishRegistrationRequestDto и Client, который хранится в Statement
+Отправляется POST запрос на /calculator/calc МС Калькулятор с телом ScoringDataDto через RestClient.
+На основе полученного из кредитного конвейера CreditDto создаётся сущность Credit и сохраняется в базу со статусом CALCULATED.
+В заявке обновляется статус, история статусов.
+Заявка сохраняется.
+     */
     @PostMapping("/deal/calculate/{statementId}")
     public void finishCalculate(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                 @PathVariable String statementId) {

@@ -27,33 +27,60 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StatementService {
 
+    public static final String BASE_MS_CALC_URL = "http://localhost:8080/calculator";
+    public static final String OFFERS_MS_CALC_URL = "/offers";
+
     private final ClientRepository clientRepository;
     private final StatementRepository statementRepository;
 
     public List<LoanOfferDto> getLoanOffersDto(LoanStatementRequestDto loanStatementRequestDto) {
-        String url = "http://localhost:8080/calculator/offers";
-        createClient(loanStatementRequestDto);
+        Client client;
+        Statement statement;
         List<LoanOfferDto> offers;
-        RestClient restClient = RestClient.create();
-        offers = restClient.post()
-                .uri(url)
-                .contentType(APPLICATION_JSON)
-                .body(loanStatementRequestDto)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
-        Client client = createClient(loanStatementRequestDto);
-        Statement statement = new Statement();
-        statement.setStatementId(UUID.randomUUID());
-        statement.setClientId(client.getClientId());
-        for (LoanOfferDto l:offers) {
-            l.setStatementId(statement.getStatementId());
+        if (loanStatementRequestDto != null) {
+            createClient(loanStatementRequestDto);
+            RestClient restClient = RestClient.create();
+            offers = restClient.post()
+                    .uri(BASE_MS_CALC_URL + OFFERS_MS_CALC_URL)
+                    .contentType(APPLICATION_JSON)
+                    .body(loanStatementRequestDto)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<>() {
+                    });
+            client = createClient(loanStatementRequestDto);
+            statement = new Statement();
+            statement.setStatementId(UUID.randomUUID());
+            statement.setClientId(client.getClientId());
+            for (LoanOfferDto l : offers) {
+                l.setStatementId(statement.getStatementId());
+            }
+        } else {
+            throw new MSDealException("LoanStatementRequestDto is not be null");
         }
         saveClient(client);
         saveStatement(statement);
         return offers;
     }
 
-    public Client createClient(LoanStatementRequestDto loanStatementRequestDto) {
+    @Transactional
+    public void saveClient(Client client) {
+        if (client != null) {
+            clientRepository.save(client);
+        } else {
+            throw new MSDealException("Client is not created");
+        }
+    }
+
+    @Transactional
+    public void saveStatement(Statement statement) {
+        if (statement != null) {
+            statementRepository.save(statement);
+        } else {
+            throw new MSDealException("Statement is not created");
+        }
+    }
+
+    private Client createClient(LoanStatementRequestDto loanStatementRequestDto) {
         Client client = new Client();
         Passport passport = new Passport();
         Statement statement = new Statement();
@@ -73,23 +100,5 @@ public class StatementService {
 
         client.setPassportId(passport);
         return client;
-    }
-
-    @Transactional
-    public void saveClient(Client client) {
-        if (client != null) {
-            clientRepository.save(client);
-        } else {
-            throw new MSDealException("Client is not created");
-        }
-    }
-
-    @Transactional
-    public void saveStatement(Statement statement) {
-        if (statement != null) {
-            statementRepository.save(statement);
-        } else {
-            throw new MSDealException("Statement is not created");
-        }
     }
 }

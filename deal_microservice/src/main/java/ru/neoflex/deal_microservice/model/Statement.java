@@ -11,6 +11,7 @@ import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.enums.CreditStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -49,5 +50,5 @@ public class Statement {
 
     @Column(name = "status_history")
     @JdbcTypeCode(SqlTypes.JSON)
-    private StatusHistory statusHistory;
+    private List<StatusHistory> statusHistory;
 }
