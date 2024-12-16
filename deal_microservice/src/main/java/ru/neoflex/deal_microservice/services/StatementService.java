@@ -15,11 +15,17 @@ import ru.neoflex.deal_microservice.repositories.ClientRepository;
 import ru.neoflex.deal_microservice.repositories.StatementRepository;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
+import ru.neoflex.dto.StatementStatusHistoryDto;
+import ru.neoflex.enums.ApplicationStatus;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static ru.neoflex.enums.ApplicationStatus.PREAPPROVAL;
+import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 
 @Service
 @Transactional
@@ -51,6 +57,7 @@ public class StatementService {
             statement = new Statement();
             statement.setStatementId(UUID.randomUUID());
             statement.setClientId(client.getClientId());
+            addStatusHistory(statement, PREAPPROVAL);
             for (LoanOfferDto l : offers) {
                 l.setStatementId(statement.getStatementId());
             }
@@ -80,25 +87,43 @@ public class StatementService {
         }
     }
 
+    public static void addStatusHistory(Statement statement, ApplicationStatus status) {
+        if (statement != null) {
+            List<StatementStatusHistoryDto> history = statement.getStatusHistory();
+            if (history == null) {
+                history = new ArrayList<>();
+            }
+            history.add(new StatementStatusHistoryDto(status, LocalDateTime.now(), AUTOMATIC));
+            statement.setStatusHistory(history);
+        } else {
+            throw new MSDealException("Statement is not be null");
+        }
+    }
+
     private Client createClient(LoanStatementRequestDto loanStatementRequestDto) {
         Client client = new Client();
         Passport passport = new Passport();
         Statement statement = new Statement();
-        client.setClientId(UUID.randomUUID());
-        client.setLastName(loanStatementRequestDto.getLastName());
-        client.setFirstName(loanStatementRequestDto.getFirstName());
-        client.setMiddleName(loanStatementRequestDto.getMiddleName());
-        client.setBirthDate(loanStatementRequestDto.getBirthday());
-        client.setEmail(loanStatementRequestDto.getEmail());
 
-        passport.setPassport_uuid(UUID.randomUUID());
-        passport.setSeries(loanStatementRequestDto.getPassportSeries());
-        passport.setNumber(loanStatementRequestDto.getPassportNumber());
+        if (loanStatementRequestDto != null) {
+            client.setClientId(UUID.randomUUID());
+            client.setLastName(loanStatementRequestDto.getLastName());
+            client.setFirstName(loanStatementRequestDto.getFirstName());
+            client.setMiddleName(loanStatementRequestDto.getMiddleName());
+            client.setBirthDate(loanStatementRequestDto.getBirthday());
+            client.setEmail(loanStatementRequestDto.getEmail());
 
-        statement.setStatementId(UUID.randomUUID());
-        statement.setClientId(client.getClientId());
+            passport.setPassport_uuid(UUID.randomUUID());
+            passport.setSeries(loanStatementRequestDto.getPassportSeries());
+            passport.setNumber(loanStatementRequestDto.getPassportNumber());
 
-        client.setPassportId(passport);
+            statement.setStatementId(UUID.randomUUID());
+            statement.setClientId(client.getClientId());
+
+            client.setPassportId(passport);
+        } else {
+            throw new MSDealException("LoanStatementRequestDto is not be null");
+        }
         return client;
     }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.neoflex.dto.LoanOfferDto;
+import ru.neoflex.dto.StatementStatusHistoryDto;
 import ru.neoflex.enums.CreditStatus;
 
 import java.time.LocalDate;
@@ -50,5 +51,5 @@ public class Statement {
 
     @Column(name = "status_history")
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<StatusHistory> statusHistory;
+    private List<StatementStatusHistoryDto> statusHistory;
 }

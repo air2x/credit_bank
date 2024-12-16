@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -16,5 +17,5 @@ public class Passport {
     private String series;
     private String number;
     private String issueBranch;
-    private String issueDate;
+    private LocalDate issueDate;
 }

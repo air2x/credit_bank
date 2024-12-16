@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Statement;
-import ru.neoflex.deal_microservice.model.StatusHistory;
 import ru.neoflex.deal_microservice.repositories.StatementRepository;
 import ru.neoflex.dto.LoanOfferDto;
 
-import java.util.List;
+
+import static ru.neoflex.deal_microservice.services.StatementService.addStatusHistory;
+import static ru.neoflex.enums.ApplicationStatus.DOCUMENT_CREATED;
 
 @Service
 @Transactional
@@ -26,10 +27,9 @@ public class SelectService {
         if (loanOfferDto != null) {
             Statement statement = statementRepository
                     .findById(loanOfferDto.getStatementId())
-                    .orElseThrow(() -> new MSDealException("Statement with id " + loanOfferDto.getStatementId() + "was not" +
+                    .orElseThrow(() -> new MSDealException("Statement with id " + loanOfferDto.getStatementId() + " was not" +
                             "be find"));
-            List<StatusHistory> statusHistories = statement.getStatusHistory();
-            statusHistories.add(new StatusHistory());
+            addStatusHistory(statement, DOCUMENT_CREATED);
             statement.setAppliedOffer(loanOfferDto);
         }
     }
