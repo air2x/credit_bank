@@ -14,6 +14,7 @@ import ru.neoflex.deal_microservice.repositories.CreditRepository;
 import ru.neoflex.deal_microservice.repositories.StatementRepository;
 import ru.neoflex.dto.CreditDto;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
+import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.ScoringDataDto;
 
 import java.util.UUID;
@@ -66,7 +67,6 @@ public class FinishRegistrationService {
     @Transactional
     public ScoringDataDto createScoringDataDto(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
         ScoringDataDto scoringDataDto;
-
         Statement statement = statementRepository
                 .findById(UUID.fromString(statementId))
                 .orElseThrow(() -> new MSDealException("Statement with id " + statementId + " was not be find"));
@@ -75,11 +75,19 @@ public class FinishRegistrationService {
                 .findById(statement.getClientId())
                 .orElseThrow(() -> new MSDealException("Client with id " + statement.getClientId() + " was not be find"));
 
-        scoringDataDto = fillsScoringDataDto(fillsClient(client, finishRegistrationRequestDto));
+        fillsClient(client, finishRegistrationRequestDto);
+        LoanOfferDto loanOfferDto = statement.getAppliedOffer();
+        scoringDataDto = fillsScoringDataDto(client, finishRegistrationRequestDto);
+
+        scoringDataDto.setAmount(loanOfferDto.getRequestAmount());
+        scoringDataDto.setTerm(loanOfferDto.getTerm());
+        scoringDataDto.setIsSalaryClient(loanOfferDto.getIsSalaryClient());
+        scoringDataDto.setIsInsuranceEnabled(loanOfferDto.getIsInsuranceEnabled());
+
         return scoringDataDto;
     }
 
-    private Client fillsClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+    private void fillsClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
         if (client != null && finishRegistrationRequestDto != null) {
             client.setGender(finishRegistrationRequestDto.getGender());
             client.setMaritalStatus(finishRegistrationRequestDto.getMaritalStatus());
@@ -88,6 +96,7 @@ public class FinishRegistrationService {
             Passport passport = client.getPassportId();
             passport.setIssueDate(finishRegistrationRequestDto.getPassportIssueDate());
             passport.setIssueBranch(finishRegistrationRequestDto.getPassportIssueBrach());
+            client.setPassportId(passport);
         } else if (client == null) {
             log.info("Client is null in fillsClient");
             throw new MSDealException("Client is not be null");
@@ -96,12 +105,10 @@ public class FinishRegistrationService {
             throw new MSDealException("Finish registration request is not be null");
         }
         log.info("Filling in the client successfully");
-        return client;
     }
 
-    private ScoringDataDto fillsScoringDataDto(Client client) {
+    private ScoringDataDto fillsScoringDataDto(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
         ScoringDataDto scoringDataDto = new ScoringDataDto();
-
         if (client != null) {
             scoringDataDto.setFirstName(client.getFirstName());
             scoringDataDto.setLastName(client.getLastName());
@@ -110,6 +117,7 @@ public class FinishRegistrationService {
             scoringDataDto.setGender(client.getGender());
             scoringDataDto.setMaritalStatus(client.getMaritalStatus());
             scoringDataDto.setDependentAmount(client.getDependentAmount());
+            scoringDataDto.setEmployment(finishRegistrationRequestDto.getEmployment());
         } else {
             log.info("Client is null in fillsScoringDataDto");
             throw new MSDealException("Client is not be null");

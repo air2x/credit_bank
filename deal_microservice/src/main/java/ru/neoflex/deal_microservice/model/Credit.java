@@ -14,6 +14,7 @@ import ru.neoflex.dto.PaymentScheduleElementDto;
 import ru.neoflex.enums.CreditStatus;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -45,7 +46,7 @@ public class Credit {
 
     @Column(name = "payment_schedule")
     @JdbcTypeCode(SqlTypes.JSON)
-    private PaymentScheduleElementDto paymentSchedule;
+    private List<PaymentScheduleElementDto> paymentSchedule;
 
     @Column(name = "insurance_enabled")
     private Boolean insuranceEnabled;
