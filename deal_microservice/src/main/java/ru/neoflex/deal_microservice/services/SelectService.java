@@ -30,7 +30,10 @@ public class SelectService {
                     .orElseThrow(() -> new MSDealException("Statement with id " + loanOfferDto.getStatementId() + " was not" +
                             "be find"));
             addStatusHistory(statement, DOCUMENT_CREATED);
+            log.info("Loan offer was saved successfully");
             statement.setAppliedOffer(loanOfferDto);
+        } else {
+            throw new MSDealException("LoanOfferDto is not be null");
         }
     }
 }

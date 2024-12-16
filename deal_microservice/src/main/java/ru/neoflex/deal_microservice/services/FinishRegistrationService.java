@@ -40,28 +40,35 @@ public class FinishRegistrationService {
 
     @Transactional
     public void finallyRegisters(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
-        ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statementId);
-        RestClient restClient = RestClient.create();
-        CreditDto creditDto = restClient.post()
-                .uri(BASE_MS_CALC_URL + CALC_MS_CALC_URL)
-                .contentType(APPLICATION_JSON)
-                .body(scoringDataDto)
-                .retrieve()
-                .body(CreditDto.class);
+        if (finishRegistrationRequestDto != null && statementId != null) {
+            ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statementId);
+            RestClient restClient = RestClient.create();
+            CreditDto creditDto = restClient.post()
+                    .uri(BASE_MS_CALC_URL + CALC_MS_CALC_URL)
+                    .contentType(APPLICATION_JSON)
+                    .body(scoringDataDto)
+                    .retrieve()
+                    .body(CreditDto.class);
 
-        Statement statement = statementRepository
-                .findById(UUID.fromString(statementId))
-                .orElseThrow(() -> new MSDealException("Statement with id " + statementId + " was not be find"));
+            Statement statement = statementRepository
+                    .findById(UUID.fromString(statementId))
+                    .orElseThrow(() -> new MSDealException("Statement with id " + statementId + " was not be find"));
 
-        Credit credit = mapper.map(creditDto, Credit.class);
-        credit.setCreditId(UUID.randomUUID());
-        credit.setCreditStatus(CALCULATED);
+            Credit credit = mapper.map(creditDto, Credit.class);
+            credit.setCreditId(UUID.randomUUID());
+            credit.setCreditStatus(CALCULATED);
 
-        creditRepository.save(credit);
+            creditRepository.save(credit);
 
-        statement.setCreditId(credit.getCreditId());
-        addStatusHistory(statement, APPROVED);
-        statementRepository.save(statement);
+            statement.setCreditId(credit.getCreditId());
+            addStatusHistory(statement, APPROVED);
+            statementRepository.save(statement);
+            log.info("The final registration of the application with the ID " + statementId + " was successful");
+        } else if (finishRegistrationRequestDto == null) {
+            throw new MSDealException("FinishRegistrationRequestDto is not be null");
+        } else {
+            throw new MSDealException("StatementId is not be null");
+        }
     }
 
     @Transactional
@@ -83,7 +90,7 @@ public class FinishRegistrationService {
         scoringDataDto.setTerm(loanOfferDto.getTerm());
         scoringDataDto.setIsSalaryClient(loanOfferDto.getIsSalaryClient());
         scoringDataDto.setIsInsuranceEnabled(loanOfferDto.getIsInsuranceEnabled());
-
+        log.info("Scoring data for statement Id" + statementId + " was created successfully");
         return scoringDataDto;
     }
 

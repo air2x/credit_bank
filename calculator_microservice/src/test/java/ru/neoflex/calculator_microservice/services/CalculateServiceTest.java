@@ -13,7 +13,6 @@ import ru.neoflex.dto.CreditDto;
 import ru.neoflex.dto.EmploymentDto;
 import ru.neoflex.dto.PaymentScheduleElementDto;
 import ru.neoflex.dto.ScoringDataDto;
-import ru.neoflex.enums.EmploymentPosition;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
