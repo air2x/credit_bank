@@ -39,14 +39,14 @@ class SelectServiceTest {
     }
 
     @Test
-    void saveStatementTest() {
+    void testSaveStatementTest() {
         when(statementRepository.findById(loanOfferDto.getStatementId())).thenReturn(Optional.of(statement));
         selectService.saveStatement(loanOfferDto);
         assertEquals(loanOfferDto, statement.getAppliedOffer());
     }
 
     @Test
-    void loanOfferDtoNotNullTest() {
+    void testLoanOfferDtoNotNullTest() {
         loanOfferDto = null;
         Exception ex = Assertions.assertThrows(MSDealException.class, () -> selectService.saveStatement(loanOfferDto));
         Assertions.assertEquals("LoanOfferDto is not be null", ex.getMessage());
