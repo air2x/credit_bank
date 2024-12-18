@@ -6,19 +6,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Client;
+import ru.neoflex.deal_microservice.model.Employment;
+import ru.neoflex.deal_microservice.model.Passport;
 import ru.neoflex.deal_microservice.repositories.ClientRepository;
 import ru.neoflex.dto.EmploymentDto;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
+import ru.neoflex.enums.EmploymentPosition;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static ru.neoflex.enums.EmploymentPosition.WORKER;
 import static ru.neoflex.enums.Gender.MALE;
 import static ru.neoflex.enums.MaritalStatus.SINGLE;
 
@@ -26,12 +32,16 @@ class ClientServiceTest {
 
     @Mock
     private ClientRepository clientRepository;
+    @Mock
+    private ModelMapper mapper;
 
     @InjectMocks
     private ClientService clientService;
 
     private LoanStatementRequestDto loanStatementRequestDto;
     private FinishRegistrationRequestDto finishRegistrationRequestDto;
+    private Client client;
+
 
     @BeforeEach
     public void setUp() {
@@ -51,16 +61,21 @@ class ClientServiceTest {
         finishRegistrationRequestDto.setPassportIssueBrach("MVD");
         finishRegistrationRequestDto.setPassportIssueDate(LocalDate.ofEpochDay(2020 - 12 - 12));
         finishRegistrationRequestDto.setAccountNumber("1234567890");
-        finishRegistrationRequestDto.setEmployment(new EmploymentDto());
+        EmploymentDto employmentDto = new EmploymentDto();
+        employmentDto.setEmployerINN("123456798");
+        employmentDto.setPosition(WORKER);
+        finishRegistrationRequestDto.setEmployment(employmentDto);
     }
 
     @Test
     void saveClient() {
+        clientService.saveClient(client);
+        verify(clientRepository).save(client);
     }
 
     @Test
     void createClientTest() {
-        Client client = clientService.createClient(loanStatementRequestDto);
+        client = clientService.createClient(loanStatementRequestDto);
 
         Assertions.assertNotNull(client);
         Assertions.assertEquals(client.getFirstName(), loanStatementRequestDto.getFirstName());
@@ -82,14 +97,13 @@ class ClientServiceTest {
         UUID clientId = UUID.randomUUID();
         Client client = new Client();
         when(clientRepository.getReferenceById(clientId)).thenReturn(client);
-
         client = clientService.getClient(clientId);
-
         assertNotNull(client);
         verify(clientRepository).getReferenceById(clientId);
     }
 
     @Test
     void addInfoFromFinishRegistrationRequestDto() {
+
     }
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Credit;
 import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.repositories.CreditRepository;
@@ -26,6 +27,9 @@ public class CreditService {
     private final ModelMapper mapper;
 
     public void createCredit(CreditDto creditDto, UUID statementId) {
+        if (creditDto == null) {
+            throw new MSDealException("CreditDto cannot be null");
+        }
         Credit credit = mapper.map(creditDto, Credit.class);
         credit.setCreditId(UUID.randomUUID());
         credit.setCreditStatus(CALCULATED);
