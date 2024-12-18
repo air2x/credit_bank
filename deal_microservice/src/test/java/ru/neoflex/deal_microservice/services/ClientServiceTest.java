@@ -4,25 +4,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StatementServiceTest {
+class ClientServiceTest {
 
     @Test
-    void createStatement() {
+    void saveClient() {
     }
 
     @Test
-    void addStatementStatusHistory() {
+    void createClient() {
     }
 
     @Test
-    void saveStatement() {
+    void getClient() {
     }
 
     @Test
-    void addLoanOfferInStatement() {
-    }
-
-    @Test
-    void getStatement() {
+    void addInfoFromFinishRegistrationRequestDto() {
     }
 }
