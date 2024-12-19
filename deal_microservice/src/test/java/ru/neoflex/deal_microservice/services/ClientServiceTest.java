@@ -15,13 +15,11 @@ import ru.neoflex.deal_microservice.repositories.ClientRepository;
 import ru.neoflex.dto.EmploymentDto;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
-import ru.neoflex.enums.EmploymentPosition;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static ru.neoflex.enums.EmploymentPosition.WORKER;
@@ -34,7 +32,6 @@ class ClientServiceTest {
     private ClientRepository clientRepository;
     @Mock
     private ModelMapper mapper;
-
     @InjectMocks
     private ClientService clientService;
 
@@ -65,6 +62,10 @@ class ClientServiceTest {
         employmentDto.setEmployerINN("123456798");
         employmentDto.setPosition(WORKER);
         finishRegistrationRequestDto.setEmployment(employmentDto);
+
+        client = new Client();
+        Passport passport = new Passport();
+        client.setPassportId(passport);
     }
 
     @Test
@@ -104,6 +105,16 @@ class ClientServiceTest {
 
     @Test
     void addInfoFromFinishRegistrationRequestDto() {
+        Employment employment = new Employment();
+        when(mapper.map(finishRegistrationRequestDto.getEmployment(), Employment.class)).thenReturn(employment);
 
+        Client updatedClient = clientService.addInfoFromFinishRegistrationRequestDto(finishRegistrationRequestDto, client);
+
+        Assertions.assertEquals(MALE, updatedClient.getGender());
+        Assertions.assertEquals(SINGLE, updatedClient.getMaritalStatus());
+        Passport passport = updatedClient.getPassportId();
+        Assertions.assertEquals("MVD", passport.getIssueBranch());
+        Assertions.assertEquals(LocalDate.ofEpochDay(2020 - 12 - 12), passport.getIssueDate());
+        verify(clientRepository).save(updatedClient);
     }
 }

@@ -54,7 +54,7 @@ public class ClientService {
         Passport passport = client.getPassportId();
         passport.setIssueBranch(finishRegistrationRequestDto.getPassportIssueBrach());
         passport.setIssueDate(finishRegistrationRequestDto.getPassportIssueDate());
-
+        client.setPassportId(passport);
         Employment employment = mapper.map(finishRegistrationRequestDto.getEmployment(), Employment.class);
         employment.setEmploymentId(UUID.randomUUID());
         client.setEmploymentId(employment);
