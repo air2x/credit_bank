@@ -8,30 +8,18 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
-import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Credit;
 import ru.neoflex.deal_microservice.model.Statement;
-import ru.neoflex.deal_microservice.repositories.ClientRepository;
 import ru.neoflex.deal_microservice.repositories.CreditRepository;
 import ru.neoflex.dto.CreditDto;
-import ru.neoflex.dto.EmploymentDto;
-import ru.neoflex.dto.FinishRegistrationRequestDto;
-import ru.neoflex.dto.LoanStatementRequestDto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ru.neoflex.enums.ApplicationStatus.APPROVED;
-import static ru.neoflex.enums.ChangeType.AUTOMATIC;
-import static ru.neoflex.enums.EmploymentPosition.WORKER;
-import static ru.neoflex.enums.Gender.MALE;
-import static ru.neoflex.enums.MaritalStatus.SINGLE;
 
 class CreditServiceTest {
 
@@ -59,13 +47,19 @@ class CreditServiceTest {
         creditDto.setPsk(BigDecimal.valueOf(25));
         creditDto.setMonthlyPayment(BigDecimal.valueOf(25000));
         creditDto.setPaymentSchedule(new ArrayList<>());
-
+        statement = new Statement();
         statement.setStatementId(UUID.randomUUID());
     }
 
     @Test
     void createCredit() {
+        when(mapper.map(creditDto, Credit.class)).thenReturn(new Credit());
+        when(statementService.getStatement(any(UUID.class))).thenReturn(statement);
 
+        creditService.createCredit(creditDto, statement.getStatementId());
+
+        verify(creditRepository).save(any(Credit.class));
+        verify(statementService).saveStatement(statement);
     }
 
     @Test
