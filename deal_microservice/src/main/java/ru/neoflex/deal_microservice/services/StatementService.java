@@ -33,6 +33,9 @@ public class StatementService {
     private final StatementRepository statementRepository;
 
     public Statement createStatement(Client client, UUID statementId) {
+        if (client == null) {
+            throw new MSDealException("Client cannot be null");
+        }
         Statement statement = new Statement();
         statement.setStatementId(statementId);
         statement.setClientId(client.getClientId());
@@ -44,6 +47,12 @@ public class StatementService {
     public List<StatementStatusHistoryDto> addStatementStatusHistory(Statement statement, ApplicationStatus status, ChangeType changeType) {
         if (statement == null) {
             throw new MSDealException("Statement cannot be null");
+        }
+        if (status == null) {
+            throw new MSDealException("ApplicationStatus cannot be null");
+        }
+        if (changeType == null) {
+            throw new MSDealException("ChangeType cannot be null");
         }
         List<StatementStatusHistoryDto> statusHistory = statement.getStatusHistory();
         if (statusHistory == null) {
