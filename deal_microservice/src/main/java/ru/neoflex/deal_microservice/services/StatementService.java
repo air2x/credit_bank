@@ -34,7 +34,7 @@ public class StatementService {
 
     public Statement createStatement(Client client, UUID statementId) {
         if (client == null) {
-            throw new MSDealException("Client cannot be null");
+            throw new MSDealException("Client with statementId " + statementId + " cannot be null");
         }
         Statement statement = new Statement();
         statement.setStatementId(statementId);

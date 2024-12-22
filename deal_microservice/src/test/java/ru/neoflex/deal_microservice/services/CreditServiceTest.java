@@ -56,7 +56,7 @@ class CreditServiceTest {
         when(mapper.map(creditDto, Credit.class)).thenReturn(new Credit());
         when(statementService.getStatement(any(UUID.class))).thenReturn(statement);
 
-        creditService.createCredit(creditDto, statement.getStatementId());
+        creditService.createAndSaveCreditAndSaveStatement(creditDto, statement.getStatementId());
 
         verify(creditRepository).save(any(Credit.class));
         verify(statementService).saveStatement(statement);
@@ -64,7 +64,7 @@ class CreditServiceTest {
 
     @Test
     void createTestCreditIfCreditDtoIsNull() {
-        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createCredit(null, statement.getStatementId()));
+        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createAndSaveCreditAndSaveStatement(null, statement.getStatementId()));
         Assertions.assertEquals("CreditDto cannot be null", ex.getMessage());
     }
 }

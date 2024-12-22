@@ -64,7 +64,7 @@ public class RequestInMSCalcService {
                 .body(scoringDataDto)
                 .retrieve()
                 .body(CreditDto.class);
-        creditService.createCredit(creditDto, UUID.fromString(statementId));
+        creditService.createAndSaveCreditAndSaveStatement(creditDto, UUID.fromString(statementId));
     }
 
     private void createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, UUID statementId) {
@@ -75,8 +75,8 @@ public class RequestInMSCalcService {
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(List<LoanOfferDto> offers, UUID statementId) {
-        for (LoanOfferDto l : offers) {
-            l.setStatementId(statementId);
+        for (LoanOfferDto offer : offers) {
+            offer.setStatementId(statementId);
         }
         return offers;
     }

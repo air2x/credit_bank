@@ -1,5 +1,6 @@
 package ru.neoflex.deal_microservice.services;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,7 +27,8 @@ public class CreditService {
     private final StatementService statementService;
     private final ModelMapper mapper;
 
-    public void createCredit(CreditDto creditDto, UUID statementId) {
+    @Transactional
+    public void createAndSaveCreditAndSaveStatement(CreditDto creditDto, UUID statementId) {
         if (creditDto == null) {
             throw new MSDealException("CreditDto cannot be null");
         }

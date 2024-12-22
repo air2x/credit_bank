@@ -48,6 +48,12 @@ public class ClientService {
     }
 
     public Client addInfoFromFinishRegistrationRequestDto(FinishRegistrationRequestDto finishRegistrationRequestDto, Client client) {
+        if (finishRegistrationRequestDto == null) {
+            throw new MSDealException("FinishRegistrationRequestDto cannot be null");
+        }
+        if (client == null) {
+            throw new MSDealException("Client cannot be null");
+        }
         client.setGender(finishRegistrationRequestDto.getGender());
         client.setMaritalStatus(finishRegistrationRequestDto.getMaritalStatus());
 
@@ -65,6 +71,9 @@ public class ClientService {
     }
 
     private Passport createPassport(LoanStatementRequestDto loanStatementRequestDto) {
+        if (loanStatementRequestDto == null) {
+            throw new MSDealException("LoanStatementRequestDto cannot be null");
+        }
         Passport passport = new Passport();
         passport.setSeries(loanStatementRequestDto.getPassportSeries());
         passport.setNumber(loanStatementRequestDto.getPassportNumber());
