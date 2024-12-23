@@ -4,12 +4,10 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 import ru.neoflex.statement_microservice.exceptions.MSStatementException;
@@ -45,4 +43,11 @@ public class StatementController {
             log.info("Loan statement request has been saved");
         }
     }
+
+    @ExceptionHandler
+    private ResponseEntity<MSStatementException> handleException(MSStatementException ex) {
+        MSStatementException response = new MSStatementException(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
 }
