@@ -40,7 +40,7 @@ public class StatementController {
             throw new MSStatementException("Loan offer is not be null");
         } else {
             requestInMSDealService.addLoanOfferInStatement(loanOfferDto);
-            log.info("Loan statement request has been saved");
+            log.info("Loan statement with statement id " + loanOfferDto.getStatementId() + " request has been saved");
         }
     }
 

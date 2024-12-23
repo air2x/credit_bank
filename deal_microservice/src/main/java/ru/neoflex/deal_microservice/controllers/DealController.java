@@ -33,7 +33,7 @@ public class DealController {
                     errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; "));
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
-        log.info("Loan statement request has been received");
+        log.info("Loan statement with email " + loanStatementRequestDto.getEmail() + " request has been received");
         return ResponseEntity.ok(requestInMSCalcService.getLoanOffers(loanStatementRequestDto));
     }
 
@@ -43,7 +43,7 @@ public class DealController {
             throw new MSDealException("Loan offer is not be null");
         } else {
             statementService.addLoanOfferInStatement(loanOfferDto);
-            log.info("Loan statement request has been saved");
+            log.info("Loan statement with statement id " + loanOfferDto.getStatementId() + " request has been saved");
         }
     }
 
