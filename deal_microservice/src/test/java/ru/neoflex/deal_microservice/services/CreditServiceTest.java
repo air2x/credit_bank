@@ -63,7 +63,8 @@ class CreditServiceTest {
 
     @Test
     void createTestCreditIfCreditDtoIsNull() {
-        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createAndSaveCreditAndSaveStatement(null, statement));
+        Exception ex = Assertions.assertThrows(MSDealException.class, () ->
+                creditService.createAndSaveCreditAndSaveStatement(null, statement));
         Assertions.assertEquals("CreditDto cannot be null", ex.getMessage());
     }
 }
