@@ -3,9 +3,7 @@ package ru.neoflex.deal_microservice.services;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Employment;
@@ -16,37 +14,21 @@ import ru.neoflex.dto.*;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RequestInMSCalcService {
 
-    public static final String BASE_MS_CALC_URL = "http://localhost:8080/calculator";
-    public static final String OFFERS_MS_CALC_URL = "/offers";
-    public static final String CALC_MS_CALC_URL = "/calc";
-
     private final StatementService statementService;
     private final ClientService clientService;
     private final CreditService creditService;
+    private final FeignClientRequestInMSCalc myFeignClient;
     private final ModelMapper mapper;
 
     public List<LoanOfferDto> getLoanOffers(LoanStatementRequestDto loanStatementRequestDto) {
         if (loanStatementRequestDto == null) {
             throw new MSDealException("LoanStatementRequestDto cannot be null");
         }
-        List<LoanOfferDto> offers;
-        RestClient restClient = RestClient.create();
-        offers = restClient.post()
-                .uri(BASE_MS_CALC_URL + OFFERS_MS_CALC_URL)
-                .contentType(APPLICATION_JSON)
-                .body(loanStatementRequestDto)
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
-        UUID statementId = UUID.randomUUID();
-        createClientAndStatement(loanStatementRequestDto, statementId);
-        return getLoanOffersWithStatementId(offers, statementId);
+        return getLoanOffersWithStatementId(loanStatementRequestDto);
     }
 
     public void calculateFinish(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
@@ -57,28 +39,26 @@ public class RequestInMSCalcService {
             throw new MSDealException("StatementId cannot be null");
         }
         ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statementId);
-        RestClient restClient = RestClient.create();
-        CreditDto creditDto = restClient.post()
-                .uri(BASE_MS_CALC_URL + CALC_MS_CALC_URL)
-                .contentType(APPLICATION_JSON)
-                .body(scoringDataDto)
-                .retrieve()
-                .body(CreditDto.class);
+        CreditDto creditDto = myFeignClient.offers(scoringDataDto);
         creditService.createAndSaveCreditAndSaveStatement(creditDto, UUID.fromString(statementId));
     }
+
+    private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {
+        List<LoanOfferDto> offers = myFeignClient.offers(loanStatementRequestDto);
+        UUID statementId = UUID.randomUUID();
+        createClientAndStatement(loanStatementRequestDto, statementId);
+        for (LoanOfferDto offer : offers) {
+            offer.setStatementId(statementId);
+        }
+        return offers;
+    }
+
 
     private void createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, UUID statementId) {
         Client client = clientService.createClient(loanStatementRequestDto);
         clientService.saveClient(client);
         Statement statement = statementService.createStatement(client, statementId);
         statementService.saveStatement(statement);
-    }
-
-    private List<LoanOfferDto> getLoanOffersWithStatementId(List<LoanOfferDto> offers, UUID statementId) {
-        for (LoanOfferDto offer : offers) {
-            offer.setStatementId(statementId);
-        }
-        return offers;
     }
 
     private ScoringDataDto createScoringDataDto(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
