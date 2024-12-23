@@ -1,6 +1,6 @@
 create table client
 (
-    client_id        uuid primary key default gen_random_uuid(),
+    id        uuid primary key default gen_random_uuid(),
     last_name        varchar(30),
     first_name       varchar(30),
     middle_name      varchar(30),
@@ -15,7 +15,7 @@ create table client
 );
 create table credit
 (
-    credit_id         uuid primary key default gen_random_uuid(),
+    id         uuid primary key default gen_random_uuid(),
     amount            decimal,
     term              int,
     monthly_payment   decimal,
@@ -29,9 +29,9 @@ create table credit
 
 create table statement
 (
-    statement_id   uuid primary key default gen_random_uuid(),
-    client_id      uuid references client (client_id),
-    credit_id      uuid references credit (credit_id),
+    id   uuid primary key default gen_random_uuid(),
+    client_id      uuid references client (id),
+    credit_id      uuid references credit (id),
     status         varchar,
     creation_date  timestamp,
     applied_offer  jsonb,

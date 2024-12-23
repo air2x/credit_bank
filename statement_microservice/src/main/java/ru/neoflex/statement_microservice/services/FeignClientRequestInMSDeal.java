@@ -16,6 +16,6 @@ public interface FeignClientRequestInMSDeal {
     @PostMapping("/statement")
     List<LoanOfferDto> offers(@RequestBody LoanStatementRequestDto loanStatementRequestDto);
 
-    @PostMapping("/offer/select ")
-    CreditDto offers(@RequestBody ScoringDataDto scoringDataDto);
+    @PostMapping("/offer/select")
+    CreditDto offers(@RequestBody LoanOfferDto loanOfferDto);
 }
