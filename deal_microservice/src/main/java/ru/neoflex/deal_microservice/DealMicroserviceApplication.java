@@ -18,5 +18,4 @@ public class DealMicroserviceApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }

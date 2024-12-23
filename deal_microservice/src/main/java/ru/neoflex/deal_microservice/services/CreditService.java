@@ -12,8 +12,6 @@ import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.repositories.CreditRepository;
 import ru.neoflex.dto.CreditDto;
 
-import java.util.UUID;
-
 import static ru.neoflex.enums.ApplicationStatus.APPROVED;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
@@ -28,18 +26,16 @@ public class CreditService {
     private final ModelMapper mapper;
 
     @Transactional
-    public void createAndSaveCreditAndSaveStatement(CreditDto creditDto, UUID statementId) {
+    public void createAndSaveCreditAndSaveStatement(CreditDto creditDto, Statement statement) {
         if (creditDto == null) {
             throw new MSDealException("CreditDto cannot be null");
         }
         Credit credit = mapper.map(creditDto, Credit.class);
-        credit.setCreditId(UUID.randomUUID());
         credit.setCreditStatus(CALCULATED);
         creditRepository.save(credit);
-        log.info("Credit " + credit.getCreditId() + " successfully saved");
+        log.info("Credit " + credit.getId() + " successfully saved");
 
-        Statement statement = statementService.getStatement(statementId);
-        statement.setCreditId(credit.getCreditId());
+        statement.setCreditId(credit.getId());
         statementService.addStatementStatusHistory(statement, APPROVED, AUTOMATIC);
         statementService.saveStatement(statement);
     }

@@ -48,7 +48,6 @@ class CreditServiceTest {
         creditDto.setMonthlyPayment(BigDecimal.valueOf(25000));
         creditDto.setPaymentSchedule(new ArrayList<>());
         statement = new Statement();
-        statement.setStatementId(UUID.randomUUID());
     }
 
     @Test
@@ -56,7 +55,7 @@ class CreditServiceTest {
         when(mapper.map(creditDto, Credit.class)).thenReturn(new Credit());
         when(statementService.getStatement(any(UUID.class))).thenReturn(statement);
 
-        creditService.createAndSaveCreditAndSaveStatement(creditDto, statement.getStatementId());
+        creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
 
         verify(creditRepository).save(any(Credit.class));
         verify(statementService).saveStatement(statement);
@@ -64,7 +63,7 @@ class CreditServiceTest {
 
     @Test
     void createTestCreditIfCreditDtoIsNull() {
-        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createAndSaveCreditAndSaveStatement(null, statement.getStatementId()));
+        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createAndSaveCreditAndSaveStatement(null, statement));
         Assertions.assertEquals("CreditDto cannot be null", ex.getMessage());
     }
 }

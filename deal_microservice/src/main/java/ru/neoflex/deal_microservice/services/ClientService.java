@@ -32,14 +32,13 @@ public class ClientService {
             throw new MSDealException("LoanStatementRequestDto cannot be null");
         }
         Client client = new Client();
-        client.setClientId(UUID.randomUUID());
         client.setFirstName(loanStatementRequestDto.getFirstName());
         client.setLastName(loanStatementRequestDto.getLastName());
         client.setMiddleName(loanStatementRequestDto.getMiddleName());
         client.setEmail(loanStatementRequestDto.getEmail());
         client.setBirthDate(loanStatementRequestDto.getBirthday());
         client.setPassportId(createPassport(loanStatementRequestDto));
-        log.info("Client " + client.getClientId() + " successfully created");
+        log.info("Client " + client.getId() + " successfully created");
         return client;
     }
 

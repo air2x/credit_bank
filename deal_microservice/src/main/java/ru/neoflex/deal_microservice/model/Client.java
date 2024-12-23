@@ -1,6 +1,8 @@
 package ru.neoflex.deal_microservice.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,6 @@ import ru.neoflex.enums.Gender;
 import ru.neoflex.enums.MaritalStatus;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Setter
 @Getter
@@ -19,11 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "client")
-public class Client {
-
-    @Id
-    @Column(name = "client_id")
-    private UUID clientId;
+public class Client extends GenerateIdClass {
 
     @Column(name = "last_name")
     private String lastName;

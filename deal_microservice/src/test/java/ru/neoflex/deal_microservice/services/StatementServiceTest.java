@@ -14,7 +14,6 @@ import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.StatementStatusHistoryDto;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,30 +32,30 @@ class StatementServiceTest {
     private StatementRepository statementRepository;
 
     private Client client;
-    private UUID statementId;
+    private Statement statement;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         client = new Client();
-        client.setClientId(UUID.randomUUID());
-        statementId = UUID.randomUUID();
+        statement = new Statement();
+//        statementId = UUID.randomUUID();
     }
 
     @Test
     void createStatement() {
-        Statement statement1 = statementService.createStatement(client, statementId);
+        Statement statement1 = statementService.createStatement(client);
         Assertions.assertNotNull(statement1);
-        Assertions.assertEquals(statementId, statement1.getStatementId());
-        Assertions.assertEquals(client.getClientId(), statement1.getClientId());
+        Assertions.assertEquals(statement.getId(), statement1.getId());
+        Assertions.assertEquals(client.getId(), statement1.getClientId());
         Assertions.assertNotNull(statement1.getStatusHistory());
     }
 
     @Test
     void createStatementIfClientNull() {
         Exception ex = Assertions.assertThrows(MSDealException.class, () ->
-                statementService.createStatement(null, statementId));
-        Assertions.assertEquals("Client cannot be null", ex.getMessage());
+                statementService.createStatement(null));
+        Assertions.assertEquals("Client with statementId cannot be null", ex.getMessage());
     }
 
     @Test
@@ -102,9 +101,8 @@ class StatementServiceTest {
     @Test
     void addLoanOfferInStatement() {
         Statement statement = new Statement();
-        statement.setStatementId(statementId);
         LoanOfferDto loanOfferDto = new LoanOfferDto();
-        loanOfferDto.setStatementId(statementId);
+        loanOfferDto.setStatementId(statement.getId());
 
         when(statementRepository.getReferenceById(loanOfferDto.getStatementId())).thenReturn(statement);
         statementService.addLoanOfferInStatement(loanOfferDto);
@@ -116,7 +114,7 @@ class StatementServiceTest {
     @Test
     void getStatement() {
         Statement statement = new Statement();
-        statementService.getStatement(statement.getStatementId());
-        verify(statementRepository).getReferenceById(statement.getStatementId());
+        statementService.getStatement(statement.getId());
+        verify(statementRepository).getReferenceById(statement.getId());
     }
 }

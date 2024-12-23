@@ -38,32 +38,31 @@ public class RequestInMSCalcService {
         if (statementId == null) {
             throw new MSDealException("StatementId cannot be null");
         }
-        ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statementId);
+        Statement statement = statementService.getStatement(UUID.fromString(statementId));
+        ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statement);
         CreditDto creditDto = myFeignClient.offers(scoringDataDto);
-        creditService.createAndSaveCreditAndSaveStatement(creditDto, UUID.fromString(statementId));
+        creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {
         List<LoanOfferDto> offers = myFeignClient.offers(loanStatementRequestDto);
-        UUID statementId = UUID.randomUUID();
-        createClientAndStatement(loanStatementRequestDto, statementId);
+        Statement statement = createClientAndStatementAndGetStatement(loanStatementRequestDto);
         for (LoanOfferDto offer : offers) {
-            offer.setStatementId(statementId);
+            offer.setStatementId(statement.getId());
         }
         return offers;
     }
 
-
-    private void createClientAndStatement(LoanStatementRequestDto loanStatementRequestDto, UUID statementId) {
+    private Statement createClientAndStatementAndGetStatement(LoanStatementRequestDto loanStatementRequestDto) {
         Client client = clientService.createClient(loanStatementRequestDto);
         clientService.saveClient(client);
-        Statement statement = statementService.createStatement(client, statementId);
+        Statement statement = statementService.createStatement(client);
         statementService.saveStatement(statement);
+        return statement;
     }
 
-    private ScoringDataDto createScoringDataDto(FinishRegistrationRequestDto finishRegistrationRequestDto, String statementId) {
+    private ScoringDataDto createScoringDataDto(FinishRegistrationRequestDto finishRegistrationRequestDto, Statement statement) {
         ScoringDataDto scoringDataDto;
-        Statement statement = statementService.getStatement(UUID.fromString(statementId));
         Client client = clientService.getClient(statement.getClientId());
         client = clientService.addInfoFromFinishRegistrationRequestDto(finishRegistrationRequestDto, client);
         scoringDataDto = fillScoringDataDto(statement, client);

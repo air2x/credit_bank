@@ -21,11 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "statement")
-public class Statement {
-
-    @Id
-    @Column(name = "statement_id")
-    private UUID statementId;
+public class Statement extends GenerateIdClass {
 
     @Column(name = "client_id")
     private UUID clientId;

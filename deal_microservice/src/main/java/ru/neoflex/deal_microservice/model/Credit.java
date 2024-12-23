@@ -2,7 +2,6 @@ package ru.neoflex.deal_microservice.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import ru.neoflex.enums.CreditStatus;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -23,11 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "credit")
-public class Credit {
-
-    @Id
-    @Column(name = "credit_id")
-    private UUID creditId;
+public class Credit extends GenerateIdClass {
 
     @Column(name = "amount")
     private BigDecimal amount;

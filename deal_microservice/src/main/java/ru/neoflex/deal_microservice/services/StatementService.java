@@ -32,13 +32,12 @@ public class StatementService {
 
     private final StatementRepository statementRepository;
 
-    public Statement createStatement(Client client, UUID statementId) {
+    public Statement createStatement(Client client) {
         if (client == null) {
-            throw new MSDealException("Client with statementId " + statementId + " cannot be null");
+            throw new MSDealException("Client with statementId cannot be null");
         }
         Statement statement = new Statement();
-        statement.setStatementId(statementId);
-        statement.setClientId(client.getClientId());
+        statement.setClientId(client.getId());
         statement.setCreationDate(LocalDate.now());
         statement.setStatusHistory(addStatementStatusHistory(statement, DOCUMENT_CREATED, AUTOMATIC));
         return statement;
