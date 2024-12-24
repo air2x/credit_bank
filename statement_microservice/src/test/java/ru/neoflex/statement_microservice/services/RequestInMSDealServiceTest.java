@@ -11,6 +11,7 @@ import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 import ru.neoflex.statement_microservice.exceptions.MSStatementException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -39,16 +40,20 @@ class RequestInMSDealServiceTest {
         requestDto.setEmail("test@mail.com");
 
         LoanOfferDto loanOffer = new LoanOfferDto();
-
         loanOffer.setStatementId(id);
-        List<LoanOfferDto> expectedOffers = Collections.singletonList(loanOffer);
+
+        List<LoanOfferDto> expectedOffers = new ArrayList<>();
+        expectedOffers.add(loanOffer);
+        expectedOffers.add(loanOffer);
+        expectedOffers.add(loanOffer);
+        expectedOffers.add(loanOffer);
 
         when(feignClientRequestInMSDeal.offers(requestDto)).thenReturn(expectedOffers);
 
         List<LoanOfferDto> actualOffers = requestInMSDealService.getLoanOffers(requestDto);
 
         Assertions.assertNotNull(actualOffers);
-        Assertions.assertEquals(1, actualOffers.size());
+        Assertions.assertEquals(4, actualOffers.size());
         Assertions.assertEquals(id, actualOffers.get(0).getStatementId());
         Mockito.verify(feignClientRequestInMSDeal, times(1)).offers(requestDto);
     }
