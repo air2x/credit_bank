@@ -3,21 +3,22 @@ package ru.neoflex.statement_microservice.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 import ru.neoflex.statement_microservice.exceptions.MSStatementException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class RequestInMSDealServiceTest {
 
     @Mock
@@ -30,7 +31,6 @@ class RequestInMSDealServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         id = UUID.randomUUID();
     }
 
@@ -55,7 +55,7 @@ class RequestInMSDealServiceTest {
         Assertions.assertNotNull(actualOffers);
         Assertions.assertEquals(4, actualOffers.size());
         Assertions.assertEquals(id, actualOffers.get(0).getStatementId());
-        Mockito.verify(feignClientRequestInMSDeal, times(1)).offers(requestDto);
+        verify(feignClientRequestInMSDeal, times(1)).offers(requestDto);
     }
 
     @Test

@@ -3,9 +3,10 @@ package ru.neoflex.deal_microservice.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Statement;
@@ -23,6 +24,7 @@ import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.ChangeType.MANUAL;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
 
+@ExtendWith(MockitoExtension.class)
 class StatementServiceTest {
 
     @InjectMocks
@@ -36,10 +38,8 @@ class StatementServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         client = new Client();
         statement = new Statement();
-//        statementId = UUID.randomUUID();
     }
 
     @Test
@@ -62,7 +62,7 @@ class StatementServiceTest {
     void addStatementStatusHistory() {
         Statement statement = new Statement();
         List<StatementStatusHistoryDto> statementStatusHistoryDtos =
-                statementService.addStatementStatusHistory(statement, DOCUMENT_CREATED,AUTOMATIC);
+                statementService.addStatementStatusHistory(statement, DOCUMENT_CREATED, AUTOMATIC);
         Assertions.assertEquals(1, statementStatusHistoryDtos.size());
         statement.setStatusHistory(statementStatusHistoryDtos);
         List<StatementStatusHistoryDto> statementStatusHistoryDtos1 =
@@ -76,6 +76,7 @@ class StatementServiceTest {
                 statementService.addStatementStatusHistory(null, DOCUMENT_CREATED, AUTOMATIC));
         Assertions.assertEquals("Statement cannot be null", ex.getMessage());
     }
+
     @Test
     void addStatementStatusHistoryIfApplicationStatusNull() {
         Statement statement = new Statement();
@@ -83,6 +84,7 @@ class StatementServiceTest {
                 statementService.addStatementStatusHistory(statement, null, AUTOMATIC));
         Assertions.assertEquals("ApplicationStatus cannot be null", ex.getMessage());
     }
+
     @Test
     void addStatementStatusHistoryIfChangeTypeNull() {
         Statement statement = new Statement();

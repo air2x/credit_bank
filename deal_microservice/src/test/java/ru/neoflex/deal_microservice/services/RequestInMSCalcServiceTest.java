@@ -3,13 +3,15 @@ package ru.neoflex.deal_microservice.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 
+@ExtendWith(MockitoExtension.class)
 class RequestInMSCalcServiceTest {
 
     @InjectMocks
@@ -23,7 +25,6 @@ class RequestInMSCalcServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         loanStatementRequestDto = new LoanStatementRequestDto();
         finishRegistrationRequestDto = new FinishRegistrationRequestDto();
     }
