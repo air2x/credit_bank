@@ -1,5 +1,6 @@
 package ru.neoflex.deal_microservice.services;
 
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,22 @@ public class RequestInMSCalcService {
         }
         Statement statement = statementService.getStatement(UUID.fromString(statementId));
         ScoringDataDto scoringDataDto = createScoringDataDto(finishRegistrationRequestDto, statement);
-        CreditDto creditDto = myFeignClient.offers(scoringDataDto);
+        CreditDto creditDto;
+        try {
+            creditDto = myFeignClient.offers(scoringDataDto);
+        } catch (FeignException e) {
+            throw new MSDealException(e.getMessage());
+        }
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {
-        List<LoanOfferDto> offers = myFeignClient.offers(loanStatementRequestDto);
+        List<LoanOfferDto> offers;
+        try {
+            offers = myFeignClient.offers(loanStatementRequestDto);
+        } catch (FeignException e) {
+            throw new MSDealException(e.getMessage());
+        }
         Statement statement = createClientAndStatementAndGetStatement(loanStatementRequestDto);
         for (LoanOfferDto offer : offers) {
             offer.setStatementId(statement.getId());

@@ -1,5 +1,6 @@
 package ru.neoflex.statement_microservice.services;
 
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,11 @@ public class RequestInMSDealService {
             throw new MSStatementException("LoanStatementRequestDto cannot be null");
         }
         log.info("LoanStatementRequestDto with email " + loanStatementRequestDto.getEmail() + " request has been received");
-        return feignClientRequestInMSDeal.offers(loanStatementRequestDto);
+        try {
+            return feignClientRequestInMSDeal.offers(loanStatementRequestDto);
+        } catch (FeignException e) {
+            throw new MSStatementException(e.getMessage());
+        }
     }
 
     public void addLoanOfferInStatement(LoanOfferDto loanOfferDto) {
@@ -31,6 +36,10 @@ public class RequestInMSDealService {
             throw new MSStatementException("LoanOfferDto cannot be null");
         }
         log.info("Loan statement with statement id " + loanOfferDto.getStatementId() + " request has been saved");
-        feignClientRequestInMSDeal.offers(loanOfferDto);
+        try {
+            feignClientRequestInMSDeal.offers(loanOfferDto);
+        } catch (FeignException e) {
+            throw new MSStatementException(e.getMessage());
+        }
     }
 }
