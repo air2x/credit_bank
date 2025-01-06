@@ -16,7 +16,7 @@ import ru.neoflex.statement_microservice.services.RequestInMSDealService;
 @Slf4j
 @RestController
 @RequestMapping(" /statement")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class StatementController {
 
     private final RequestInMSDealService requestInMSDealService;

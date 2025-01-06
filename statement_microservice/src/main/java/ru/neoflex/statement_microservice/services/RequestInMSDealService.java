@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class RequestInMSDealService {
 
     private final FeignClientRequestInMSDeal feignClientRequestInMSDeal;

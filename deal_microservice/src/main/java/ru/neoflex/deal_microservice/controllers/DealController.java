@@ -18,7 +18,7 @@ import ru.neoflex.dto.LoanStatementRequestDto;
 @Slf4j
 @RestController
 @RequestMapping("/deal")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class DealController {
 
     private final StatementService statementService;
