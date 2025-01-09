@@ -7,14 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="bank-my-library" />
+        <module name="calculator_microservice" />
       </profile>
-      <profile name="Annotation profile for statement_microservice" enabled="true">
+      <profile name="Annotation profile for dossier_microservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
+        <module name="statement_microservice" />
+        <module name="deal_microservice" />
+        <module name="dossier_microservice" />
       </profile>
     </annotationProcessing>
   </component>
@@ -22,6 +27,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="calculator_microservice" options="-parameters" />
       <module name="deal_microservice" options="-parameters" />
+      <module name="dossier_microservice" options="-parameters" />
       <module name="statement_microservice" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: dossier_microservice
+server:
+  port: 8084
