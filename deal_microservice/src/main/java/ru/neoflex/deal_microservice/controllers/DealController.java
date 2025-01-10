@@ -47,7 +47,7 @@ public class DealController {
         }
     }
 
-    @PostMapping("/deal/calculate/{statementId}")
+    @PostMapping("/calculate/{statementId}")
     public void finishCalculate(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                 @PathVariable String statementId) {
         if (finishRegistrationRequestDto == null) {
@@ -56,6 +56,19 @@ public class DealController {
             requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, statementId);
             log.info("Finish registration request with id " + statementId + " has been saved");
         }
+    }
+
+    @PostMapping("/document/{statementId}/send")
+    public void sendDoc(@PathVariable String statementId) {
+
+    }
+    @PostMapping("/document/{statementId}/sign")
+    public void singDoc(@PathVariable String statementId) {
+
+    }
+    @PostMapping("/document/{statementId}/code")
+    public void sendDocFinish(@PathVariable String statementId) {
+
     }
 
     @ExceptionHandler
