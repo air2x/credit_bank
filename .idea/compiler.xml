@@ -10,7 +10,7 @@
         <module name="bank-my-library" />
         <module name="calculator_microservice" />
       </profile>
-      <profile name="Annotation profile for dossier_microservice" enabled="true">
+      <profile name="Annotation profile for deal_microservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
