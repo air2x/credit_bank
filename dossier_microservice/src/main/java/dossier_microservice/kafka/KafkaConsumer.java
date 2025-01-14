@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @Service
 public class KafkaConsumer {
 
-
-
     @Autowired
     public KafkaConsumer(ApprovedAloneService service) {
         this.service = service;

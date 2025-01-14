@@ -45,6 +45,7 @@ public class DealController {
             statementService.addLoanOfferInStatement(loanOfferDto);
             log.info("Loan statement with statement id " + loanOfferDto.getStatementId() + " request has been saved");
         }
+        // Сообщение на почту "Завершите оформление"
     }
 
     @PostMapping("/calculate/{statementId}")
@@ -56,19 +57,20 @@ public class DealController {
             requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, statementId);
             log.info("Finish registration request with id " + statementId + " has been saved");
         }
+        // Расчет окончательных условий, сообщение на почту "Перейти к оформлению документов"
     }
 
     @PostMapping("/document/{statementId}/send")
     public void sendDoc(@PathVariable String statementId) {
-
+        // Запрос на отправку документов
     }
     @PostMapping("/document/{statementId}/sign")
     public void singDoc(@PathVariable String statementId) {
-
+        // Запрос на подписание документов
     }
     @PostMapping("/document/{statementId}/code")
     public void sendDocFinish(@PathVariable String statementId) {
-
+        // Подписание документов
     }
 
     @ExceptionHandler
