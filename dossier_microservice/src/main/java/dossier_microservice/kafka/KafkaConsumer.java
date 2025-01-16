@@ -1,24 +1,52 @@
 package dossier_microservice.kafka;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dossier_microservice.services.EmailMessageService;
+import lombok.AllArgsConstructor;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-
+import ru.neoflex.dto.EmailMessage;
 
 @Service
+@AllArgsConstructor
 public class KafkaConsumer {
 
-    @Autowired
-    public KafkaConsumer(ApprovedAloneService service) {
-        this.service = service;
+    private final EmailMessageService emailMessageService;
+    private final ObjectMapper objectMapper;
+
+    @KafkaListener(topics = "finish-registration", groupId = "email-group")
+    public void consumeFinishRegistrationEmail(ConsumerRecord<String, String> record) {
+        String emailMessageJSON = record.value();
+        EmailMessage emailMessage;
+        try {
+            emailMessage = objectMapper.readValue(emailMessageJSON, EmailMessage.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+//        EmailMessage emailMessage = record.value();
+        emailMessageService.sendEmail(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());
     }
 
-    @KafkaListener(topics = "bank-credit", groupId = "consumer_bank")
-    public void listen(String approvedAlone) {
-        ApprovedAloneInfo approvedAloneInfo = new ApprovedAloneInfo(approvedAlone, LocalDateTime.now());
-        service.saveInfo(approvedAloneInfo);
-        System.out.println(approvedAloneInfo);
+
+    @KafkaListener(topics = "create-documents", groupId = "email-group")
+    public void consumeCreateDocumentsEmail(ConsumerRecord<String, String> record) {
+    }
+
+    @KafkaListener(topics = "send-documents", groupId = "email-group")
+    public void consumeSendDocumentsEmail(ConsumerRecord<String, String> record) {
+    }
+
+    @KafkaListener(topics = "send-ses", groupId = "email-group")
+    public void consumeSendSesEmail(ConsumerRecord<String, String> record) {
+    }
+
+    @KafkaListener(topics = "credit-issued", groupId = "email-group")
+    public void consumeCreditIssuedEmail(ConsumerRecord<String, String> record) {
+    }
+
+    @KafkaListener(topics = "statement-denied", groupId = "email-group")
+    public void consumeStatementDeniedEmail(ConsumerRecord<String, String> record) {
     }
 }

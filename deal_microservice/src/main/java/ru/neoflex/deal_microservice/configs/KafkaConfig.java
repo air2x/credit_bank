@@ -7,15 +7,7 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaConfig {
-    /*
-    Завести в кафке 6 топиков, соответствующие темам, по которым необходимо направить письмо на почту Клиенту:
-    finish-registration
-    create-documents
-    send-documents
-    send-ses
-    credit-issued
-    statement-denied
-     */
+
     @Bean
     public NewTopic topic1() {
         return TopicBuilder.name("finish-registration").build();

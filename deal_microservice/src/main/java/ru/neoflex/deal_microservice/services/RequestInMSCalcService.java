@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
+import ru.neoflex.deal_microservice.kafka.KafkaProducer;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Employment;
 import ru.neoflex.deal_microservice.model.Passport;
@@ -14,6 +15,9 @@ import ru.neoflex.dto.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static ru.neoflex.enums.MessageTheme.CREATE_DOCUMENTS;
+import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,7 @@ public class RequestInMSCalcService {
     private final CreditService creditService;
     private final FeignClientRequestInMSCalc myFeignClient;
     private final ModelMapper mapper;
+    private final KafkaProducer kafkaProducer;
 
     public List<LoanOfferDto> getLoanOffers(LoanStatementRequestDto loanStatementRequestDto) {
         if (loanStatementRequestDto == null) {
@@ -48,6 +53,10 @@ public class RequestInMSCalcService {
             throw new MSDealException(e.getMessage());
         }
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
+
+//        Client client = clientService.getClient(statement.getClientId());
+//        kafkaProducer.sendMessage("create-documents", new EmailMessage(client.getEmail(), CREATE_DOCUMENTS,
+//                statement.getId(), "Перейдите к оформлению документов"));
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {

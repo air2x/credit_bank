@@ -1,18 +1,23 @@
 package ru.neoflex.deal_microservice.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
+import ru.neoflex.deal_microservice.kafka.KafkaProducer;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.repositories.StatementRepository;
+import ru.neoflex.dto.EmailMessage;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.StatementStatusHistoryDto;
 import ru.neoflex.enums.ApplicationStatus;
 import ru.neoflex.enums.ChangeType;
+import ru.neoflex.enums.MessageTheme;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +29,7 @@ import static ru.neoflex.enums.ApplicationStatus.DOCUMENT_CREATED;
 import static ru.neoflex.enums.ApplicationStatus.PREAPPROVAL;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
+import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
 
 @Service
 @Slf4j
@@ -31,6 +37,8 @@ import static ru.neoflex.enums.CreditStatus.CALCULATED;
 public class StatementService {
 
     private final StatementRepository statementRepository;
+    private final KafkaProducer kafkaProducer;
+    private final ClientService clientService;
 
     public Statement createStatement(Client client) {
         if (client == null) {
@@ -74,6 +82,18 @@ public class StatementService {
         statement.setStatus(CALCULATED);
         statement.setStatusHistory(addStatementStatusHistory(statement, PREAPPROVAL, AUTOMATIC));
         saveStatement(statement);
+
+        Client client = clientService.getClient(statement.getClientId());
+        EmailMessage emailMessage = new EmailMessage(client.getEmail(), FINISH_REGISTRATION,
+                statement.getId(), "Завершите регистрацию ");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String emailMessageJSON;
+        try {
+             emailMessageJSON = objectMapper.writeValueAsString(emailMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        kafkaProducer.sendMessage("finish-registration", emailMessageJSON);
     }
 
     public Statement getStatement(UUID statementId) {
