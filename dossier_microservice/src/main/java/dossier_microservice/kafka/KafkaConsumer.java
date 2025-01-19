@@ -25,13 +25,13 @@ public class KafkaConsumer {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-//        EmailMessage emailMessage = record.value();
         emailMessageService.sendEmail(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());
     }
 
 
     @KafkaListener(topics = "create-documents", groupId = "email-group")
     public void consumeCreateDocumentsEmail(ConsumerRecord<String, String> record) {
+
     }
 
     @KafkaListener(topics = "send-documents", groupId = "email-group")

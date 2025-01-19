@@ -2,12 +2,13 @@ spring:
   application:
     name: dossier_microservice
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: smtp.yandex.ru
+    port: 465
     username:
     password:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+      mail.smtp.ssl.enable: true
 server:
   port: 8083
