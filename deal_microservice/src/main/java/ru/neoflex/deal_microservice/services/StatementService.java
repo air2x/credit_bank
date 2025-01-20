@@ -37,6 +37,7 @@ import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
 public class StatementService {
 
     private final StatementRepository statementRepository;
+    private final EmailMessageService emailMessageService;
     private final KafkaProducer kafkaProducer;
     private final ClientService clientService;
 
@@ -86,6 +87,7 @@ public class StatementService {
         Client client = clientService.getClient(statement.getClientId());
         EmailMessage emailMessage = new EmailMessage(client.getEmail(), FINISH_REGISTRATION,
                 statement.getId(), "Завершите регистрацию ");
+
         ObjectMapper objectMapper = new ObjectMapper();
         String emailMessageJSON;
         try {
@@ -94,6 +96,7 @@ public class StatementService {
             throw new RuntimeException(e);
         }
         kafkaProducer.sendMessage("finish-registration", emailMessageJSON);
+//        emailMessageService.searchClientAndSendMessage(statement, FINISH_REGISTRATION, "Завершите регистрацию");
     }
 
     public Statement getStatement(UUID statementId) {

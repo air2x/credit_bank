@@ -1,5 +1,7 @@
 package ru.neoflex.deal_microservice.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,6 +30,7 @@ public class RequestInMSCalcService {
     private final CreditService creditService;
     private final FeignClientRequestInMSCalc myFeignClient;
     private final ModelMapper mapper;
+    private final EmailMessageService emailMessageService;
     private final KafkaProducer kafkaProducer;
 
     public List<LoanOfferDto> getLoanOffers(LoanStatementRequestDto loanStatementRequestDto) {
@@ -54,9 +57,18 @@ public class RequestInMSCalcService {
         }
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
 
-//        Client client = clientService.getClient(statement.getClientId());
-//        kafkaProducer.sendMessage("create-documents", new EmailMessage(client.getEmail(), CREATE_DOCUMENTS,
-//                statement.getId(), "Перейдите к оформлению документов"));
+        Client client = clientService.getClient(statement.getClientId());
+        EmailMessage emailMessage = new EmailMessage(client.getEmail(), CREATE_DOCUMENTS,
+                statement.getId(), "Перейдите к оформлению документов ");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String emailMessageJSON;
+        try {
+            emailMessageJSON = objectMapper.writeValueAsString(emailMessage);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        kafkaProducer.sendMessage("create-documents", emailMessageJSON);
+//        emailMessageService.searchClientAndSendMessage(statement, CREATE_DOCUMENTS, "Перейдите к оформлению документов");
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {
