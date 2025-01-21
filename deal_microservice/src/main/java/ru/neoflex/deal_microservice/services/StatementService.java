@@ -17,6 +17,7 @@ import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.StatementStatusHistoryDto;
 import ru.neoflex.enums.ApplicationStatus;
 import ru.neoflex.enums.ChangeType;
+import ru.neoflex.enums.CreditStatus;
 import ru.neoflex.enums.MessageTheme;
 
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ import static ru.neoflex.enums.ApplicationStatus.PREAPPROVAL;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
 import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
+import static ru.neoflex.enums.MessageTheme.SEND_DOCUMENTS;
 
 @Service
 @Slf4j
@@ -89,5 +91,10 @@ public class StatementService {
 
     public Statement getStatement(UUID statementId) {
         return statementRepository.getReferenceById(statementId);
+    }
+
+    public void sendCreateDoc(String statementId) {
+        Statement statement = getStatement(UUID.fromString(statementId));
+        emailMessageService.searchClientAndSendMessage(statement, SEND_DOCUMENTS, "Сформированные документы ");
     }
 }

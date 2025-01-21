@@ -1,11 +1,8 @@
 package ru.neoflex.deal_microservice.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.kafka.KafkaProducer;
@@ -18,8 +15,9 @@ import ru.neoflex.dto.*;
 import java.util.List;
 import java.util.UUID;
 
+import static ru.neoflex.enums.ApplicationStatus.PREPARE_DOCUMENTS;
+import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.MessageTheme.CREATE_DOCUMENTS;
-import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +29,6 @@ public class RequestInMSCalcService {
     private final FeignClientRequestInMSCalc myFeignClient;
     private final ModelMapper mapper;
     private final EmailMessageService emailMessageService;
-    private final KafkaProducer kafkaProducer;
 
     public List<LoanOfferDto> getLoanOffers(LoanStatementRequestDto loanStatementRequestDto) {
         if (loanStatementRequestDto == null) {
@@ -58,6 +55,7 @@ public class RequestInMSCalcService {
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
 
         emailMessageService.searchClientAndSendMessage(statement, CREATE_DOCUMENTS, "Перейдите к оформлению документов");
+        statementService.addStatementStatusHistory(statement, PREPARE_DOCUMENTS, AUTOMATIC);
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {

@@ -3,12 +3,15 @@ package dossier_microservice.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dossier_microservice.services.EmailMessageService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.neoflex.dto.EmailMessage;
+
+import java.io.IOException;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +33,15 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "send-documents", groupId = "email-group")
-    public void consumeSendDocumentsEmail(ConsumerRecord<String, String> record) {
+    public void consumeSendDocumentsEmail(ConsumerRecord<String, String> record) throws MessagingException, IOException {
+        EmailMessage emailMessage;
+        try {
+            emailMessage = objectMapper.readValue(record.value(), EmailMessage.class);
+        } catch (JsonProcessingException e) {
+            log.info("Error: " + e);
+            throw new RuntimeException(e);
+        }
+        emailMessageService.sendEmailWithFile(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());
     }
 
     @KafkaListener(topics = "send-ses", groupId = "email-group")
