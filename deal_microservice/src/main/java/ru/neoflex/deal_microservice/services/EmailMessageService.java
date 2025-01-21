@@ -10,6 +10,8 @@ import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.dto.EmailMessage;
 import ru.neoflex.enums.MessageTheme;
 
+import static ru.neoflex.enums.MessageTheme.*;
+
 @Service
 @AllArgsConstructor
 public class EmailMessageService {
@@ -28,7 +30,20 @@ public class EmailMessageService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        String topicName = theme.toString().toLowerCase();
+        String topicName = null;
+        if (theme == FINISH_REGISTRATION) {
+            topicName = "finish-registration";
+        } else if (theme == CREATE_DOCUMENTS) {
+            topicName = "create-documents";
+        } else if (theme == SEND_DOCUMENTS) {
+            topicName = "send-documents";
+        } else if (theme == SEND_SES) {
+            topicName = "send-ses";
+        } else if (theme == CREDIT_ISSUED) {
+            topicName = "credit-issued";
+        } else if (theme == STATEMENT_DENIED) {
+            topicName = "statement-denied";
+        }
         kafkaProducer.sendMessage(topicName, emailMessageJSON);
     }
 }

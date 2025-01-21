@@ -84,19 +84,7 @@ public class StatementService {
         statement.setStatusHistory(addStatementStatusHistory(statement, PREAPPROVAL, AUTOMATIC));
         saveStatement(statement);
 
-        Client client = clientService.getClient(statement.getClientId());
-        EmailMessage emailMessage = new EmailMessage(client.getEmail(), FINISH_REGISTRATION,
-                statement.getId(), "Завершите регистрацию ");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String emailMessageJSON;
-        try {
-             emailMessageJSON = objectMapper.writeValueAsString(emailMessage);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        kafkaProducer.sendMessage("finish-registration", emailMessageJSON);
-//        emailMessageService.searchClientAndSendMessage(statement, FINISH_REGISTRATION, "Завершите регистрацию");
+        emailMessageService.searchClientAndSendMessage(statement, FINISH_REGISTRATION, "Завершите регистрацию");
     }
 
     public Statement getStatement(UUID statementId) {

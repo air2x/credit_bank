@@ -57,18 +57,7 @@ public class RequestInMSCalcService {
         }
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
 
-        Client client = clientService.getClient(statement.getClientId());
-        EmailMessage emailMessage = new EmailMessage(client.getEmail(), CREATE_DOCUMENTS,
-                statement.getId(), "Перейдите к оформлению документов ");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String emailMessageJSON;
-        try {
-            emailMessageJSON = objectMapper.writeValueAsString(emailMessage);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-        kafkaProducer.sendMessage("create-documents", emailMessageJSON);
-//        emailMessageService.searchClientAndSendMessage(statement, CREATE_DOCUMENTS, "Перейдите к оформлению документов");
+        emailMessageService.searchClientAndSendMessage(statement, CREATE_DOCUMENTS, "Перейдите к оформлению документов");
     }
 
     private List<LoanOfferDto> getLoanOffersWithStatementId(LoanStatementRequestDto loanStatementRequestDto) {
