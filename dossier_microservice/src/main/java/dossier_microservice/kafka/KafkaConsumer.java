@@ -26,7 +26,6 @@ public class KafkaConsumer {
         processAndSendEmail(record);
     }
 
-
     @KafkaListener(topics = "create-documents", groupId = "email-group")
     public void consumeCreateDocumentsEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
@@ -51,10 +50,12 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "credit-issued", groupId = "email-group")
     public void consumeCreditIssuedEmail(ConsumerRecord<String, String> record) {
+        processAndSendEmail(record);
     }
 
     @KafkaListener(topics = "statement-denied", groupId = "email-group")
     public void consumeStatementDeniedEmail(ConsumerRecord<String, String> record) {
+        processAndSendEmail(record);
     }
 
     private void processAndSendEmail(ConsumerRecord<String, String> record) {

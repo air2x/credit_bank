@@ -3,7 +3,6 @@ package dossier_microservice.services;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -42,7 +42,7 @@ public class EmailMessageService {
         helper.setFrom("");
 
         FileSystemResource file = new FileSystemResource(new File(filePath));
-        helper.addAttachment(file.getFilename(), file);
+        helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
 
         mailSender.send(message);
     }

@@ -1,6 +1,5 @@
 package dossier_microservice.services;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;

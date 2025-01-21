@@ -1,24 +1,17 @@
 package ru.neoflex.deal_microservice.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
-import ru.neoflex.deal_microservice.kafka.KafkaProducer;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.repositories.StatementRepository;
-import ru.neoflex.dto.EmailMessage;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.StatementStatusHistoryDto;
 import ru.neoflex.enums.ApplicationStatus;
 import ru.neoflex.enums.ChangeType;
-import ru.neoflex.enums.CreditStatus;
-import ru.neoflex.enums.MessageTheme;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,11 +20,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import static ru.neoflex.enums.ApplicationStatus.DOCUMENT_CREATED;
-import static ru.neoflex.enums.ApplicationStatus.PREAPPROVAL;
+import static ru.neoflex.enums.ApplicationStatus.*;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
 import static ru.neoflex.enums.MessageTheme.*;
+import static ru.neoflex.enums.MessageTheme.CREDIT_ISSUED;
 
 @Service
 @Slf4j
@@ -40,8 +33,6 @@ public class StatementService {
 
     private final StatementRepository statementRepository;
     private final EmailMessageService emailMessageService;
-    private final KafkaProducer kafkaProducer;
-    private final ClientService clientService;
 
     public Statement createStatement(Client client) {
         if (client == null) {
@@ -105,6 +96,17 @@ public class StatementService {
         int randomNumber = 100000 + random.nextInt(900000);
         statement.setSes_code(String.valueOf(randomNumber));
 
-        emailMessageService.searchClientAndSendMessage(statement, SEND_SES, "Ваш код для подписания \"" + statement.getSes_code() + "\"");
+        emailMessageService.searchClientAndSendMessage(statement, SEND_SES, "Ваш код для подписания документов \""
+                + statement.getSes_code() + "\"");
+    }
+
+    public void checkCode(String statementId, String code) {
+        Statement statement = getStatement(UUID.fromString(statementId));
+        if (code.equals(statement.getSes_code())) {
+            emailMessageService.searchClientAndSendMessage(statement, CREDIT_ISSUED, "Документы успешно подписаны");
+        } else {
+            throw new MSDealException("Неверный код");
+        }
+        addStatementStatusHistory(statement, ApplicationStatus.CREDIT_ISSUED, AUTOMATIC);
     }
 }

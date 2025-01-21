@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
-import ru.neoflex.deal_microservice.kafka.KafkaProducer;
 import ru.neoflex.deal_microservice.model.Client;
 import ru.neoflex.deal_microservice.model.Employment;
 import ru.neoflex.deal_microservice.model.Passport;
@@ -18,6 +17,7 @@ import java.util.UUID;
 import static ru.neoflex.enums.ApplicationStatus.PREPARE_DOCUMENTS;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.MessageTheme.CREATE_DOCUMENTS;
+import static ru.neoflex.enums.MessageTheme.STATEMENT_DENIED;
 
 @Service
 @AllArgsConstructor
@@ -50,6 +50,7 @@ public class RequestInMSCalcService {
         try {
             creditDto = myFeignClient.offers(scoringDataDto);
         } catch (FeignException e) {
+            emailMessageService.searchClientAndSendMessage(statement, STATEMENT_DENIED, "Отказано");
             throw new MSDealException(e.getMessage());
         }
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);

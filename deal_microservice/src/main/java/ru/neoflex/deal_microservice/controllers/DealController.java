@@ -68,8 +68,9 @@ public class DealController {
     }
 
     @PostMapping("/document/{statementId}/code")
-    public void sendDocFinish(@PathVariable String statementId) {
-        // Подписание документов
+    public void sendDocFinish(@PathVariable String statementId,
+                              @RequestBody String code) {
+        statementService.checkCode(statementId, code);
     }
 
     @ExceptionHandler
