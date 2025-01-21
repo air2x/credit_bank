@@ -46,6 +46,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "send-ses", groupId = "email-group")
     public void consumeSendSesEmail(ConsumerRecord<String, String> record) {
+        processAndSendEmail(record);
     }
 
     @KafkaListener(topics = "credit-issued", groupId = "email-group")

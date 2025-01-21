@@ -64,7 +64,7 @@ public class DealController {
 
     @PostMapping("/document/{statementId}/sign")
     public void singDoc(@PathVariable String statementId) {
-        // Запрос на подписание документов
+        statementService.createAndSaveSesCode(statementId);
     }
 
     @PostMapping("/document/{statementId}/code")

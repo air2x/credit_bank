@@ -24,14 +24,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static ru.neoflex.enums.ApplicationStatus.DOCUMENT_CREATED;
 import static ru.neoflex.enums.ApplicationStatus.PREAPPROVAL;
 import static ru.neoflex.enums.ChangeType.AUTOMATIC;
 import static ru.neoflex.enums.CreditStatus.CALCULATED;
-import static ru.neoflex.enums.MessageTheme.FINISH_REGISTRATION;
-import static ru.neoflex.enums.MessageTheme.SEND_DOCUMENTS;
+import static ru.neoflex.enums.MessageTheme.*;
 
 @Service
 @Slf4j
@@ -96,5 +96,15 @@ public class StatementService {
     public void sendCreateDoc(String statementId) {
         Statement statement = getStatement(UUID.fromString(statementId));
         emailMessageService.searchClientAndSendMessage(statement, SEND_DOCUMENTS, "Сформированные документы ");
+    }
+
+    @Transactional
+    public void createAndSaveSesCode(String statementId) {
+        Statement statement = getStatement(UUID.fromString(statementId));
+        Random random = new Random();
+        int randomNumber = 100000 + random.nextInt(900000);
+        statement.setSes_code(String.valueOf(randomNumber));
+
+        emailMessageService.searchClientAndSendMessage(statement, SEND_SES, "Ваш код для подписания \"" + statement.getSes_code() + "\"");
     }
 }
