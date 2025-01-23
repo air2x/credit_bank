@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -18,7 +19,8 @@ import java.util.Objects;
 public class EmailMessageService {
 
     private JavaMailSender mailSender;
-    private DocumentsService documentsService;
+    private static final String TXT = ".txt";
+    private static final String FOR = " для ";
 
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -33,8 +35,8 @@ public class EmailMessageService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        String filePath = to + ".txt";
-        documentsService.createDocuments(filePath, body + " для " + to);
+        String filePath = to + TXT;
+        createDocuments(filePath, body + FOR + to);
 
         helper.setTo(to);
         helper.setSubject(subject);
@@ -45,5 +47,11 @@ public class EmailMessageService {
         helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
 
         mailSender.send(message);
+    }
+
+    public static void createDocuments(String filePath, String content) throws IOException {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(content);
+        }
     }
 }

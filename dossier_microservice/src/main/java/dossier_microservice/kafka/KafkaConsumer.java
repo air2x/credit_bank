@@ -3,15 +3,19 @@ package dossier_microservice.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dossier_microservice.services.EmailMessageService;
+import exceptions.MSDossierException;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.Marker;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.neoflex.dto.EmailMessage;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 @Service
 @AllArgsConstructor
@@ -21,54 +25,64 @@ public class KafkaConsumer {
     private final EmailMessageService emailMessageService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "finish-registration", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.finish-registration')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeFinishRegistrationEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
     }
 
-    @KafkaListener(topics = "create-documents", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.create-documents')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeCreateDocumentsEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
     }
 
-    @KafkaListener(topics = "send-documents", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.send-documents')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeSendDocumentsEmail(ConsumerRecord<String, String> record) throws MessagingException, IOException {
-        EmailMessage emailMessage;
-        try {
-            emailMessage = objectMapper.readValue(record.value(), EmailMessage.class);
-        } catch (JsonProcessingException e) {
-            log.info("Error: " + e);
-            throw new RuntimeException(e);
-        }
+        EmailMessage emailMessage = parseEmailMessage(record);
         emailMessageService.sendEmailWithFile(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());
     }
 
-    @KafkaListener(topics = "send-ses", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.send-ses')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeSendSesEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
     }
 
-    @KafkaListener(topics = "credit-issued", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.credit-issued')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeCreditIssuedEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
     }
 
-    @KafkaListener(topics = "statement-denied", groupId = "email-group")
+    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.statement-denied')}",
+            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
     public void consumeStatementDeniedEmail(ConsumerRecord<String, String> record) {
         processAndSendEmail(record);
     }
 
     private void processAndSendEmail(ConsumerRecord<String, String> record) {
-        String emailMessageJSON = record.value();
-        EmailMessage emailMessage;
-        try {
-            emailMessage = objectMapper.readValue(emailMessageJSON, EmailMessage.class);
-        } catch (JsonProcessingException e) {
-            log.info("Error: " + e);
-            throw new RuntimeException(e);
-        }
+        EmailMessage emailMessage = parseEmailMessage(record);
         log.info(emailMessage.getAddress() + " получен из ms-deal");
+        if (emailMessage.getTheme().toString() == null) {
+            throw new MSDossierException("Theme can not be null");
+        }
         emailMessageService.sendEmail(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());
         log.info(emailMessage.getText() + " Отправлено на " + emailMessage.getAddress());
+    }
+
+    private EmailMessage parseEmailMessage(ConsumerRecord<String, String> record) {
+        EmailMessage emailMessage;
+        if (record == null) {
+            throw new MSDossierException("Record can not be null");
+        }
+        try {
+            emailMessage = objectMapper.readValue(record.value(), EmailMessage.class);
+        } catch (JsonProcessingException e) {
+            log.warn("Ошибка: " + e.getMessage());
+            throw new MSDossierException(e.getMessage());
+        }
+        return emailMessage;
     }
 }
