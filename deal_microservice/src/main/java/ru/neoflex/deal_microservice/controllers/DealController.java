@@ -8,11 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
+import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.services.RequestInMSCalcService;
 import ru.neoflex.deal_microservice.services.StatementService;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -22,6 +25,19 @@ public class DealController {
 
     private final StatementService statementService;
     private final RequestInMSCalcService requestInMSCalcService;
+
+    @GetMapping("/admin/statement/{statementId}")
+    public Statement getStatement(@PathVariable String statementId) {
+        if (statementId == null) {
+            throw new MSDealException("Statement id can not be null");
+        }
+        return statementService.getStatement(UUID.fromString(statementId));
+    }
+
+    @GetMapping("/admin/statement")
+    public ResponseEntity<?> getAllStatements() {
+        return ResponseEntity.ok(statementService.getAllStatements());
+    }
 
     @PostMapping("/statement")
     public ResponseEntity<?> getLoanOffersDto(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto,

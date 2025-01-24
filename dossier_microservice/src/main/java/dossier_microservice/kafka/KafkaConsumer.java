@@ -3,19 +3,16 @@ package dossier_microservice.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dossier_microservice.services.EmailMessageService;
-import exceptions.MSDossierException;
+import dossier_microservice.exceptions.MSDossierException;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.slf4j.Marker;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.neoflex.dto.EmailMessage;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 @Service
 @AllArgsConstructor

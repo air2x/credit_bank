@@ -81,7 +81,7 @@ public class StatementService {
     }
 
     public Statement getStatement(UUID statementId) {
-        return statementRepository.getReferenceById(statementId);
+        return statementRepository.findById(statementId).orElseThrow();
     }
 
     public void sendCreateDoc(String statementId) {
@@ -108,5 +108,9 @@ public class StatementService {
             throw new MSDealException("Неверный код");
         }
         addStatementStatusHistory(statement, ApplicationStatus.CREDIT_ISSUED, AUTOMATIC);
+    }
+
+    public List<Statement> getAllStatements() {
+        return statementRepository.findAll();
     }
 }
