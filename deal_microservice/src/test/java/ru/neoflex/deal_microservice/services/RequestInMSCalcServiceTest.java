@@ -1,21 +1,21 @@
 package ru.neoflex.deal_microservice.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.web.client.RestClient;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 
+@ExtendWith(MockitoExtension.class)
 class RequestInMSCalcServiceTest {
 
     @InjectMocks
     private RequestInMSCalcService requestInMSCalcService;
-
-    @Mock
-    private RestClient restClient;
 
     @Mock
     private CreditService creditService;
@@ -25,7 +25,6 @@ class RequestInMSCalcServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         loanStatementRequestDto = new LoanStatementRequestDto();
         finishRegistrationRequestDto = new FinishRegistrationRequestDto();
     }
@@ -36,6 +35,27 @@ class RequestInMSCalcServiceTest {
     }
 
     @Test
+    void getLoanOffersIfLoanStatementRequestDtoIsNull() {
+        Exception ex = Assertions.assertThrows(MSDealException.class, () ->
+                requestInMSCalcService.getLoanOffers(null));
+        Assertions.assertEquals("LoanStatementRequestDto cannot be null", ex.getMessage());
+    }
+
+    @Test
     void calculateFinish() {
+    }
+
+    @Test
+    void calculateFinishIfFinishRegistrationRequestDtoISNull() {
+        Exception ex = Assertions.assertThrows(MSDealException.class, () ->
+                requestInMSCalcService.calculateFinish(null, "123"));
+        Assertions.assertEquals("FinishRegistrationRequestDto cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void calculateFinishIfStatementIdISNull() {
+        Exception ex = Assertions.assertThrows(MSDealException.class, () ->
+                requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, null));
+        Assertions.assertEquals("StatementId cannot be null", ex.getMessage());
     }
 }

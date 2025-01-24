@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class ClientService {
 
     private final ClientRepository clientRepository;

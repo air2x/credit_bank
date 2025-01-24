@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,10 @@ import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
 
-
 @Slf4j
 @RestController
 @RequestMapping("/deal")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class DealController {
 
     private final StatementService statementService;
@@ -33,7 +33,7 @@ public class DealController {
                     errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; "));
             return ResponseEntity.badRequest().body(errorMessage.toString());
         }
-        log.info("Loan statement request has been received");
+        log.info("Loan statement with email " + loanStatementRequestDto.getEmail() + " request has been received");
         return ResponseEntity.ok(requestInMSCalcService.getLoanOffers(loanStatementRequestDto));
     }
 
@@ -43,7 +43,7 @@ public class DealController {
             throw new MSDealException("Loan offer is not be null");
         } else {
             statementService.addLoanOfferInStatement(loanOfferDto);
-            log.info("Loan statement request has been saved");
+            log.info("Loan statement with statement id " + loanOfferDto.getStatementId() + " request has been saved");
         }
     }
 
@@ -56,5 +56,11 @@ public class DealController {
             requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, statementId);
             log.info("Finish registration request with id " + statementId + " has been saved");
         }
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<MSDealException> handleException(MSDealException ex) {
+        MSDealException response = new MSDealException(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }

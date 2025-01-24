@@ -3,9 +3,10 @@ package ru.neoflex.deal_microservice.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Credit;
@@ -21,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class CreditServiceTest {
 
     @Mock
@@ -38,7 +40,6 @@ class CreditServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         creditDto = new CreditDto();
         creditDto.setAmount(BigDecimal.valueOf(500000));
         creditDto.setTerm(15);
@@ -63,7 +64,8 @@ class CreditServiceTest {
 
     @Test
     void createTestCreditIfCreditDtoIsNull() {
-        Exception ex = Assertions.assertThrows(MSDealException.class, () -> creditService.createAndSaveCreditAndSaveStatement(null, statement));
+        Exception ex = Assertions.assertThrows(MSDealException.class, () ->
+                creditService.createAndSaveCreditAndSaveStatement(null, statement));
         Assertions.assertEquals("CreditDto cannot be null", ex.getMessage());
     }
 }

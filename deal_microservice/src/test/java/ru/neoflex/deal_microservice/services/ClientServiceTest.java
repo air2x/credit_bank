@@ -3,9 +3,10 @@ package ru.neoflex.deal_microservice.services;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
 import ru.neoflex.deal_microservice.model.Client;
@@ -26,6 +27,7 @@ import static ru.neoflex.enums.EmploymentPosition.WORKER;
 import static ru.neoflex.enums.Gender.MALE;
 import static ru.neoflex.enums.MaritalStatus.SINGLE;
 
+@ExtendWith(MockitoExtension.class)
 class ClientServiceTest {
 
     @Mock
@@ -42,7 +44,6 @@ class ClientServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
         loanStatementRequestDto = new LoanStatementRequestDto();
         loanStatementRequestDto.setFirstName("Petr");
         loanStatementRequestDto.setLastName("Petrov");

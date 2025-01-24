@@ -16,7 +16,7 @@ import ru.neoflex.dto.ScoringDataDto;
 
 
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 @RestController
 @RequestMapping("/calculator")
 public class CalculatorController {

@@ -27,7 +27,7 @@ import static ru.neoflex.enums.CreditStatus.CALCULATED;
 
 @Service
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@AllArgsConstructor
 public class StatementService {
 
     private final StatementRepository statementRepository;
