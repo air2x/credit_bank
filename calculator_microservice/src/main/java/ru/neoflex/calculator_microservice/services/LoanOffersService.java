@@ -1,13 +1,11 @@
 package ru.neoflex.calculator_microservice.services;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.neoflex.calculator_microservice.dto.LoanOfferDto;
-import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator_microservice.util.exceptions.NullEmailException;
 import ru.neoflex.calculator_microservice.util.exceptions.NullRateException;
+import ru.neoflex.dto.LoanOfferDto;
+import ru.neoflex.dto.LoanStatementRequestDto;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -16,7 +14,6 @@ import static ru.neoflex.calculator_microservice.services.CalculateService.calcu
 import static ru.neoflex.calculator_microservice.services.CalculateService.calculatePsk;
 
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class LoanOffersService {
 
@@ -33,7 +30,6 @@ public class LoanOffersService {
         if (loanStatementRequestDto.getEmail() != null) {
             for (BigDecimal rate : RATES) {
                 LoanOfferDto loanOfferDto = new LoanOfferDto();
-                loanOfferDto.setStatementId(UUID.randomUUID());
                 loanOfferDto.setRequestAmount(loanStatementRequestDto.getAmount());
                 loanOfferDto.setMonthlyPayment(calculateMonthlyPayment(rate,
                         loanStatementRequestDto.getTerm(), loanStatementRequestDto.getAmount()));

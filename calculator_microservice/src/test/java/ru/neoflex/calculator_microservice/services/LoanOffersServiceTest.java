@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import ru.neoflex.calculator_microservice.dto.LoanOfferDto;
-import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
 import ru.neoflex.calculator_microservice.util.exceptions.NullEmailException;
+import ru.neoflex.dto.LoanOfferDto;
+import ru.neoflex.dto.LoanStatementRequestDto;
 
 import java.math.BigDecimal;
 import java.util.List;

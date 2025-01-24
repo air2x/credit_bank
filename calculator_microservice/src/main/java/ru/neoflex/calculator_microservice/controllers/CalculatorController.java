@@ -7,20 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import ru.neoflex.calculator_microservice.dto.LoanStatementRequestDto;
-import ru.neoflex.calculator_microservice.dto.ScoringDataDto;
+import org.springframework.web.bind.annotation.*;
 import ru.neoflex.calculator_microservice.services.CalculateService;
 import ru.neoflex.calculator_microservice.services.LoanOffersService;
 import ru.neoflex.calculator_microservice.util.exceptions.*;
+import ru.neoflex.dto.LoanStatementRequestDto;
+import ru.neoflex.dto.ScoringDataDto;
 
 
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@RestController("/calculator")
+@RestController
+@RequestMapping("/calculator")
 public class CalculatorController {
 
     private final CalculateService calculateService;

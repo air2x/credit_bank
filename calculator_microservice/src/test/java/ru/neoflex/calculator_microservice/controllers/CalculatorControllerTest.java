@@ -5,19 +5,21 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.neoflex.calculator_microservice.dto.*;
+
 import ru.neoflex.calculator_microservice.services.CalculateService;
 import ru.neoflex.calculator_microservice.services.LoanOffersService;
+import ru.neoflex.dto.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static ru.neoflex.calculator_microservice.enums.EmploymentStatus.EMPLOYED;
-import static ru.neoflex.calculator_microservice.enums.Gender.MALE;
-import static ru.neoflex.calculator_microservice.enums.MaritalStatus.MARRIED;
-import static ru.neoflex.calculator_microservice.enums.PositionAtWork.JUNIOR_MANAGER;
+import static ru.neoflex.enums.EmploymentPosition.WORKER;
+import static ru.neoflex.enums.EmploymentStatus.EMPLOYED;
+import static ru.neoflex.enums.Gender.MALE;
+import static ru.neoflex.enums.MaritalStatus.MARRIED;
+
 
 class CalculatorControllerTest {
 
@@ -65,7 +67,7 @@ class CalculatorControllerTest {
 
         employmentDto.setSalary(BigDecimal.valueOf(20000));
         employmentDto.setEmploymentStatus(EMPLOYED);
-        employmentDto.setPosition(JUNIOR_MANAGER);
+        employmentDto.setPosition(WORKER);
         employmentDto.setWorkExperienceTotal(60);
         employmentDto.setWorkExperienceCurrent(12);
 

@@ -1,4 +1,4 @@
-package ru.neoflex.calculator_microservice.configs;
+package ru.neoflex.deal_microservice.configs;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -14,11 +14,11 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .servers(
                         List.of(
-                                new Server().url("http://localhost:8080")
+                                new Server().url("http://localhost:8081")
                         )
                 )
                 .info(
-                        new Info().title("Сalculator in a credit bank microservice")
+                        new Info().title("Deal in a credit bank microservice")
                 );
     }
 }
