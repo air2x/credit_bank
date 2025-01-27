@@ -1,0 +1,113 @@
+Index: dossier_microservice/src/main/java/dossier_microservice/kafka/KafkaConsumer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package dossier_microservice.kafka;\r\n\r\nimport com.fasterxml.jackson.core.JsonProcessingException;\r\nimport com.fasterxml.jackson.databind.ObjectMapper;\r\nimport dossier_microservice.services.EmailMessageService;\r\nimport jakarta.mail.MessagingException;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.apache.kafka.clients.consumer.ConsumerRecord;\r\nimport org.springframework.kafka.annotation.KafkaListener;\r\nimport org.springframework.stereotype.Service;\r\nimport ru.neoflex.dto.EmailMessage;\r\n\r\nimport java.io.IOException;\r\n\r\n@Service\r\n@AllArgsConstructor\r\n@Slf4j\r\npublic class KafkaConsumer {\r\n\r\n    private final EmailMessageService emailMessageService;\r\n    private final ObjectMapper objectMapper;\r\n\r\n    @KafkaListener(topics = \"finish-registration\", groupId = \"email-group\")\r\n    public void consumeFinishRegistrationEmail(ConsumerRecord<String, String> record) {\r\n        processAndSendEmail(record);\r\n    }\r\n\r\n    @KafkaListener(topics = \"create-documents\", groupId = \"email-group\")\r\n    public void consumeCreateDocumentsEmail(ConsumerRecord<String, String> record) {\r\n        processAndSendEmail(record);\r\n    }\r\n\r\n    @KafkaListener(topics = \"send-documents\", groupId = \"email-group\")\r\n    public void consumeSendDocumentsEmail(ConsumerRecord<String, String> record) throws MessagingException, IOException {\r\n        EmailMessage emailMessage;\r\n        try {\r\n            emailMessage = objectMapper.readValue(record.value(), EmailMessage.class);\r\n        } catch (JsonProcessingException e) {\r\n            log.info(\"Error: \" + e);\r\n            throw new RuntimeException(e);\r\n        }\r\n        emailMessageService.sendEmailWithFile(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());\r\n    }\r\n\r\n    @KafkaListener(topics = \"send-ses\", groupId = \"email-group\")\r\n    public void consumeSendSesEmail(ConsumerRecord<String, String> record) {\r\n        processAndSendEmail(record);\r\n    }\r\n\r\n    @KafkaListener(topics = \"credit-issued\", groupId = \"email-group\")\r\n    public void consumeCreditIssuedEmail(ConsumerRecord<String, String> record) {\r\n        processAndSendEmail(record);\r\n    }\r\n\r\n    @KafkaListener(topics = \"statement-denied\", groupId = \"email-group\")\r\n    public void consumeStatementDeniedEmail(ConsumerRecord<String, String> record) {\r\n        processAndSendEmail(record);\r\n    }\r\n\r\n    private void processAndSendEmail(ConsumerRecord<String, String> record) {\r\n        String emailMessageJSON = record.value();\r\n        EmailMessage emailMessage;\r\n        try {\r\n            emailMessage = objectMapper.readValue(emailMessageJSON, EmailMessage.class);\r\n        } catch (JsonProcessingException e) {\r\n            log.info(\"Error: \" + e);\r\n            throw new RuntimeException(e);\r\n        }\r\n        log.info(emailMessage.getAddress() + \" получен из ms-deal\");\r\n        emailMessageService.sendEmail(emailMessage.getAddress(), emailMessage.getTheme().toString(), emailMessage.getText());\r\n        log.info(emailMessage.getText() + \" Отправлено на \" + emailMessage.getAddress());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/java/dossier_microservice/kafka/KafkaConsumer.java b/dossier_microservice/src/main/java/dossier_microservice/kafka/KafkaConsumer.java
+--- a/dossier_microservice/src/main/java/dossier_microservice/kafka/KafkaConsumer.java	(revision 6aa776ad5b9c0c96eed858bd513b15928860cf9b)
++++ b/dossier_microservice/src/main/java/dossier_microservice/kafka/KafkaConsumer.java	(date 1737546060757)
+@@ -10,6 +10,7 @@
+ import org.springframework.kafka.annotation.KafkaListener;
+ import org.springframework.stereotype.Service;
+ import ru.neoflex.dto.EmailMessage;
++import org.springframework.beans.factory.annotation.Value;
+ 
+ import java.io.IOException;
+ 
+@@ -21,7 +22,23 @@
+     private final EmailMessageService emailMessageService;
+     private final ObjectMapper objectMapper;
+ 
+-    @KafkaListener(topics = "finish-registration", groupId = "email-group")
++    @Value("${kafka.group.email-group}")
++    private String emailGroupId;
++    @Value("${kafka.topic.finish-registration}")
++    private String finishRegistrationTopic;
++    @Value("${kafka.topic.create-documents}")
++    private String createDocumentsTopic;
++    @Value("${kafka.topic.send-documents}")
++    private String sendDocumentsTopic;
++    @Value("${kafka.topic.send-ses}")
++    private String sendSesTopic;
++    @Value("${kafka.topic.credit-issued}")
++    private String creditIssuedTopic;
++    @Value("${kafka.topic.statement-denied}")
++    private String statementDeniedTopic;
++
++    @KafkaListener(topics = "#{@environment.getProperty('kafka.topic.finish-registration')}",
++            groupId = "#{@environment.getProperty('kafka.group.email-group')}")
+     public void consumeFinishRegistrationEmail(ConsumerRecord<String, String> record) {
+         processAndSendEmail(record);
+     }
+Index: dossier_microservice/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  application:\r\n    name: dossier_microservice\r\n  mail:\r\n    host: smtp.yandex.ru\r\n    port: 465\r\n    username:\r\n    password:\r\n    properties:\r\n      mail.smtp.auth: true\r\n      mail.smtp.starttls.enable: true\r\n      mail.smtp.ssl.enable: true\r\nserver:\r\n  port: 8083\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/resources/application.yaml b/dossier_microservice/src/main/resources/application.yaml
+--- a/dossier_microservice/src/main/resources/application.yaml	(revision 6aa776ad5b9c0c96eed858bd513b15928860cf9b)
++++ b/dossier_microservice/src/main/resources/application.yaml	(date 1737522321667)
+@@ -4,8 +4,8 @@
+   mail:
+     host: smtp.yandex.ru
+     port: 465
+-    username:
+-    password:
++    username: sharafieff.ai@yandex.ru
++    password: ftmnrkpucopjizbg
+     properties:
+       mail.smtp.auth: true
+       mail.smtp.starttls.enable: true
+Index: dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package dossier_microservice.services;\r\n\r\nimport jakarta.mail.MessagingException;\r\nimport jakarta.mail.internet.MimeMessage;\r\nimport lombok.AllArgsConstructor;\r\nimport org.springframework.core.io.FileSystemResource;\r\nimport org.springframework.mail.SimpleMailMessage;\r\nimport org.springframework.mail.javamail.JavaMailSender;\r\nimport org.springframework.mail.javamail.MimeMessageHelper;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\nimport java.util.Objects;\r\n\r\n@Service\r\n@AllArgsConstructor\r\npublic class EmailMessageService {\r\n\r\n    private JavaMailSender mailSender;\r\n    private DocumentsService documentsService;\r\n\r\n    public void sendEmail(String to, String subject, String body) {\r\n        SimpleMailMessage message = new SimpleMailMessage();\r\n        message.setFrom(\"\");\r\n        message.setTo(to);\r\n        message.setSubject(subject);\r\n        message.setText(body);\r\n        mailSender.send(message);\r\n    }\r\n\r\n    public void sendEmailWithFile(String to, String subject, String body) throws MessagingException, IOException {\r\n        MimeMessage message = mailSender.createMimeMessage();\r\n        MimeMessageHelper helper = new MimeMessageHelper(message, true);\r\n\r\n        String filePath = to + \".txt\";\r\n        documentsService.createDocuments(filePath, body + \" для \" + to);\r\n\r\n        helper.setTo(to);\r\n        helper.setSubject(subject);\r\n        helper.setText(body);\r\n        helper.setFrom(\"\");\r\n\r\n        FileSystemResource file = new FileSystemResource(new File(filePath));\r\n        helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);\r\n\r\n        mailSender.send(message);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java b/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java
+--- a/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java	(revision 6aa776ad5b9c0c96eed858bd513b15928860cf9b)
++++ b/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java	(date 1737522321655)
+@@ -22,7 +22,7 @@
+ 
+     public void sendEmail(String to, String subject, String body) {
+         SimpleMailMessage message = new SimpleMailMessage();
+-        message.setFrom("");
++        message.setFrom("sharafieff.ai@yandex.ru");
+         message.setTo(to);
+         message.setSubject(subject);
+         message.setText(body);
+@@ -39,7 +39,7 @@
+         helper.setTo(to);
+         helper.setSubject(subject);
+         helper.setText(body);
+-        helper.setFrom("");
++        helper.setFrom("sharafieff.ai@yandex.ru");
+ 
+         FileSystemResource file = new FileSystemResource(new File(filePath));
+         helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
+Index: dossier_microservice/src/main/resources/kafka.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/resources/kafka.yaml b/dossier_microservice/src/main/resources/kafka.yaml
+new file mode 100644
+--- /dev/null	(date 1737545797988)
++++ b/dossier_microservice/src/main/resources/kafka.yaml	(date 1737545797988)
+@@ -0,0 +1,10 @@
++kafka:
++  topic:
++    finish-registration: finish-registration
++    create-documents : create-documents
++    send-documents : send-documents
++    send-ses : send-ses
++    credit-issued : credit-issued
++    statement-denied : statement-denied
++  group:
++    email-group: email-group
+\ No newline at end of file

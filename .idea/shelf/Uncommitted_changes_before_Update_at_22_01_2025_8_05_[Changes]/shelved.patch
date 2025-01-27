@@ -1,0 +1,49 @@
+Index: dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package dossier_microservice.services;\r\n\r\nimport jakarta.mail.MessagingException;\r\nimport jakarta.mail.internet.MimeMessage;\r\nimport lombok.AllArgsConstructor;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.core.io.FileSystemResource;\r\nimport org.springframework.mail.SimpleMailMessage;\r\nimport org.springframework.mail.javamail.JavaMailSender;\r\nimport org.springframework.mail.javamail.MimeMessageHelper;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.io.File;\r\nimport java.io.IOException;\r\n\r\n@Service\r\n@AllArgsConstructor\r\npublic class EmailMessageService {\r\n\r\n    private JavaMailSender mailSender;\r\n    private DocumentsService documentsService;\r\n\r\n    public void sendEmail(String to, String subject, String body) {\r\n        SimpleMailMessage message = new SimpleMailMessage();\r\n        message.setFrom(\"\");\r\n        message.setTo(to);\r\n        message.setSubject(subject);\r\n        message.setText(body);\r\n        mailSender.send(message);\r\n    }\r\n\r\n    public void sendEmailWithFile(String to, String subject, String body) throws MessagingException, IOException {\r\n        MimeMessage message = mailSender.createMimeMessage();\r\n        MimeMessageHelper helper = new MimeMessageHelper(message, true);\r\n\r\n        String filePath = to + \".txt\";\r\n        documentsService.createDocuments(filePath, body + \" для \" + to);\r\n\r\n        helper.setTo(to);\r\n        helper.setSubject(subject);\r\n        helper.setText(body);\r\n        helper.setFrom(\"\");\r\n\r\n        FileSystemResource file = new FileSystemResource(new File(filePath));\r\n        helper.addAttachment(file.getFilename(), file);\r\n\r\n        mailSender.send(message);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java b/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java
+--- a/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java	(revision 3b778d4855ff0725ecd1e32b86ad8f347d3fa864)
++++ b/dossier_microservice/src/main/java/dossier_microservice/services/EmailMessageService.java	(date 1737460071325)
+@@ -22,7 +22,7 @@
+ 
+     public void sendEmail(String to, String subject, String body) {
+         SimpleMailMessage message = new SimpleMailMessage();
+-        message.setFrom("");
++        message.setFrom("sharafieff.ai@yandex.ru");
+         message.setTo(to);
+         message.setSubject(subject);
+         message.setText(body);
+@@ -39,7 +39,7 @@
+         helper.setTo(to);
+         helper.setSubject(subject);
+         helper.setText(body);
+-        helper.setFrom("");
++        helper.setFrom("sharafieff.ai@yandex.ru");
+ 
+         FileSystemResource file = new FileSystemResource(new File(filePath));
+         helper.addAttachment(file.getFilename(), file);
+Index: dossier_microservice/src/main/resources/application.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring:\r\n  application:\r\n    name: dossier_microservice\r\n  mail:\r\n    host: smtp.yandex.ru\r\n    port: 465\r\n    username:\r\n    password:\r\n    properties:\r\n      mail.smtp.auth: true\r\n      mail.smtp.starttls.enable: true\r\n      mail.smtp.ssl.enable: true\r\nserver:\r\n  port: 8083\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dossier_microservice/src/main/resources/application.yaml b/dossier_microservice/src/main/resources/application.yaml
+--- a/dossier_microservice/src/main/resources/application.yaml	(revision 3b778d4855ff0725ecd1e32b86ad8f347d3fa864)
++++ b/dossier_microservice/src/main/resources/application.yaml	(date 1737460071332)
+@@ -4,8 +4,8 @@
+   mail:
+     host: smtp.yandex.ru
+     port: 465
+-    username:
+-    password:
++    username: sharafieff.ai@yandex.ru
++    password: ftmnrkpucopjizbg
+     properties:
+       mail.smtp.auth: true
+       mail.smtp.starttls.enable: true
