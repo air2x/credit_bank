@@ -4,10 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/calculator_microservice/pom.xml" />
-        <option value="$PROJECT_DIR$/bank-my-library/pom.xml" />
-        <option value="$PROJECT_DIR$/deal_microservice/pom.xml" />
-        <option value="$PROJECT_DIR$/statement_microservice/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>

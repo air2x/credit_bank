@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: deal_microservice
+  flyway:
+    enabled: true
+    locations: classpath:db.migration
+    baseline-on-migrate: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/credit_bank
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        current_session_context_class: thread
+        show_sql: true
+        ddl-auto: validate
+server:
+  port: 8081
