@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bd8d4c35-9430-4f06-a20d-32545a1846cd" name="Changes" comment="'fixed errors'" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/MS-deal/first_commit" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2ql4kvG4cSkwgOWSk8k0NC6JMuV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "C:/java/credit_bank_neoflex",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "spring.configuration.checksum": "b13b1a594e93862943dbfbda40c544dc",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\java\credit_bank_neoflex\dossier_microservice\src\main\java" />
+      <recent name="C:\java\credit_bank_neoflex\dossier_microservice\src\main\java\dossier_microservice" />
+      <recent name="C:\java\credit_bank_neoflex\deal_microservice\src\main\java\ru\neoflex\deal_microservice" />
+      <recent name="C:\java\credit_bank_neoflex\dossier_microservice\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\java\credit_bank_neoflex\calculator_microservice\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="ru.neoflex.deal_microservice.configs" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.DealMicroserviceApplication">
+    <configuration name="ApiGatewayMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="API_Gateway_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.api_gateway_microservice.ApiGatewayMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalculatorMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="calculator_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.calculator_microservice.CalculatorMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DealMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.deal_microservice.DealMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DossierMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="dossier_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dossier_microservice.DossierMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StatementMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="statement_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.statement_microservice.StatementMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bd8d4c35-9430-4f06-a20d-32545a1846cd" name="Changes" comment="" />
+      <created>1735223975080</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1735223975080</updated>
+      <workItem from="1735223976068" duration="720000" />
+      <workItem from="1735978536921" duration="247000" />
+      <workItem from="1735978879733" duration="2047000" />
+      <workItem from="1736151736517" duration="487000" />
+      <workItem from="1736152241542" duration="239000" />
+      <workItem from="1736153228847" duration="1712000" />
+      <workItem from="1736437055742" duration="67000" />
+      <workItem from="1736437364873" duration="1481000" />
+      <workItem from="1736517058572" duration="700000" />
+      <workItem from="1736665554286" duration="2454000" />
+      <workItem from="1736759643191" duration="604000" />
+      <workItem from="1736771399332" duration="3920000" />
+      <workItem from="1736866933198" duration="4035000" />
+      <workItem from="1737036649704" duration="9311000" />
+      <workItem from="1737268650661" duration="156000" />
+      <workItem from="1737291427517" duration="6968000" />
+      <workItem from="1737313146626" duration="1071000" />
+      <workItem from="1737383485422" duration="7157000" />
+      <workItem from="1737469815179" duration="5617000" />
+      <workItem from="1737481001340" duration="328000" />
+      <workItem from="1737481342667" duration="977000" />
+      <workItem from="1737646469313" duration="3543000" />
+      <workItem from="1737727940627" duration="134000" />
+      <workItem from="1737728087219" duration="223000" />
+      <workItem from="1737728325923" duration="137000" />
+      <workItem from="1737728889857" duration="19000" />
+      <workItem from="1737728937880" duration="88000" />
+      <workItem from="1737729033793" duration="336000" />
+      <workItem from="1737729378835" duration="70000" />
+      <workItem from="1737729534498" duration="505000" />
+      <workItem from="1737730053295" duration="173000" />
+      <workItem from="1737730233830" duration="1353000" />
+      <workItem from="1737732551135" duration="81000" />
+      <workItem from="1737732638023" duration="47000" />
+      <workItem from="1737733367489" duration="570000" />
+      <workItem from="1737740824417" duration="186000" />
+      <workItem from="1737741017012" duration="114000" />
+      <workItem from="1737741245136" duration="21000" />
+      <workItem from="1737741389971" duration="112000" />
+      <workItem from="1737803218757" duration="368000" />
+      <workItem from="1737803599288" duration="667000" />
+    </task>
+    <task id="LOCAL-00001" summary="'delete (onConstructor = @__(@Autowired))'">
+      <created>1736155942615</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1736155942615</updated>
+    </task>
+    <task id="LOCAL-00002" summary="'add kafka'">
+      <created>1736789789787</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736789789787</updated>
+    </task>
+    <task id="LOCAL-00003" summary="'add kafka'">
+      <created>1736880785781</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736880785781</updated>
+    </task>
+    <task id="LOCAL-00004" summary="'add message sender'">
+      <created>1737050131932</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737050131932</updated>
+    </task>
+    <task id="LOCAL-00005" summary="'add message sender'">
+      <created>1737309810832</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737309810832</updated>
+    </task>
+    <task id="LOCAL-00006" summary="'add message sender'">
+      <created>1737395055835</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737395055835</updated>
+    </task>
+    <task id="LOCAL-00007" summary="'add sign code'">
+      <created>1737479726123</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1737479726123</updated>
+    </task>
+    <task id="LOCAL-00008" summary="'fixed errors'">
+      <created>1737649991488</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1737649991488</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/MS-gateway/create-MS-gateway" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="'delete (onConstructor = @__(@Autowired))'" />
+    <MESSAGE value="'add kafka'" />
+    <MESSAGE value="'add message sender'" />
+    <MESSAGE value="'add sign code'" />
+    <MESSAGE value="'fixed errors'" />
+    <option name="LAST_COMMIT_MESSAGE" value="'fixed errors'" />
+  </component>
+</project>
