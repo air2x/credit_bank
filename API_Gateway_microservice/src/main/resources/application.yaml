@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: API_Gateway_microservice
+server:
+  port: 8084

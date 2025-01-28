@@ -3,17 +3,19 @@ package ru.neoflex.deal_microservice.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.neoflex.deal_microservice.exceptions.MSDealException;
+import ru.neoflex.deal_microservice.model.Statement;
 import ru.neoflex.deal_microservice.services.RequestInMSCalcService;
 import ru.neoflex.deal_microservice.services.StatementService;
 import ru.neoflex.dto.FinishRegistrationRequestDto;
 import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.LoanStatementRequestDto;
+
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -23,6 +25,19 @@ public class DealController {
 
     private final StatementService statementService;
     private final RequestInMSCalcService requestInMSCalcService;
+
+    @GetMapping("/admin/statement/{statementId}")
+    public Statement getStatement(@PathVariable String statementId) {
+        if (statementId == null) {
+            throw new MSDealException("Statement id can not be null");
+        }
+        return statementService.getStatement(UUID.fromString(statementId));
+    }
+
+    @GetMapping("/admin/statement")
+    public ResponseEntity<?> getAllStatements() {
+        return ResponseEntity.ok(statementService.getAllStatements());
+    }
 
     @PostMapping("/statement")
     public ResponseEntity<?> getLoanOffersDto(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto,
@@ -47,7 +62,7 @@ public class DealController {
         }
     }
 
-    @PostMapping("/deal/calculate/{statementId}")
+    @PostMapping("/calculate/{statementId}")
     public void finishCalculate(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                 @PathVariable String statementId) {
         if (finishRegistrationRequestDto == null) {
@@ -56,6 +71,22 @@ public class DealController {
             requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, statementId);
             log.info("Finish registration request with id " + statementId + " has been saved");
         }
+    }
+
+    @PostMapping("/document/{statementId}/send")
+    public void sendDoc(@PathVariable String statementId) {
+        statementService.sendCreateDoc(statementId);
+    }
+
+    @PostMapping("/document/{statementId}/sign")
+    public void singDoc(@PathVariable String statementId) {
+        statementService.createAndSaveSesCode(statementId);
+    }
+
+    @PostMapping("/document/{statementId}/code")
+    public void sendDocFinish(@PathVariable String statementId,
+                              @RequestBody String code) {
+        statementService.checkCode(statementId, code);
     }
 
     @ExceptionHandler
