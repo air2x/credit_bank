@@ -33,9 +33,19 @@ services:
     networks:
       - microservices-network
 
+  library:
+    build:
+      context: ./bank-my-library
+      dockerfile: Dockerfile
+    networks:
+      - microservices-network
+
   calculator:
     build:
       context: ./calculator_microservice
+      dockerfile: Dockerfile
+    depends_on:
+      - library
     ports:
       - "8080:8080"
     networks:
@@ -44,10 +54,11 @@ services:
   deal:
     build:
       context: ./deal_microservice
+      dockerfile: Dockerfile
     ports:
       - "8081:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydatabase
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/credit_bank
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     networks:
       - microservices-network
@@ -55,6 +66,7 @@ services:
   statement:
     build:
       context: ./statement_microservice
+      dockerfile: Dockerfile
     ports:
       - "8082:8080"
     networks:
@@ -63,6 +75,7 @@ services:
   dossier:
     build:
       context: ./dossier_microservice
+      dockerfile: Dockerfile
     ports:
       - "8083:8080"
     networks:
@@ -71,6 +84,7 @@ services:
   gateway:
     build:
       context: ./API_Gateway_microservice
+      dockerfile: Dockerfile
     ports:
       - "8084:8080"
     networks:
