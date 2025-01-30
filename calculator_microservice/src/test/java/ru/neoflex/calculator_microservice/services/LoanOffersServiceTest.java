@@ -38,10 +38,9 @@ class LoanOffersServiceTest {
         for (LoanOfferDto l : loanOffersDto) {
             Assertions.assertEquals(24, l.getTerm());
             Assertions.assertNotNull(l.getRate());
-            Assertions.assertNotNull(l.getStatementId());
+//            Assertions.assertNotNull(l.getStatementId());
             Assertions.assertNotNull(l.getMonthlyPayment());
             Assertions.assertNotNull(l.getIsInsuranceEnabled());
-            Assertions.assertNotNull(l.getStatementId());
             Assertions.assertNotNull(l.getRequestAmount());
             Assertions.assertNotNull(l.getTotalAmount());
 

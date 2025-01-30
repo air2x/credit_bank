@@ -6,4 +6,5 @@ import ru.neoflex.deal_microservice.model.Statement;
 import java.util.UUID;
 
 public interface StatementRepository extends JpaRepository<Statement, UUID> {
+
 }

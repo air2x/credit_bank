@@ -20,8 +20,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="API_Gateway_microservice" options="-parameters" />
       <module name="calculator_microservice" options="-parameters" />
       <module name="deal_microservice" options="-parameters" />
+      <module name="dossier_microservice" options="-parameters" />
       <module name="statement_microservice" options="-parameters" />
     </option>
   </component>
