@@ -44,7 +44,7 @@ jobs:
         run: |
           cd ${{ matrix.service }}
           mvn sonar-scanner \
-            -Dsonar.projectKey=air2x \
+            -Dsonar.projectKey=air2x_credit_bank \
             -Dsonar.organization=air2x \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
