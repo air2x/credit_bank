@@ -3,7 +3,6 @@ package ru.neoflex.deal_microservice.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -47,7 +46,7 @@ public class DealController {
         }
     }
 
-    @PostMapping("/deal/calculate/{statementId}")
+    @PostMapping("/calculate/{statementId}")
     public void finishCalculate(@RequestBody FinishRegistrationRequestDto finishRegistrationRequestDto,
                                 @PathVariable String statementId) {
         if (finishRegistrationRequestDto == null) {
@@ -56,6 +55,22 @@ public class DealController {
             requestInMSCalcService.calculateFinish(finishRegistrationRequestDto, statementId);
             log.info("Finish registration request with id " + statementId + " has been saved");
         }
+    }
+
+    @PostMapping("/document/{statementId}/send")
+    public void sendDoc(@PathVariable String statementId) {
+        statementService.sendCreateDoc(statementId);
+    }
+
+    @PostMapping("/document/{statementId}/sign")
+    public void singDoc(@PathVariable String statementId) {
+        statementService.createAndSaveSesCode(statementId);
+    }
+
+    @PostMapping("/document/{statementId}/code")
+    public void sendDocFinish(@PathVariable String statementId,
+                              @RequestBody String code) {
+        statementService.checkCode(statementId, code);
     }
 
     @ExceptionHandler
