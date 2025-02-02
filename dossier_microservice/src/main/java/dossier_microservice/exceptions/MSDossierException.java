@@ -1,4 +1,4 @@
-package exceptions;
+package dossier_microservice.exceptions;
 
 public class MSDossierException extends RuntimeException {
 

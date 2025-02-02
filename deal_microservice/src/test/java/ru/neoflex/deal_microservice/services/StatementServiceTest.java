@@ -15,6 +15,9 @@ import ru.neoflex.dto.LoanOfferDto;
 import ru.neoflex.dto.StatementStatusHistoryDto;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.Optional;
+
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,14 +35,18 @@ class StatementServiceTest {
 
     @Mock
     private StatementRepository statementRepository;
+    @Mock
+    private EmailMessageService emailMessageService;
 
     private Client client;
     private Statement statement;
+    private UUID statementId;
 
     @BeforeEach
     public void setUp() {
         client = new Client();
         statement = new Statement();
+        statementId = UUID.randomUUID();
     }
 
     @Test
@@ -102,11 +109,11 @@ class StatementServiceTest {
 
     @Test
     void addLoanOfferInStatement() {
-        Statement statement = new Statement();
         LoanOfferDto loanOfferDto = new LoanOfferDto();
         loanOfferDto.setStatementId(statement.getId());
 
-        when(statementRepository.getReferenceById(loanOfferDto.getStatementId())).thenReturn(statement);
+//        when(statementRepository.getReferenceById(loanOfferDto.getStatementId())).thenReturn(statement);
+        when(statementRepository.findById(loanOfferDto.getStatementId())).thenReturn(Optional.of(statement));
         statementService.addLoanOfferInStatement(loanOfferDto);
         Assertions.assertEquals(loanOfferDto, statement.getAppliedOffer());
         Assertions.assertEquals(CALCULATED, statement.getStatus());
@@ -115,8 +122,11 @@ class StatementServiceTest {
 
     @Test
     void getStatement() {
-        Statement statement = new Statement();
-        statementService.getStatement(statement.getId());
-        verify(statementRepository).getReferenceById(statement.getId());
+        when(statementRepository.findById(statementId)).thenReturn(Optional.of(statement));
+
+        Statement result = statementService.getStatement(statementId);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(statement, result);
     }
 }

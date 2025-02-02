@@ -54,7 +54,7 @@ class CreditServiceTest {
     @Test
     void createCredit() {
         when(mapper.map(creditDto, Credit.class)).thenReturn(new Credit());
-        when(statementService.getStatement(any(UUID.class))).thenReturn(statement);
+//        when(statementService.getStatement(any(UUID.class))).thenReturn(statement);
 
         creditService.createAndSaveCreditAndSaveStatement(creditDto, statement);
 
