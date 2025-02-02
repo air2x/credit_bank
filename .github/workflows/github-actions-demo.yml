@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [calculator_microservice, deal_microservice, dossier_microservice, statement_microservice, API_Gateway_microservice, bank-my-library]
+        service: [bank-my-library, calculator_microservice, deal_microservice, dossier_microservice, statement_microservice, API_Gateway_microservice]
 
     steps:
       - name: Checkout code
