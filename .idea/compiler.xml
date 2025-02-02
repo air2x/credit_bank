@@ -7,6 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="bank-my-library" />
+        <module name="calculator_microservice" />
+        <module name="credit_bank_neoflex" />
       </profile>
       <profile name="Annotation profile for statement_microservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -15,6 +18,10 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
+        <module name="dossier_microservice" />
+        <module name="statement_microservice" />
+        <module name="deal_microservice" />
+        <module name="API_Gateway_microservice" />
       </profile>
     </annotationProcessing>
   </component>

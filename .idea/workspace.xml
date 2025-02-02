@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="'create ms-gateway'" />
+    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="commit">
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sonar-project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_Gateway_microservice/target/classes/ru/neoflex/api_gateway_microservice/controllers/GatewayController.class" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway_microservice/target/classes/ru/neoflex/api_gateway_microservice/controllers/GatewayController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/target/classes/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/target/classes/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/target/classes/dossier_microservice/kafka/KafkaConsumer.class" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/target/classes/dossier_microservice/kafka/KafkaConsumer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/target/classes/dossier_microservice/services/EmailMessageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/target/classes/dossier_microservice/services/EmailMessageService.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -103,7 +112,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.CalculateServiceTest">
+  <component name="RunManager" selected="Spring Boot.ApiGatewayMicroserviceApplication">
     <configuration name="CalculateServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="calculator_microservice" />
       <extension name="coverage">
@@ -508,6 +517,7 @@
     <MESSAGE value="'add create documents and send'" />
     <MESSAGE value="'add create sescode and send'" />
     <MESSAGE value="'create ms-gateway'" />
-    <option name="LAST_COMMIT_MESSAGE" value="'create ms-gateway'" />
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
   </component>
 </project>
