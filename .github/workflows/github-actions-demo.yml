@@ -1,32 +1,29 @@
-   name: CI Pipeline
-
-   on:
-     push:
-       branches:
-         - develop
-     pull_request:
-       branches:
-         - develop
-
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       
-       steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
-
-       - name: Set up Node.js (или другой язык)
-         uses: actions/setup-node@v2
-         with:
-           node-version: '14' # Укажите нужную версию
-
-       - name: Install dependencies
-         run: npm install # или другой пакетный менеджер
-
-       - name: Run tests
-         run: npm test # команда для запуска тестов
-
-       - name: Upload coverage to CodeCov
-         run: bash <(curl -s https://codecov.io/bash) # Замените на вашу команду для загрузки покрытия
-   
+name: CI Pipeline
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Build with Maven
+        run: mvn clean verify
+      - name: Upload coverage to CodeCov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: target/site/jacoco/jacoco.xml  # Путь к отчету JaCoCo
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
