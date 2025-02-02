@@ -24,7 +24,7 @@ public class EmailMessageService {
 
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("");
+        message.setFrom("sharafieff.ai@yandex.ru");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
@@ -41,7 +41,7 @@ public class EmailMessageService {
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(body);
-        helper.setFrom("");
+        helper.setFrom("sharafieff.ai@yandex.ru");
 
         FileSystemResource file = new FileSystemResource(new File(filePath));
         helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);

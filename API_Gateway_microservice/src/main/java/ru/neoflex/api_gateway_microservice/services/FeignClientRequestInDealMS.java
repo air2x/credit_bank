@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.neoflex.dto.*;
 
-@FeignClient(name = "Request-in-MSDeal", url = "http://localhost:8081")
+@FeignClient(name = "Request-in-MSDeal", url = "http://deal:8081")
 public interface FeignClientRequestInDealMS {
 
     @PostMapping("/deal/statement")

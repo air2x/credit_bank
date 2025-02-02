@@ -10,7 +10,7 @@ import ru.neoflex.dto.ScoringDataDto;
 
 import java.util.List;
 
-@FeignClient(name = "Request-in-MSCalculator", url = "http://localhost:8080/calculator")
+@FeignClient(name = "Request-in-MSCalculator", url = "http://calculator:8080/calculator")
 public interface FeignClientRequestInMSCalc {
 
     @PostMapping("/offers")
