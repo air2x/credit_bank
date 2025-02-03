@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="create CI Pipeline">
+    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="create sonar-project.properties">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bank-my-library/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bank-my-library/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculator_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/statement_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/statement_microservice/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -466,7 +471,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738513888335</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="create sonar-project.properties">
+      <created>1738563606854</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1738563606854</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -520,6 +532,7 @@
     <MESSAGE value="'create ms-gateway'" />
     <MESSAGE value="commit" />
     <MESSAGE value="create CI Pipeline" />
-    <option name="LAST_COMMIT_MESSAGE" value="create CI Pipeline" />
+    <MESSAGE value="create sonar-project.properties" />
+    <option name="LAST_COMMIT_MESSAGE" value="create sonar-project.properties" />
   </component>
 </project>
