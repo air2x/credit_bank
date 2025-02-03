@@ -5,7 +5,7 @@ spring:
     host: smtp.yandex.ru
     port: 465
     username:
-    password:
+    password: ftmnrkpucopjizbg
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
