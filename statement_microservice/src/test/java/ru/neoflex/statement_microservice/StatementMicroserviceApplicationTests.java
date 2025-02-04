@@ -1,10 +1,10 @@
-package ru.neoflex.calculator_microservice;
+package ru.neoflex.statement_microservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CalculatorMicroserviceApplicationTests {
+class StatementMicroserviceApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: dossier_microservice
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    username:
+    password: ftmnrkpucopjizbg
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.enable: true
+kafka:
+  topic:
+    finish-registration: finish-registration
+    create-documents: create-documents
+    send-documents: send-documents
+    send-ses: send-ses
+    credit-issued: credit-issued
+    statement-denied: statement-denied
+  group:
+    email-group: email-group
+
+server:
+  port: 8083

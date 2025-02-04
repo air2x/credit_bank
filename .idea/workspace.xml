@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="fixed pom">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/src/test/java/ru/neoflex/deal_microservice/DealMicroserviceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/src/test/java/ru/neoflex/deal_microservice/DealMicroserviceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/CreditServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/CreditServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/StatementServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/StatementServiceTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/MS-gateway/create-MS-gateway" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2p9dif4YDmFEgvIgvc0NjL8pXFY" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "C:/Other/java/credit_bank/bank-my-library/src/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "spring.configuration.checksum": "5fd587163fb6ac0fdd357f644dba9780",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Other\java\credit_bank\bank-my-library\src\test" />
+      <recent name="C:\Other\java\credit_bank\API_Gateway_microservice\src\main\resources" />
+      <recent name="C:\Other\java\credit_bank\API_Gateway_microservice\src\main\java\ru\neoflex\api_gateway_microservice" />
+      <recent name="C:\Other\java\credit_bank\dossier_microservice\src\main\resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Other\java\credit_bank\bank-my-library\src\test\java" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ru.neoflex.api_gateway_microservice" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="ru.neoflex.calculator_microservice.controllers" />
+      <recent name="ru.neoflex.calculator_microservice.services" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="dossier_microservice" />
+      <recent name="ru.neoflex.api_gateway_microservice.exceptions" />
+      <recent name="ru.neoflex.api_gateway_microservice.services" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.ru.neoflex.statement_microservice.services in statement_microservice">
+    <configuration name="PlaceholderTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="bank-my-library" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlaceholderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlaceholderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="API_Gateway_microservice" />
+      <option name="PACKAGE_NAME" value="ru.neoflex.api_gateway_microservice" />
+      <option name="MAIN_CLASS_NAME" value="ru.neoflex.api_gateway_microservice.PlaceholderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.deal_microservice in deal_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.deal_microservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.deal_microservice" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.deal_microservice.services in deal_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.deal_microservice.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.deal_microservice.services" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.statement_microservice.services in statement_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="statement_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.statement_microservice.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.statement_microservice.services" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiGatewayMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="API_Gateway_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.api_gateway_microservice.ApiGatewayMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalculatorMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="calculator_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.calculator_microservice.CalculatorMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DealMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.deal_microservice.DealMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DossierMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="dossier_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dossier_microservice.DossierMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StatementMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="statement_microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.neoflex.statement_microservice.StatementMicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ru.neoflex.statement_microservice.services in statement_microservice" />
+        <item itemvalue="JUnit.ru.neoflex.deal_microservice.services in deal_microservice" />
+        <item itemvalue="JUnit.ru.neoflex.deal_microservice in deal_microservice" />
+        <item itemvalue="JUnit.PlaceholderTest (1)" />
+        <item itemvalue="JUnit.PlaceholderTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="" />
+      <created>1732182355256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732182355256</updated>
+      <workItem from="1732182355906" duration="918000" />
+      <workItem from="1732507777478" duration="8786000" />
+      <workItem from="1732530683642" duration="3899000" />
+      <workItem from="1732535944875" duration="1731000" />
+      <workItem from="1732593398219" duration="17106000" />
+      <workItem from="1732680415252" duration="7489000" />
+      <workItem from="1732702949169" duration="1586000" />
+      <workItem from="1732856554393" duration="704000" />
+      <workItem from="1733112806269" duration="22874000" />
+      <workItem from="1733198550564" duration="2228000" />
+      <workItem from="1733206005904" duration="13917000" />
+      <workItem from="1733293562888" duration="121000" />
+      <workItem from="1733293694247" duration="41000" />
+      <workItem from="1733730357097" duration="1675000" />
+      <workItem from="1733732874985" duration="987000" />
+      <workItem from="1733733903502" duration="1911000" />
+      <workItem from="1733736244465" duration="7000" />
+      <workItem from="1736410615103" duration="33000" />
+      <workItem from="1736410656125" duration="1303000" />
+      <workItem from="1736503700567" duration="3441000" />
+      <workItem from="1736827605017" duration="1389000" />
+      <workItem from="1736853411341" duration="375000" />
+      <workItem from="1736913816776" duration="6097000" />
+      <workItem from="1736937165649" duration="1460000" />
+      <workItem from="1737000279268" duration="3485000" />
+      <workItem from="1737086552584" duration="1913000" />
+      <workItem from="1737345505529" duration="651000" />
+      <workItem from="1737365980698" duration="875000" />
+      <workItem from="1737372243282" duration="24000" />
+      <workItem from="1737372279837" duration="83000" />
+      <workItem from="1737431607982" duration="1154000" />
+      <workItem from="1737443019168" duration="12524000" />
+      <workItem from="1737522298855" duration="4564000" />
+      <workItem from="1737606322835" duration="629000" />
+      <workItem from="1737691052546" duration="16330000" />
+      <workItem from="1737719778440" duration="237000" />
+      <workItem from="1737952001866" duration="1320000" />
+      <workItem from="1738645258977" duration="5924000" />
+    </task>
+    <task id="LOCAL-00001" summary="'add isLoanRefusal'">
+      <created>1732535981338</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732535981338</updated>
+    </task>
+    <task id="LOCAL-00002" summary="'add isLoanRefusal'">
+      <created>1732537668270</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1732537668270</updated>
+    </task>
+    <task id="LOCAL-00003" summary="'add calculateRate'">
+      <created>1732603379020</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732603379020</updated>
+    </task>
+    <task id="LOCAL-00004" summary="'fixed calculateMonthlyPayment'">
+      <created>1732613024038</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732613024038</updated>
+    </task>
+    <task id="LOCAL-00005" summary="'fixed calculatePsk'">
+      <created>1732621872788</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732621872788</updated>
+    </task>
+    <task id="LOCAL-00006" summary="'fixed calculatePsk'">
+      <created>1732624035359</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732624035359</updated>
+    </task>
+    <task id="LOCAL-00007" summary="'add logging'">
+      <created>1732693857676</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732693857676</updated>
+    </task>
+    <task id="LOCAL-00008" summary="'add @AllArgsConstructor(onConstructor = @__(@Autowired)) and @Sl4j'">
+      <created>1733113047205</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733113047205</updated>
+    </task>
+    <task id="LOCAL-00009" summary="'fixed ScoringDataDto'">
+      <created>1733113192787</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733113192787</updated>
+    </task>
+    <task id="LOCAL-00010" summary="'add exceptions'">
+      <created>1733131695990</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733131695990</updated>
+    </task>
+    <task id="LOCAL-00011" summary="'add NullBirthDayException'">
+      <created>1733132806348</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733132806348</updated>
+    </task>
+    <task id="LOCAL-00012" summary="'add ExceptionHandlers'">
+      <created>1733138562362</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733138562362</updated>
+    </task>
+    <task id="LOCAL-00013" summary="'fixed enums'">
+      <created>1733139194088</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1733139194088</updated>
+    </task>
+    <task id="LOCAL-00014" summary="'fixed enums'">
+      <created>1733139275204</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1733139275204</updated>
+    </task>
+    <task id="LOCAL-00015" summary="'add LoanOffersServiceTest'">
+      <created>1733206358050</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1733206358050</updated>
+    </task>
+    <task id="LOCAL-00016" summary="'add calculatePskTest'">
+      <created>1733212193225</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1733212193225</updated>
+    </task>
+    <task id="LOCAL-00017" summary="'add calculateMonthlyPaymentTest'">
+      <created>1733214494398</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733214494398</updated>
+    </task>
+    <task id="LOCAL-00018" summary="'add calculatePaymentScheduleTest'">
+      <created>1733218578220</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733218578220</updated>
+    </task>
+    <task id="LOCAL-00019" summary="'add calculatePaymentScheduleTest'">
+      <created>1733218680844</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1733218680844</updated>
+    </task>
+    <task id="LOCAL-00020" summary="'add calculatePaymentScheduleTest'">
+      <created>1733219307571</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1733219307571</updated>
+    </task>
+    <task id="LOCAL-00021" summary="'create ms dossier'">
+      <created>1736415797717</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1736415797717</updated>
+    </task>
+    <task id="LOCAL-00022" summary="'add document API in MS-deal'">
+      <created>1736512108078</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1736512108078</updated>
+    </task>
+    <task id="LOCAL-00023" summary="'add EmailMessageService'">
+      <created>1737445222558</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1737445222558</updated>
+    </task>
+    <task id="LOCAL-00024" summary="'add create documents and send'">
+      <created>1737458416549</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1737458416549</updated>
+    </task>
+    <task id="LOCAL-00025" summary="'add create sescode and send'">
+      <created>1737460044066</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1737460044066</updated>
+    </task>
+    <task id="LOCAL-00026" summary="'create ms-gateway'">
+      <created>1737719367299</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1737719367299</updated>
+    </task>
+    <task id="LOCAL-00027" summary="create CI Pipeline">
+      <created>1738513888335</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1738513888335</updated>
+    </task>
+    <task id="LOCAL-00028" summary="create sonar-project.properties">
+      <created>1738563606854</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1738563606854</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add sonar-maven-plugin">
+      <created>1738565191794</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1738565191794</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add sonar-maven-plugin">
+      <created>1738645375678</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1738645375678</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add jacoco">
+      <created>1738649750331</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1738649750331</updated>
+    </task>
+    <task id="LOCAL-00032" summary="fixed pom">
+      <created>1738657496178</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1738657496178</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="develop" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="'fixed calculateMonthlyPayment'" />
+    <MESSAGE value="'fixed calculatePsk'" />
+    <MESSAGE value="'add logging'" />
+    <MESSAGE value="'add @AllArgsConstructor(onConstructor = @__(@Autowired)) and @Sl4j'" />
+    <MESSAGE value="'fixed ScoringDataDto'" />
+    <MESSAGE value="'add exceptions'" />
+    <MESSAGE value="'add NullBirthDayException'" />
+    <MESSAGE value="'add ExceptionHandlers'" />
+    <MESSAGE value="'fixed enums'" />
+    <MESSAGE value="'add LoanOffersServiceTest'" />
+    <MESSAGE value="'add calculatePskTest'" />
+    <MESSAGE value="'add calculateMonthlyPaymentTest'" />
+    <MESSAGE value="'add calculatePaymentScheduleTest'" />
+    <MESSAGE value="'create ms dossier'" />
+    <MESSAGE value="'add document API in MS-deal'" />
+    <MESSAGE value="'add EmailMessageService'" />
+    <MESSAGE value="'add create documents and send'" />
+    <MESSAGE value="'add create sescode and send'" />
+    <MESSAGE value="'create ms-gateway'" />
+    <MESSAGE value="commit" />
+    <MESSAGE value="create CI Pipeline" />
+    <MESSAGE value="create sonar-project.properties" />
+    <MESSAGE value="add sonar-maven-plugin" />
+    <MESSAGE value="add jacoco" />
+    <MESSAGE value="fixed pom" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed pom" />
+  </component>
+</project>
