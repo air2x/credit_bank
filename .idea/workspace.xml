@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="add jacoco">
+    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="fixed pom">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calculator_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator_microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dossier_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/statement_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/statement_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/src/test/java/ru/neoflex/deal_microservice/DealMicroserviceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/src/test/java/ru/neoflex/deal_microservice/DealMicroserviceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/CreditServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/CreditServiceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/StatementServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/target/test-classes/ru/neoflex/deal_microservice/services/StatementServiceTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,55 +117,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PlaceholderTest (1)">
-    <configuration name="CalculateServiceTest.calculatePaymentScheduleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="calculator_microservice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.neoflex.calculator_microservice.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.neoflex.calculator_microservice.services" />
-      <option name="MAIN_CLASS_NAME" value="ru.neoflex.calculator_microservice.services.CalculateServiceTest" />
-      <option name="METHOD_NAME" value="calculatePaymentScheduleTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CalculateServiceTest.calculatePskTes" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="calculator_microservice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.neoflex.calculator_microservice.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.neoflex.calculator_microservice.services" />
-      <option name="MAIN_CLASS_NAME" value="ru.neoflex.calculator_microservice.services.CalculateServiceTest" />
-      <option name="METHOD_NAME" value="calculatePskTes" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CalculateServiceTest.getCreditDto" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="calculator_microservice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ru.neoflex.calculator_microservice.services.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="ru.neoflex.calculator_microservice.services" />
-      <option name="MAIN_CLASS_NAME" value="ru.neoflex.calculator_microservice.services.CalculateServiceTest" />
-      <option name="METHOD_NAME" value="getCreditDto" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.ru.neoflex.statement_microservice.services in statement_microservice">
     <configuration name="PlaceholderTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="bank-my-library" />
       <option name="PACKAGE_NAME" value="" />
@@ -181,6 +132,48 @@
       <option name="PACKAGE_NAME" value="ru.neoflex.api_gateway_microservice" />
       <option name="MAIN_CLASS_NAME" value="ru.neoflex.api_gateway_microservice.PlaceholderTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.deal_microservice in deal_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.deal_microservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.deal_microservice" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.deal_microservice.services in deal_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="deal_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.deal_microservice.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.deal_microservice.services" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ru.neoflex.statement_microservice.services in statement_microservice" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="statement_microservice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.neoflex.statement_microservice.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ru.neoflex.statement_microservice.services" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -222,11 +215,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ru.neoflex.statement_microservice.services in statement_microservice" />
+        <item itemvalue="JUnit.ru.neoflex.deal_microservice.services in deal_microservice" />
+        <item itemvalue="JUnit.ru.neoflex.deal_microservice in deal_microservice" />
         <item itemvalue="JUnit.PlaceholderTest (1)" />
         <item itemvalue="JUnit.PlaceholderTest" />
-        <item itemvalue="JUnit.CalculateServiceTest.getCreditDto" />
-        <item itemvalue="JUnit.CalculateServiceTest.calculatePskTes" />
-        <item itemvalue="JUnit.CalculateServiceTest.calculatePaymentScheduleTest" />
       </list>
     </recent_temporary>
   </component>
@@ -275,7 +268,7 @@
       <workItem from="1737691052546" duration="16330000" />
       <workItem from="1737719778440" duration="237000" />
       <workItem from="1737952001866" duration="1320000" />
-      <workItem from="1738645258977" duration="4664000" />
+      <workItem from="1738645258977" duration="5924000" />
     </task>
     <task id="LOCAL-00001" summary="'add isLoanRefusal'">
       <created>1732535981338</created>
@@ -494,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738649750331</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fixed pom">
+      <created>1738657496178</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1738657496178</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,7 +525,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="'add calculateRate'" />
     <MESSAGE value="'fixed calculateMonthlyPayment'" />
     <MESSAGE value="'fixed calculatePsk'" />
     <MESSAGE value="'add logging'" />
@@ -550,6 +549,7 @@
     <MESSAGE value="create sonar-project.properties" />
     <MESSAGE value="add sonar-maven-plugin" />
     <MESSAGE value="add jacoco" />
-    <option name="LAST_COMMIT_MESSAGE" value="add jacoco" />
+    <MESSAGE value="fixed pom" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed pom" />
   </component>
 </project>
