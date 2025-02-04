@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Важно для SonarScanner
 
       - name: Cache Maven dependencies
         uses: actions/cache@v3
@@ -39,34 +41,27 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Shared Library First
+      - name: Build Shared Library
         if: matrix.service == 'bank-my-library'
         run: |
-          set -e
           cd bank-my-library
           mvn clean install -DskipTests
 
       - name: Build and Test
         run: |
-          set -e
-          if [ "${{ matrix.service }}" == "bank-my-library" ]; then
-            cd bank-my-library
-            mvn clean install -DskipTests
-          else
+          if [ "${{ matrix.service }}" != "bank-my-library" ]; then
             cd bank-my-library
             mvn install -DskipTests
-            cd ../${{ matrix.service }}
+            cd ..
           fi
+          cd ${{ matrix.service }}
           mvn clean verify
 
       - name: Verify Jacoco Report
         run: |
-          echo "Checking report in ${{ matrix.service }}"
-          if [ -f ${{ matrix.service }}/target/site/jacoco/jacoco.xml ]; then
-            echo "Report found"
-          else
-            echo "Report not found"
-            exit 1
+          if [ "${{ matrix.service }}" != "bank-my-library" ]; then
+            echo "Checking report in ${{ matrix.service }}"
+            test -f ${{ matrix.service }}/target/site/jacoco/jacoco.xml || exit 1
           fi
 
       - name: CodeCov Upload
@@ -84,12 +79,13 @@ jobs:
         if: matrix.service != 'bank-my-library'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -e
           cd ${{ matrix.service }}
-          mvn sonar:sonar 
-            -Dsonar.projectKey=air2x_credit_bank 
-            -Dsonar.organization=air2x 
-            -Dsonar.host.url=https://sonarcloud.io 
-            -Dsonar.login=$SONAR_TOKEN
+          mvn -B sonar:sonar \
+            -Dsonar.projectKey=air2x_credit_bank \
+            -Dsonar.organization=air2x \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.scm.provider=git \
+            -Dsonar.projectName=${{ matrix.service }} \
+            -Dsonar.sourceEncoding=UTF-8
