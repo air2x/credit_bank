@@ -49,11 +49,14 @@ jobs:
       - name: Build and Test
         run: |
           set -e
-          if [ "${{ matrix.service }}" != "bank-my-library" ]; then
+          if [ "${{ matrix.service }}" == "bank-my-library" ]; then
+            cd bank-my-library
+            mvn clean install -DskipTests
+          else
             cd bank-my-library
             mvn install -DskipTests
+            cd ../${{ matrix.service }}
           fi
-          cd ../${{ matrix.service }}
           mvn clean verify
 
       - name: Verify Jacoco Report
