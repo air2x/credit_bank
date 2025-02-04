@@ -44,12 +44,20 @@ jobs:
           cd ${{ matrix.service }}
           mvn clean verify
 
+      - name: Verify Jacoco Report
+        run: |
+          echo "Checking report in ${{ matrix.service }}"
+          ls -la ${{ matrix.service }}/target/site/jacoco/jacoco.xml
+          test -f ${{ matrix.service }}/target/site/jacoco/jacoco.xml || exit 1
+
       - name: CodeCov Upload
-        uses: codecov/codecov-action@v3
+        timeout-minutes: 5
+        uses: codecov/codecov-action@v4  
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ matrix.service }}/target/site/jacoco/jacoco.xml
           flags: ${{ matrix.service }}
+          verbose: true  
           fail_ci_if_error: false
 
       - name: SonarCloud Scan
