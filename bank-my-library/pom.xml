@@ -12,6 +12,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jacoco.skip>false</jacoco.skip>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -27,6 +28,12 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
     <build>
@@ -34,19 +41,20 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
+                <version>0.8.11</version>
                 <configuration>
-                    <outputDirectory>${project.basedir}/target/site/jacoco</outputDirectory>
+                    <skip>${jacoco.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>default-prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>test</phase>
+                        <id>default-report</id>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
