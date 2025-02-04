@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="add sonar-maven-plugin">
-      <change afterPath="$PROJECT_DIR$/API_Gateway_microservice/src/test/java/ru/neoflex/api_gateway_microservice/PlaceholderTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bank-my-library/src/test/java/PlaceholderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="5bf44814-1b22-46e2-a884-7f0c56856121" name="Changes" comment="add jacoco">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway_microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bank-my-library/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/bank-my-library-1.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/classes/ru/neoflex/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bank-my-library/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/calculator_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/calculator_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/deal_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dossier_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dossier_microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/statement_microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/statement_microservice/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -281,7 +275,7 @@
       <workItem from="1737691052546" duration="16330000" />
       <workItem from="1737719778440" duration="237000" />
       <workItem from="1737952001866" duration="1320000" />
-      <workItem from="1738645258977" duration="2920000" />
+      <workItem from="1738645258977" duration="4664000" />
     </task>
     <task id="LOCAL-00001" summary="'add isLoanRefusal'">
       <created>1732535981338</created>
@@ -493,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1738645375678</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="add jacoco">
+      <created>1738649750331</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1738649750331</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +525,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="'add isLoanRefusal'" />
     <MESSAGE value="'add calculateRate'" />
     <MESSAGE value="'fixed calculateMonthlyPayment'" />
     <MESSAGE value="'fixed calculatePsk'" />
@@ -549,6 +549,7 @@
     <MESSAGE value="create CI Pipeline" />
     <MESSAGE value="create sonar-project.properties" />
     <MESSAGE value="add sonar-maven-plugin" />
-    <option name="LAST_COMMIT_MESSAGE" value="add sonar-maven-plugin" />
+    <MESSAGE value="add jacoco" />
+    <option name="LAST_COMMIT_MESSAGE" value="add jacoco" />
   </component>
 </project>
