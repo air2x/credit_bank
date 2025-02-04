@@ -42,11 +42,13 @@ jobs:
       - name: Build Shared Library First
         if: matrix.service == 'bank-my-library'
         run: |
+          set -e
           cd bank-my-library
           mvn clean install -DskipTests
 
       - name: Build and Test
         run: |
+          set -e
           if [ "${{ matrix.service }}" != "bank-my-library" ]; then
             cd bank-my-library
             mvn install -DskipTests
@@ -57,8 +59,12 @@ jobs:
       - name: Verify Jacoco Report
         run: |
           echo "Checking report in ${{ matrix.service }}"
-          ls -la ${{ matrix.service }}/target/site/jacoco/jacoco.xml || echo "Report not found"
-          test -f ${{ matrix.service }}/target/site/jacoco/jacoco.xml || exit 0
+          if [ -f ${{ matrix.service }}/target/site/jacoco/jacoco.xml ]; then
+            echo "Report found"
+          else
+            echo "Report not found"
+            exit 1
+          fi
 
       - name: CodeCov Upload
         if: matrix.service != 'bank-my-library'
@@ -77,9 +83,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
           cd ${{ matrix.service }}
-          mvn sonar:sonar \
-            -Dsonar.projectKey=air2x_credit_bank \
-            -Dsonar.organization=air2x \
-            -Dsonar.host.url=https://sonarcloud.io \
+          mvn sonar:sonar 
+            -Dsonar.projectKey=air2x_credit_bank 
+            -Dsonar.organization=air2x 
+            -Dsonar.host.url=https://sonarcloud.io 
             -Dsonar.login=$SONAR_TOKEN
