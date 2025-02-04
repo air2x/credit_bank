@@ -35,6 +35,9 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
+                <configuration>
+                    <outputDirectory>${project.basedir}/target/site/jacoco</outputDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
